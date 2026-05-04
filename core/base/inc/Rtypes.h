@@ -229,9 +229,9 @@ class ClassDefGenerateInitInstanceLocalInjector:
          if constexpr (!std::is_abstract_v<T> && std::is_default_constructible_v<T>) { return p ? new(p) T[nElements] : new T[nElements]; }
          return nullptr;
       }
-      static void Delete(void *p) { delete ((T*)p); }
-      static void DeleteArray(void *p) { delete[] ((T*)p); }
-      static void Destruct(void *p) { ((T*)p)->~T();  }
+      static void Delete(void *p) { if constexpr (std::is_destructible_v<T>) delete ((T*)p); }
+      static void DeleteArray(void *p) { if constexpr (std::is_destructible_v<T>) delete[] ((T*)p); }
+      static void Destruct(void *p) { if constexpr (std::is_destructible_v<T>) ((T*)p)->~T(); }
       static ::ROOT::TGenericClassInfo *GenerateInitInstanceLocal() {
          static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy<T>(nullptr);
          static ::ROOT::TGenericClassInfo
@@ -490,20 +490,49 @@ namespace ROOT {                                                         \
 
 // For Emscripten/WASM builds rootcling-generated dictionaries are not
 // available (ROOT_GENERATE_DICTIONARY() is a no-op for EMSCRIPTEN).
-// Remap every "outline" ClassDef variant to its "inline" counterpart so
-// that Class(), Streamer(), IsA() etc. are self-contained in the headers
-// and do not require externally-generated G__*.cxx translation units.
+// Remap every "outline" ClassDef variant to a custom "emscripten" variant
+// that provides Class()/Dictionary() etc. inline via
+// ClassDefGenerateInitInstanceLocalInjector, but only DECLARES Streamer()
+// (without an inline body).  This avoids redefinition conflicts with any
+// hand-written Streamer() definitions in .cxx files while still resolving
+// the reflection symbols that rootcling would normally supply.
 #ifdef __EMSCRIPTEN__
+
+// Like _ClassDefInline_ but with a declaration-only Streamer so that
+// hand-written Streamer() implementations in .cxx files are not shadowed.
+# define _ClassDefEmscripten_(name, id, virtual_keyword, overrd)                          \
+   _ClassDefBase_(name, id, virtual_keyword, overrd) public :                             \
+   /** \cond HIDDEN_SYMBOLS \deprecated */ static int ImplFileLine() { return -1; } /** \endcond */             \
+   /** \cond HIDDEN_SYMBOLS \deprecated */ static const char *ImplFileName() { return nullptr; } /** \endcond */\
+   /** \return Name of this class */ static const char *Class_Name()                      \
+   {                                                                                      \
+      return ::ROOT::Internal::ClassDefGenerateInitInstanceLocalInjector<name>::Name();   \
+   }                                                                                      \
+   /** \cond HIDDEN_SYMBOLS */ static TClass *Dictionary()                                \
+   {                                                                                      \
+      return ::ROOT::Internal::ClassDefGenerateInitInstanceLocalInjector<name>::Dictionary(); \
+   } /** \endcond */                                                                      \
+   /** \return TClass describing this class */ static TClass *Class()                     \
+   {                                                                                      \
+      return ::ROOT::Internal::ClassDefGenerateInitInstanceLocalInjector<name>::Class();  \
+   }                                                                                      \
+   virtual_keyword void Streamer(TBuffer&) overrd;
+
 # undef ClassDef
-# define ClassDef(name,id)         ClassDefInline(name,id)
+# define ClassDef(name,id)         _ClassDefEmscripten_(name,id,virtual,)         \
+   /** \cond HIDDEN_SYMBOLS */ static int DeclFileLine() { return __LINE__; } /** \endcond */
 # undef ClassDefOverride
-# define ClassDefOverride(name,id) ClassDefInlineOverride(name,id)
+# define ClassDefOverride(name,id) _ClassDefEmscripten_(name,id,,override)        \
+   /** \cond HIDDEN_SYMBOLS */ static int DeclFileLine() { return __LINE__; } /** \endcond */
 # undef ClassDefNV
-# define ClassDefNV(name,id)       ClassDefInlineNV(name,id)
+# define ClassDefNV(name,id)       _ClassDefEmscripten_(name,id,,)                \
+   /** \cond HIDDEN_SYMBOLS */ static int DeclFileLine() { return __LINE__; } /** \endcond */
 # undef ClassDefT
-# define ClassDefT(name,id)        ClassDefInline(name,id)
+# define ClassDefT(name,id)        _ClassDefEmscripten_(name,id,virtual,)         \
+   /** \cond HIDDEN_SYMBOLS */ static int DeclFileLine() { return __LINE__; } /** \endcond */
 # undef ClassDefTNV
-# define ClassDefTNV(name,id)      ClassDefInlineNV(name,id)
+# define ClassDefTNV(name,id)      _ClassDefEmscripten_(name,id,,)                \
+   /** \cond HIDDEN_SYMBOLS */ static int DeclFileLine() { return __LINE__; } /** \endcond */
 #endif // __EMSCRIPTEN__
 
 #endif
