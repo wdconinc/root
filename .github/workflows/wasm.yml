@@ -3,6 +3,7 @@ name: 'ROOT WebAssembly (Emscripten) build'
 on:
   push:
     branches:
+      - 'master'
       - 'wasm-support'
       - 'wasm-*'
     paths-ignore:
@@ -100,7 +101,7 @@ jobs:
     name: 'Deploy GitHub Pages'
     runs-on: ubuntu-24.04
     needs: []   # does not depend on WASM build — pure JS/HTML
-    if: github.ref == 'refs/heads/wasm-support' && github.event_name == 'push'
+    if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/wasm-support') && github.event_name == 'push'
     permissions:
       contents: write
 
