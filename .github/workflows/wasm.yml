@@ -78,14 +78,14 @@ jobs:
         run: sudo apt-get install -y ccache
 
       - name: Restore ccache
-        uses: actions/cache@v4
+        id: ccache-restore
+        uses: actions/cache/restore@v4
         with:
           path: ${{ env.CCACHE_DIR }}
           key: wasm-ccache-${{ env.EMSDK_VERSION }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
             wasm-ccache-${{ env.EMSDK_VERSION }}-${{ github.ref_name }}-
             wasm-ccache-${{ env.EMSDK_VERSION }}-
-          save-always: true
 
       - name: Configure ccache
         run: |
@@ -93,7 +93,8 @@ jobs:
           ccache --zero-stats
 
       - name: Restore CMake configure state
-        uses: actions/cache@v4
+        id: cmake-restore
+        uses: actions/cache/restore@v4
         with:
           # Cache only the configure artefacts (CMakeCache, generated build
           # files, ExternalProject stamps/downloads).  Compiled objects live
@@ -107,7 +108,6 @@ jobs:
           key: wasm-cmake-${{ env.EMSDK_VERSION }}-${{ hashFiles('cmake/**', 'builtins/**', 'CMakeLists.txt') }}
           restore-keys: |
             wasm-cmake-${{ env.EMSDK_VERSION }}-
-          save-always: true
 
       - name: Configure (emcmake)
         run: |
@@ -121,6 +121,25 @@ jobs:
       - name: ccache stats
         if: always()
         run: ccache --show-stats
+
+      - name: Save ccache (always, including on failure)
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: wasm-ccache-${{ env.EMSDK_VERSION }}-${{ github.ref_name }}-${{ github.sha }}
+
+      - name: Save CMake configure state (always, including on failure)
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            build-wasm/CMakeCache.txt
+            build-wasm/CMakeFiles
+            build-wasm/cmake_install.cmake
+            build-wasm/Makefile
+            build-wasm/builtins
+          key: wasm-cmake-${{ env.EMSDK_VERSION }}-${{ hashFiles('cmake/**', 'builtins/**', 'CMakeLists.txt') }}
 
       - name: Check WASM artefacts exist
         run: |
