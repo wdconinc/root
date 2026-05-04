@@ -105,10 +105,27 @@ jobs:
           # temp UUID), so they cannot be cached safely.  The cmake configure
           # step (~20 s) is re-run every time; the builtins cache avoids
           # rebuilding zlib/lz4/zstd/lzma/freetype/pcre (~3 min).
+          # Key version v2: strips cmake internal state from ExternalProject dirs.
           path: build-wasm/builtins
-          key: wasm-builtins-${{ env.EMSDK_VERSION }}-${{ hashFiles('builtins/**', 'CMakeLists.txt') }}
+          key: wasm-builtins-v2-${{ env.EMSDK_VERSION }}-${{ hashFiles('builtins/**', 'CMakeLists.txt') }}
           restore-keys: |
-            wasm-builtins-${{ env.EMSDK_VERSION }}-
+            wasm-builtins-v2-${{ env.EMSDK_VERSION }}-
+
+      - name: Strip path-dependent cmake state from restored builtins cache
+        run: |
+          # ExternalProject source/build dirs (especially BUILD_IN_SOURCE ones
+          # like ZSTD) embed the absolute emsdk path in CMakeCache.txt and
+          # CMakeFiles.  When cmake re-runs an ExternalProject configure step
+          # (because the toolchain command line changed with the new emsdk UUID),
+          # it may try to re-use stale TryCompile dirs that reference the old
+          # path.  Remove cmake internal state; keep only stamp files and
+          # installed lib/include artifacts.
+          if [ -d build-wasm/builtins ]; then
+            find build-wasm/builtins -name CMakeCache.txt \
+              ! -path '*-stamp*' -delete 2>/dev/null || true
+            find build-wasm/builtins -name CMakeFiles \
+              ! -path '*-stamp*' -type d -exec rm -rf {} + 2>/dev/null || true
+          fi
 
       - name: Configure (emcmake)
         run: |
@@ -117,7 +134,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --build build-wasm --parallel $(nproc) --target RIO Core root_wasm_bindings ||           cmake --build build-wasm --parallel $(nproc) --target RIO Core
+          cmake --build build-wasm --parallel $(nproc) --target RIO Core root_wasm_bindings ||          cmake --build build-wasm --parallel $(nproc) --target RIO Core
 
       - name: ccache stats
         if: always()
@@ -130,12 +147,22 @@ jobs:
           path: ${{ env.CCACHE_DIR }}
           key: wasm-ccache-${{ env.EMSDK_VERSION }}-${{ github.ref_name }}-${{ github.sha }}
 
+      - name: Strip path-dependent cmake state from builtins before caching
+        if: always()
+        run: |
+          if [ -d build-wasm/builtins ]; then
+            find build-wasm/builtins -name CMakeCache.txt \
+              ! -path '*-stamp*' -delete 2>/dev/null || true
+            find build-wasm/builtins -name CMakeFiles \
+              ! -path '*-stamp*' -type d -exec rm -rf {} + 2>/dev/null || true
+          fi
+
       - name: Save CMake builtins cache (always, including on failure)
         if: always()
         uses: actions/cache/save@v4
         with:
           path: build-wasm/builtins
-          key: wasm-builtins-${{ env.EMSDK_VERSION }}-${{ hashFiles('builtins/**', 'CMakeLists.txt') }}
+          key: wasm-builtins-v2-${{ env.EMSDK_VERSION }}-${{ hashFiles('builtins/**', 'CMakeLists.txt') }}
 
       - name: Check WASM artefacts exist
         run: |
