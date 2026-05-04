@@ -389,6 +389,18 @@ endif()
 #---Define at moment the options with the selected default values------------------------------
 ROOT_APPLY_OPTIONS()
 
+#---Force builtin dependencies for Emscripten/WASM --------------------------------------------
+# minimal=ON resets all _defvalue to OFF before ROOT_APPLY_OPTIONS(), so we must
+# explicitly override the cache entries for builtins that are mandatory on WASM.
+if(EMSCRIPTEN)
+  foreach(_wasm_builtin zlib lz4 lzma zstd xxhash pcre)
+    if(NOT builtin_${_wasm_builtin})
+      message(STATUS "[WASM] Forcing builtin_${_wasm_builtin}=ON (system libs not available in WASM)")
+      set(builtin_${_wasm_builtin} ON CACHE BOOL "Forced ON for WASM builds" FORCE)
+    endif()
+  endforeach()
+endif()
+
 #---roottest option implies testing
 if(roottest OR rootbench)
   set(testing ON CACHE BOOL "" FORCE)

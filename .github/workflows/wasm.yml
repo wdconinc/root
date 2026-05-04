@@ -42,6 +42,12 @@ env:
     -Dxml=OFF
     -Dhttp=OFF
     -Dssl=OFF
+    -Dbuiltin_zlib=ON
+    -Dbuiltin_lz4=ON
+    -Dbuiltin_lzma=ON
+    -Dbuiltin_zstd=ON
+    -Dbuiltin_xxhash=ON
+    -Dbuiltin_pcre=ON
 
 jobs:
   build-wasm:
