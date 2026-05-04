@@ -164,6 +164,8 @@ FARPROC dlsym(void *library, const char *function_name)
 #if defined(R__HAS_COCOA)
 #include "TMacOSXSystem.h"
 #include "TUrl.h"
+#elif defined(__EMSCRIPTEN__)
+#include "TEmscriptenSystem.h"
 #else
 #include "TUnixSystem.h"
 #endif
@@ -2128,6 +2130,8 @@ void TROOT::InitSystem()
 #if defined(R__UNIX)
 #if defined(R__HAS_COCOA)
       gSystem = new TMacOSXSystem;
+#elif defined(__EMSCRIPTEN__)
+      gSystem = new TEmscriptenSystem;
 #else
       gSystem = new TUnixSystem;
 #endif

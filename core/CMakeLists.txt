@@ -89,6 +89,7 @@ add_subdirectory(zstd)
 add_subdirectory(macosx)
 add_subdirectory(unix)
 add_subdirectory(winnt)
+add_subdirectory(wasm)
 
 #-------------------------------------------------------------------------------
 
