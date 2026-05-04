@@ -222,11 +222,11 @@ class ClassDefGenerateInitInstanceLocalInjector:
       static ::ROOT::TGenericClassInfo *fgGenericInfo;
    public:
       static void *New(void *p) {
-         if constexpr (!std::is_abstract_v<T>) { return p ? new(p) T : new T; }
+         if constexpr (!std::is_abstract_v<T> && std::is_default_constructible_v<T>) { return p ? new(p) T : new T; }
          return nullptr;
       }
       static void *NewArray(Long_t nElements, void *p) {
-         if constexpr (!std::is_abstract_v<T>) { return p ? new(p) T[nElements] : new T[nElements]; }
+         if constexpr (!std::is_abstract_v<T> && std::is_default_constructible_v<T>) { return p ? new(p) T[nElements] : new T[nElements]; }
          return nullptr;
       }
       static void Delete(void *p) { delete ((T*)p); }
