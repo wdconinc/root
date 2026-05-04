@@ -72,7 +72,6 @@ jobs:
       - name: Configure (emcmake)
         run: |
           emcmake cmake -S . -B build-wasm \
-            -DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/Emscripten.cmake \
             ${{ env.CMAKE_OPTS }}
 
       - name: Build

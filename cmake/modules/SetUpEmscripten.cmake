@@ -29,15 +29,12 @@ set(CMAKE_SKIP_BUILD_RPATH TRUE CACHE BOOL "No build RPATH on WASM" FORCE)
 set(CMAKE_SKIP_INSTALL_RPATH TRUE CACHE BOOL "No install RPATH on WASM" FORCE)
 
 # Enable Emscripten fetch API so that TWebFile can use HTTP range requests.
-set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS}    -s FETCH=1")
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s FETCH=1")
+add_link_options("SHELL:-sFETCH=1")
 
 # Allow memory to grow so ROOT heaps do not hit the 256 MB default cap.
-set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS}    -s ALLOW_MEMORY_GROWTH=1")
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s ALLOW_MEMORY_GROWTH=1")
+add_link_options("SHELL:-sALLOW_MEMORY_GROWTH=1")
 
 # Use WASM BigInt so that 64-bit integers are faithfully represented in JS.
-set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS}    -s WASM_BIGINT=1")
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s WASM_BIGINT=1")
+add_link_options("SHELL:-sWASM_BIGINT=1")
 
 message(STATUS "Configuring ROOT for WebAssembly (Emscripten ${EMSCRIPTEN_VERSION})")

@@ -61,10 +61,10 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebI
 endif()
 
 # Enable WASM BigInt for 64-bit integer interop with JavaScript
-add_link_options("SHELL:-s WASM_BIGINT=1")
+add_link_options("SHELL:-sWASM_BIGINT=1")
 
 # Allow the initial heap to grow dynamically (ROOT needs significant heap)
-add_link_options("SHELL:-s ALLOW_MEMORY_GROWTH=1")
+add_link_options("SHELL:-sALLOW_MEMORY_GROWTH=1")
 
 # pthreads support: disabled by default for the minimal MVP.
 # To enable threading, set -DROOT_WASM_THREADS=ON and ensure your web server
@@ -72,14 +72,14 @@ add_link_options("SHELL:-s ALLOW_MEMORY_GROWTH=1")
 option(ROOT_WASM_THREADS "Enable pthreads support in WASM build (requires SharedArrayBuffer)" OFF)
 if(ROOT_WASM_THREADS)
   add_compile_options(-pthread)
-  add_link_options(-pthread "SHELL:-s PTHREAD_POOL_SIZE=4")
+  add_link_options(-pthread "SHELL:-sPTHREAD_POOL_SIZE=4")
 endif()
 
 # Asyncify enables async I/O patterns (e.g., fetching remote ROOT files).
 # Adds binary size overhead; only enable if needed.
 option(ROOT_WASM_ASYNCIFY "Enable Emscripten Asyncify for async I/O" OFF)
 if(ROOT_WASM_ASYNCIFY)
-  add_link_options("SHELL:-s ASYNCIFY=1")
+  add_link_options("SHELL:-sASYNCIFY=1")
 endif()
 
 # Emscripten virtual filesystem: enable NODEFS for access to the host FS
@@ -90,10 +90,10 @@ if(ROOT_WASM_NODEFS)
 endif()
 
 # Force-include Emscripten fetch support for HTTP I/O (TWebFile)
-add_link_options("SHELL:-s FETCH=1")
+add_link_options("SHELL:-sFETCH=1")
 
 # Modularize output so ROOT can be imported as an ES module / CommonJS module
 option(ROOT_WASM_MODULARIZE "Wrap output in a JS module factory function" ON)
 if(ROOT_WASM_MODULARIZE)
-  add_link_options("SHELL:-s MODULARIZE=1" "SHELL:-s EXPORT_NAME=createROOT")
+  add_link_options("SHELL:-sMODULARIZE=1" "SHELL:-sEXPORT_NAME=createROOT")
 endif()
