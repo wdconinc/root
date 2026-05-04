@@ -344,6 +344,13 @@ elseif(EMSCRIPTEN)
   set(minuit2_mpi_defvalue OFF)
   set(minuit2_omp_defvalue OFF)
   set(daos_defvalue OFF)
+  # Interpreter / LLVM — not used in minimal WASM builds; building LLVM from
+  # source takes 60+ min and is unnecessary when cling=OFF.
+  set(cling_defvalue OFF)
+  set(builtin_cling_defvalue OFF)
+  set(builtin_llvm_defvalue OFF)
+  set(builtin_clang_defvalue OFF)
+  set(runtime_cxxmodules_defvalue OFF)
   # Force builtin dependencies since system libs won't be available
   set(builtin_zlib_defvalue ON)
   set(builtin_lz4_defvalue ON)
