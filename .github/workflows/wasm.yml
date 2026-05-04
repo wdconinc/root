@@ -99,36 +99,19 @@ jobs:
         id: cmake-restore
         uses: actions/cache/restore@v4
         with:
-          # Cache only the configure artefacts (CMakeCache, generated build
-          # files, ExternalProject stamps/downloads).  Compiled objects live
-          # in ccache instead, keeping this entry small and stable.
-          path: |
-            build-wasm/CMakeCache.txt
-            build-wasm/CMakeFiles
-            build-wasm/cmake_install.cmake
-            build-wasm/Makefile
-            build-wasm/builtins
-          key: wasm-cmake-${{ env.EMSDK_VERSION }}-${{ hashFiles('cmake/**', 'builtins/**', 'CMakeLists.txt') }}
+          # Cache only the ExternalProject build products (builtins).
+          # CMakeCache.txt and CMakeFiles contain absolute paths to the emsdk
+          # installation, which changes on every GitHub Actions runner (different
+          # temp UUID), so they cannot be cached safely.  The cmake configure
+          # step (~20 s) is re-run every time; the builtins cache avoids
+          # rebuilding zlib/lz4/zstd/lzma/freetype/pcre (~3 min).
+          path: build-wasm/builtins
+          key: wasm-builtins-${{ env.EMSDK_VERSION }}-${{ hashFiles('builtins/**', 'CMakeLists.txt') }}
           restore-keys: |
-            wasm-cmake-${{ env.EMSDK_VERSION }}-
+            wasm-builtins-${{ env.EMSDK_VERSION }}-
 
       - name: Configure (emcmake)
         run: |
-          # If a cached cmake configure state was restored but the emsdk was
-          # installed to a different path (absolute paths in CMakeCache.txt and
-          # CMakeSystem.cmake become stale across runner invocations), clear the
-          # stale configuration so cmake starts fresh.  The ccache will still
-          # provide fast compilation via content-hash matching.
-          if [ -f build-wasm/CMakeCache.txt ]; then
-            cached_emcc=$(grep -m1 "CMAKE_C_COMPILER:FILEPATH=" build-wasm/CMakeCache.txt | cut -d= -f2- || true)
-            current_emcc=$(which emcc || true)
-            if [ -n "$cached_emcc" ] && [ "$cached_emcc" != "$current_emcc" ]; then
-              echo "emsdk path changed (cached: $cached_emcc, current: $current_emcc)"
-              echo "Clearing stale cmake configure cache before reconfiguring."
-              rm -rf build-wasm/CMakeFiles build-wasm/CMakeCache.txt \
-                     build-wasm/Makefile build-wasm/cmake_install.cmake
-            fi
-          fi
           emcmake cmake -S . -B build-wasm \
             ${{ env.CMAKE_OPTS }}
 
@@ -147,17 +130,12 @@ jobs:
           path: ${{ env.CCACHE_DIR }}
           key: wasm-ccache-${{ env.EMSDK_VERSION }}-${{ github.ref_name }}-${{ github.sha }}
 
-      - name: Save CMake configure state (always, including on failure)
+      - name: Save CMake builtins cache (always, including on failure)
         if: always()
         uses: actions/cache/save@v4
         with:
-          path: |
-            build-wasm/CMakeCache.txt
-            build-wasm/CMakeFiles
-            build-wasm/cmake_install.cmake
-            build-wasm/Makefile
-            build-wasm/builtins
-          key: wasm-cmake-${{ env.EMSDK_VERSION }}-${{ hashFiles('cmake/**', 'builtins/**', 'CMakeLists.txt') }}
+          path: build-wasm/builtins
+          key: wasm-builtins-${{ env.EMSDK_VERSION }}-${{ hashFiles('builtins/**', 'CMakeLists.txt') }}
 
       - name: Check WASM artefacts exist
         run: |
