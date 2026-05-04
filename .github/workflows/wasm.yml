@@ -76,7 +76,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --build build-wasm --parallel $(nproc) --target RIO Core
+          cmake --build build-wasm --parallel $(nproc) --target RIO Core root_wasm_bindings ||           cmake --build build-wasm --parallel $(nproc) --target RIO Core
 
       - name: Check WASM artefacts exist
         run: |
@@ -84,22 +84,32 @@ jobs:
           find build-wasm/lib -name '*.a' | head -20
           echo "=== TEmscriptenSystem compiled ==="
           find build-wasm -name 'TEmscriptenSystem*' | head -5
+          echo "=== WASM JS bundle ==="
+          find build-wasm/js -name '*.js' -o -name '*.wasm' 2>/dev/null | head -5 || echo "(bindings not built)"
 
       - name: Upload build artefacts
         uses: actions/upload-artifact@v4
         if: success()
         with:
           name: root-wasm-libs
-          path: |
-            build-wasm/lib/*.a
+          path: build-wasm/lib/*.a
           retention-days: 7
 
-  # Standalone job: build the GitHub Pages front-end and deploy it.
-  # Only runs on pushes to wasm-support branch.
+      - name: Upload WASM bundle
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: root-wasm-bundle
+          path: |
+            build-wasm/js/root.js
+            build-wasm/js/root.wasm
+          retention-days: 30
+
+  # Deploy GitHub Pages (depends on build so it can include root.js/root.wasm).
   deploy-pages:
     name: 'Deploy GitHub Pages'
     runs-on: ubuntu-24.04
-    needs: []   # does not depend on WASM build — pure JS/HTML
+    needs: [build-wasm]
     if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/wasm-support') && github.event_name == 'push'
     permissions:
       contents: write
@@ -110,6 +120,23 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Download WASM bundle artefact
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: root-wasm-bundle
+          path: wasm-artefacts
+
+      - name: Stage WASM bundle alongside docs
+        run: |
+          if [ -f wasm-artefacts/root.js ]; then
+            cp wasm-artefacts/root.js  docs/root.js
+            cp wasm-artefacts/root.wasm docs/root.wasm
+            echo "WASM bundle staged for Pages deploy"
+          else
+            echo "WASM bundle not available; Pages will run in JSROOT-only mode"
+          fi
+
       - name: Deploy docs/ to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -117,4 +144,4 @@ jobs:
           publish_dir: ./docs
           publish_branch: gh-pages
           force_orphan: true
-          commit_message: 'docs: update GitHub Pages from wasm-support [skip ci]'
+          commit_message: 'docs: update GitHub Pages [skip ci]'

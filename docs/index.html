@@ -239,7 +239,7 @@
 
 <footer>
   <span>JSROOT: <span class="ok" id="jsroot-version">loading…</span></span>
-  <span>WASM interpreter: <span class="warn">in progress — see <a href="https://github.com/wdconinc/root/tree/wasm-support" style="color:var(--accent2)">wasm-support branch</a></span></span>
+  <span>WASM ROOT: <span class="warn" id="wasm-status">loading…</span></span>
   <span>Repo: <a href="https://github.com/wdconinc/root" style="color:var(--accent2)">wdconinc/root</a></span>
 </footer>
 
@@ -448,6 +448,50 @@ function initJSROOT() {
   document.getElementById('jsroot-version').textContent = ver;
   print('JSROOT ' + ver + ' loaded.', 'info');
   print('Type help() for available commands.', 'info');
+  tryLoadROOTWasm();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ROOT WASM module (root.js / root.wasm) — optional, progressive enhancement
+// ─────────────────────────────────────────────────────────────────────────────
+let ROOT_WASM = null;
+
+async function tryLoadROOTWasm() {
+  // Look for root.js next to this page (deployed by CI alongside index.html)
+  const wasmUrl = new URL('root.js', window.location.href).href;
+  try {
+    const resp = await fetch(wasmUrl, { method: 'HEAD' });
+    if (!resp.ok) throw new Error('not found');
+    // Dynamically import the Emscripten module
+    const script = document.createElement('script');
+    script.src = wasmUrl;
+    script.onload = async () => {
+      try {
+        ROOT_WASM = await createROOT();
+        const ver = ROOT_WASM.GetROOTVersion ? ROOT_WASM.GetROOTVersion() : '?';
+        document.getElementById('wasm-status').textContent = ver;
+        document.getElementById('wasm-status').style.color = 'var(--accent)';
+        print('ROOT WASM ' + ver + ' loaded — native C++ objects available!', 'info');
+        // Extend REPL with native commands
+        REPL.nativeDemo = function() {
+          const h = new ROOT_WASM.TH1F('ndemo', 'Native Gaussian;x;counts', 100, -5, 5);
+          const rng = new ROOT_WASM.TRandom3(42);
+          for (let i = 0; i < 10000; i++) h.Fill(rng.Gaus(0, 1));
+          const json = h.toJSON();
+          drawObject(JSROOT.parse(json), 'hist');
+          return 'Native ROOT TH1F drawn. Entries: ' + h.GetEntries();
+        };
+        print('Extra command available: nativeDemo() — uses real ROOT C++ TH1F', 'info');
+      } catch(e) {
+        print('ROOT WASM init error: ' + e.message, 'error');
+      }
+    };
+    script.onerror = () => print('ROOT WASM bundle found but failed to load.', 'error');
+    document.head.appendChild(script);
+  } catch(_) {
+    // root.js not deployed yet — JSROOT-only mode, nothing to do
+    document.getElementById('wasm-status').textContent = 'not yet deployed (JSROOT-only mode)';
+  }
 }
 
 if (typeof JSROOT !== 'undefined') {
