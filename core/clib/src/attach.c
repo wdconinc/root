@@ -26,6 +26,8 @@ Boston, MA 02111-1307, USA.  */
 
 #include <stdio.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <fcntl.h> /* After sys/types.h, at least for dpx/2.  */
 #include <sys/stat.h>
