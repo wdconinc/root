@@ -632,7 +632,9 @@ set(ROOT_CMAKE_DIR ${CMAKE_SOURCE_DIR}/cmake)
 ")
 
 get_property(exported_targets GLOBAL PROPERTY ROOT_EXPORTED_TARGETS)
-export(TARGETS ${exported_targets} NAMESPACE ROOT:: FILE ${PROJECT_BINARY_DIR}/ROOTConfig-targets.cmake)
+if(NOT EMSCRIPTEN)
+  export(TARGETS ${exported_targets} NAMESPACE ROOT:: FILE ${PROJECT_BINARY_DIR}/ROOTConfig-targets.cmake)
+endif()
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/ROOTConfig.cmake.in
                ${CMAKE_BINARY_DIR}/ROOTConfig.cmake @ONLY NEWLINE_STYLE UNIX)
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/RootUseFile.cmake.in
