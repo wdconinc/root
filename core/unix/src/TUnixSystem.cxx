@@ -722,7 +722,7 @@ const char *TUnixSystem::GetError()
       return GetLastErrorString();
 
 #if defined(R__SOLARIS) || defined (R__LINUX) || defined(R__AIX) || \
-    defined(R__FBSD) || defined(R__OBSD) || defined(R__HURD)
+    defined(R__FBSD) || defined(R__OBSD) || defined(R__HURD) || defined(__EMSCRIPTEN__)
    return strerror(err);
 #else
    if (err < 0 || err >= sys_nerr)

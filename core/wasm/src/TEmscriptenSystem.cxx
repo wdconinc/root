@@ -29,7 +29,7 @@ ClassImp(TEmscriptenSystem);
 ////////////////////////////////////////////////////////////////////////////////
 /// Construct a TEmscriptenSystem.
 
-TEmscriptenSystem::TEmscriptenSystem() : TUnixSystem("Emscripten", "Emscripten System")
+TEmscriptenSystem::TEmscriptenSystem() : TUnixSystem()
 {
 }
 
@@ -102,14 +102,14 @@ void TEmscriptenSystem::StackTrace()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-[[noreturn]] void TEmscriptenSystem::Exit(int code, Bool_t /*mode*/)
+void TEmscriptenSystem::Exit(int code, Bool_t /*mode*/)
 {
    ::exit(code);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-[[noreturn]] void TEmscriptenSystem::Abort(int code)
+void TEmscriptenSystem::Abort(int code)
 {
    ::abort();
    (void)code;
@@ -211,7 +211,6 @@ int TEmscriptenSystem::GetCpuInfo(CpuInfo_t *info, Int_t /*sampleTime*/) const
 {
    if (!info) return -1;
    *info = {};
-   info->fCpus = 1;
    return 0;
 }
 

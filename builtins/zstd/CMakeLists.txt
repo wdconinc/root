@@ -72,6 +72,7 @@ set_target_properties(ZSTD::ZSTD PROPERTIES
     IMPORTED_LOCATION ${ROOT_ZSTD_LIBRARY}
     INTERFACE_INCLUDE_DIRECTORIES ${ZSTD_INCLUDE_DIR}
 )
+add_dependencies(ZSTD::ZSTD BUILTIN_ZSTD)
 
 # Set the canonical output of find_package according to
 # https://cmake.org/cmake/help/latest/manual/cmake-developer.7.html#standard-variable-names
