@@ -347,9 +347,11 @@ elseif(EMSCRIPTEN)
   # Force builtin dependencies since system libs won't be available
   set(builtin_zlib_defvalue ON)
   set(builtin_lz4_defvalue ON)
+  set(builtin_lzma_defvalue ON)
   set(builtin_zstd_defvalue ON)
   set(builtin_xxhash_defvalue ON)
   set(builtin_pcre_defvalue ON)
+  set(builtin_freetype_defvalue ON)
 endif()
 
 # builtin_openssl is only supported on macOS
@@ -393,7 +395,7 @@ ROOT_APPLY_OPTIONS()
 # minimal=ON resets all _defvalue to OFF before ROOT_APPLY_OPTIONS(), so we must
 # explicitly override the cache entries for builtins that are mandatory on WASM.
 if(EMSCRIPTEN)
-  foreach(_wasm_builtin zlib lz4 lzma zstd xxhash pcre)
+  foreach(_wasm_builtin zlib lz4 lzma zstd xxhash pcre freetype)
     if(NOT builtin_${_wasm_builtin})
       message(STATUS "[WASM] Forcing builtin_${_wasm_builtin}=ON (system libs not available in WASM)")
       set(builtin_${_wasm_builtin} ON CACHE BOOL "Forced ON for WASM builds" FORCE)

@@ -48,6 +48,7 @@ env:
     -Dbuiltin_zstd=ON
     -Dbuiltin_xxhash=ON
     -Dbuiltin_pcre=ON
+    -Dbuiltin_freetype=ON
 
 jobs:
   build-wasm:
