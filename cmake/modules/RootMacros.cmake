@@ -295,6 +295,12 @@ endfunction(ROOT_REPLACE_BUILD_INTERFACE)
 #   no error is emitted. The dictionary does not depend on these headers.
 #---------------------------------------------------------------------------------------------------
 function(ROOT_GENERATE_DICTIONARY dictionary)
+  # Dictionary generation requires the rootcling tool which depends on Cling/LLVM.
+  # Skip it entirely for WASM cross-compilation builds where we omit the interpreter.
+  if(EMSCRIPTEN)
+    return()
+  endif()
+
   CMAKE_PARSE_ARGUMENTS(ARG "STAGE1;MULTIDICT;NOINSTALL;NO_CXXMODULE"
     "MODULE;LINKDEF" "NODEPHEADERS;OPTIONS;DEPENDENCIES;EXTRA_DEPENDENCIES;BUILTINS" ${ARGN})
 

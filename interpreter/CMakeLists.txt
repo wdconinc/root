@@ -1,6 +1,16 @@
 # Do not depend on CMake scripts from the rest of the ROOT build
 set(CMAKE_MODULE_PATH "")
 
+#--- When cling is disabled and no LLVM builtins are requested, skip this directory entirely -------
+# This is the case for e.g. EMSCRIPTEN / WASM builds where the interpreter is not needed.
+if(NOT cling AND NOT builtin_llvm AND NOT builtin_clang AND NOT builtin_cling)
+  # Still export LLVM_VERSION_MAJOR with a dummy value so that callers don't fail.
+  set(LLVM_VERSION_MAJOR 0 PARENT_SCOPE)
+  add_custom_target(CLING)
+  set(CLING_LIBRARIES "" CACHE STRING "" FORCE)
+  return()
+endif()
+
 #--- Check if we need to build llvm and clang ------------------------------------------------------
 if (builtin_llvm AND NOT builtin_clang)
   message(FATAL_ERROR "Cannot enable builtin LLVM, but provide external Clang")

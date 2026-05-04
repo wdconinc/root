@@ -63,18 +63,26 @@ CHECK_CXX_COMPILER_FLAG("-fno-rtti" CXX_HAS_fno_rtti)
 # to be linked into rootcling_stage1 (via ROOT_EXECUTABLE).
 add_subdirectory(sanitizer)
 
-add_subdirectory(rootcling_stage1)
+if(NOT EMSCRIPTEN)
+  # These subdirectories depend on Cling/Clang/LLVM headers and the rootcling
+  # dictionary-generation tool.  They are skipped for WASM cross-compilation
+  # builds where we disable the interpreter to keep build times manageable.
+  add_subdirectory(rootcling_stage1)
+  add_subdirectory(clingutils)
+  add_subdirectory(dictgen)
+  add_subdirectory(metacling)
+endif()
 
 add_subdirectory(base)
 add_subdirectory(clib)
-add_subdirectory(clingutils)
 add_subdirectory(cont)
-add_subdirectory(dictgen)
 add_subdirectory(foundation)
 add_subdirectory(gui)
 add_subdirectory(imt)
 add_subdirectory(meta)
-add_subdirectory(metacling)
+if(NOT EMSCRIPTEN)
+  add_subdirectory(metacling)
+endif()
 add_subdirectory(multiproc)
 add_subdirectory(newdelete)
 add_subdirectory(rint)

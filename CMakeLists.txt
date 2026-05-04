@@ -477,6 +477,9 @@ if(runtime_cxxmodules)
     add_dependencies(onepcm ${target_dependency})
   endforeach()
   unset(ROOT_LIBRARY_TARGETS CACHE)
+elseif(EMSCRIPTEN)
+  # PCH generation requires rootcling which is not built for WASM.  Skip it.
+  add_custom_target(onepcm)
 else()
   get_property(incdirs DIRECTORY PROPERTY INCLUDE_DIRECTORIES)
 
