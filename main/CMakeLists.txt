@@ -9,6 +9,14 @@
 # @author Pere Mato, CERN
 ############################################################################
 
+# None of the ROOT executables (root.exe, rootcling, etc.) are built for
+# WASM cross-compilation targets: they depend on Cling/Rint which we skip,
+# and they would need to run on the host (or via Node.js emulator) for
+# build-tool purposes that don't apply when dictionaries are disabled.
+if(EMSCRIPTEN)
+  return()
+endif()
+
 if(NOT WIN32)
   ROOT_EXECUTABLE(rootn.exe rmain.cxx LIBRARIES New Core MathCore Rint CMAKENOEXPORT)
   if(CMAKE_SYSTEM_NAME STREQUAL Linux)

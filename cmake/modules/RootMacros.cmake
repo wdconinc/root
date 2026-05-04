@@ -1020,7 +1020,12 @@ function(ROOT_LINKER_LIBRARY library)
   endif()
 
   #----Installation details-------------------------------------------------------
-  if(NOT ARG_TEST AND NOT ARG_NOINSTALL AND CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+  # For EMSCRIPTEN / WASM builds, skip all install rules: we produce a
+  # self-contained WASM module rather than an installable ROOT tree, and the
+  # CMake export validation (requiring every linked target to be in an export
+  # set) would otherwise fail for builtin targets such as pcre2_builtin /
+  # mathtext that are build-tree-only.
+  if(NOT ARG_TEST AND NOT ARG_NOINSTALL AND CMAKE_LIBRARY_OUTPUT_DIRECTORY AND NOT EMSCRIPTEN)
     if(NOT MSVC)
       ROOT_APPEND_LIBDIR_TO_INSTALL_RPATH(${library} ${CMAKE_INSTALL_LIBDIR})
     endif()
