@@ -8,7 +8,7 @@
 #  CheckCompiler.cmake
 #---------------------------------------------------------------------------------------------------
 
-if(NOT CMAKE_CXX_COMPILER_ID MATCHES "(Apple|)Clang|GNU|Intel|MSVC")
+if(NOT CMAKE_CXX_COMPILER_ID MATCHES "(Apple|)Clang|GNU|Intel|MSVC|Emscripten")
   message(WARNING "Unsupported compiler: ${CMAKE_CXX_COMPILER_ID}.")
 endif()
 
@@ -238,6 +238,8 @@ elseif(APPLE)
   include(SetUpMacOS)
 elseif(WIN32)
   include(SetUpWindows)
+elseif(EMSCRIPTEN)
+  include(SetUpEmscripten)
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_THREAD_FLAG}")

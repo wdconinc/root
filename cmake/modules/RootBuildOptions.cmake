@@ -177,6 +177,7 @@ ROOT_BUILD_OPTION(uring OFF "Enable support for io_uring (requires liburing and 
 ROOT_BUILD_OPTION(use_gsl_cblas OFF "Use the CBLAS library from GSL [GPL] instead of finding a more optimized BLAS library automatically with FindBLAS (the GSL CBLAS is less performant but more portable)")
 ROOT_BUILD_OPTION(vdt ON "Enable support for VDT (fast and vectorisable mathematical functions)")
 ROOT_BUILD_OPTION(vecgeom OFF "Enable support for VecGeom vectorized geometry library")
+ROOT_BUILD_OPTION(wasm OFF "Build ROOT for WebAssembly via Emscripten (experimental)")
 ROOT_BUILD_OPTION(webgui ON "Build Web-based UI components of ROOT")
 ROOT_BUILD_OPTION(win_broken_tests OFF "Enable broken tests on Windows")
 ROOT_BUILD_OPTION(winrtdebug OFF "Link against the Windows debug runtime library")
@@ -292,6 +293,63 @@ if(WIN32)
 elseif(APPLE)
   set(cocoa_defvalue ON)
   set(x11_defvalue OFF)
+elseif(EMSCRIPTEN)
+  # WebAssembly / Emscripten: disable all features that require native OS,
+  # threads, or non-portable dependencies. Only a minimal data-analysis core
+  # and I/O layer is supported in this configuration.
+  set(wasm_defvalue ON)
+  # Graphics / display — not available natively; use JSROOT in the browser
+  set(x11_defvalue OFF)
+  set(opengl_defvalue OFF)
+  set(cocoa_defvalue OFF)
+  set(asimage_defvalue OFF)
+  set(geombuilder_defvalue OFF)
+  # Threading — TBB/IMT requires pthreads (SharedArrayBuffer); off by default
+  set(imt_defvalue OFF)
+  # Network libraries that require native sockets / TLS
+  set(davix_defvalue OFF)
+  set(xrootd_defvalue OFF)
+  set(ssl_defvalue OFF)
+  set(curl_defvalue OFF)
+  set(http_defvalue OFF)
+  set(webgui_defvalue OFF)
+  set(qt6web_defvalue OFF)
+  set(cefweb_defvalue OFF)
+  # Python and R bindings
+  set(pyroot_defvalue OFF)
+  set(tpython_defvalue OFF)
+  set(r_defvalue OFF)
+  # Fortran, MPI, CUDA — not applicable to WASM
+  set(fortran_defvalue OFF)
+  set(mpi_defvalue OFF)
+  set(cuda_defvalue OFF)
+  # Database / optional libs that need native builds
+  set(sqlite_defvalue OFF)
+  set(fitsio_defvalue OFF)
+  set(fcgi_defvalue OFF)
+  set(dcache_defvalue OFF)
+  # TMVA extras
+  set(tmva-pymva_defvalue OFF)
+  set(tmva-rmva_defvalue OFF)
+  set(tmva-cudnn_defvalue OFF)
+  set(tmva-gpu_defvalue OFF)
+  # Compiler-based features
+  set(clad_defvalue OFF)
+  set(vdt_defvalue OFF)
+  set(vecgeom_defvalue OFF)
+  # Misc
+  set(shadowpw_defvalue OFF)
+  set(uring_defvalue OFF)
+  set(roofit_multiprocess_defvalue OFF)
+  set(minuit2_mpi_defvalue OFF)
+  set(minuit2_omp_defvalue OFF)
+  set(daos_defvalue OFF)
+  # Force builtin dependencies since system libs won't be available
+  set(builtin_zlib_defvalue ON)
+  set(builtin_lz4_defvalue ON)
+  set(builtin_zstd_defvalue ON)
+  set(builtin_xxhash_defvalue ON)
+  set(builtin_pcre_defvalue ON)
 endif()
 
 # builtin_openssl is only supported on macOS
