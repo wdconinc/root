@@ -91,6 +91,9 @@ jobs:
         run: |
           ccache --max-size=500M
           ccache --zero-stats
+          # Use compiler content hash (not path/mtime) so ccache hits even
+          # when emsdk is reinstalled to a different temp directory.
+          ccache --set-config=compiler_check=content
 
       - name: Restore CMake configure state
         id: cmake-restore
@@ -111,6 +114,21 @@ jobs:
 
       - name: Configure (emcmake)
         run: |
+          # If a cached cmake configure state was restored but the emsdk was
+          # installed to a different path (absolute paths in CMakeCache.txt and
+          # CMakeSystem.cmake become stale across runner invocations), clear the
+          # stale configuration so cmake starts fresh.  The ccache will still
+          # provide fast compilation via content-hash matching.
+          if [ -f build-wasm/CMakeCache.txt ]; then
+            cached_emcc=$(grep -m1 "CMAKE_C_COMPILER:FILEPATH=" build-wasm/CMakeCache.txt | cut -d= -f2- || true)
+            current_emcc=$(which emcc || true)
+            if [ -n "$cached_emcc" ] && [ "$cached_emcc" != "$current_emcc" ]; then
+              echo "emsdk path changed (cached: $cached_emcc, current: $current_emcc)"
+              echo "Clearing stale cmake configure cache before reconfiguring."
+              rm -rf build-wasm/CMakeFiles build-wasm/CMakeCache.txt \
+                     build-wasm/Makefile build-wasm/cmake_install.cmake
+            fi
+          fi
           emcmake cmake -S . -B build-wasm \
             ${{ env.CMAKE_OPTS }}
 
