@@ -221,9 +221,14 @@ class ClassDefGenerateInitInstanceLocalInjector:
       static atomic_TClass_ptr fgIsA;
       static ::ROOT::TGenericClassInfo *fgGenericInfo;
    public:
-      static void *New(void *p) { return p ? new(p) T : new T; };
+      static void *New(void *p) {
+         if constexpr (!std::is_abstract_v<T>) { return p ? new(p) T : new T; }
+         return nullptr;
+      }
       static void *NewArray(Long_t nElements, void *p) {
-         return p ? new(p) T[nElements] : new T[nElements]; }
+         if constexpr (!std::is_abstract_v<T>) { return p ? new(p) T[nElements] : new T[nElements]; }
+         return nullptr;
+      }
       static void Delete(void *p) { delete ((T*)p); }
       static void DeleteArray(void *p) { delete[] ((T*)p); }
       static void Destruct(void *p) { ((T*)p)->~T();  }
