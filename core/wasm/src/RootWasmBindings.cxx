@@ -96,8 +96,12 @@ EMSCRIPTEN_BINDINGS(TH1F_bindings)
       .function("FillW",      optional_override([](TH1 &h, double x, double w) {
          return h.Fill(x, w);
       }))
-      .function("GetBinContent",  &TH1::GetBinContent)
-      .function("GetBinError",    &TH1::GetBinError)
+      .function("GetBinContent",  optional_override([](const TH1 &h, int bin) {
+         return h.GetBinContent(bin);
+      }))
+      .function("GetBinError",    optional_override([](const TH1 &h, int bin) {
+         return h.GetBinError(bin);
+      }))
       .function("GetNbinsX",      &TH1::GetNbinsX)
       .function("GetEntries",     &TH1::GetEntries)
       .function("GetMean",        optional_override([](TH1 &h) { return h.GetMean(); }))
