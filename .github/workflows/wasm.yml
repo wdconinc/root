@@ -31,9 +31,12 @@ on:
 
 env:
   EMSDK_VERSION: ${{ github.event.inputs.emsdk_version || '4.0.9' }}
+  CCACHE_DIR: ${{ github.workspace }}/.ccache
   # Minimal ROOT configuration for WASM (no interpreter, no X11, no optional deps)
   CMAKE_OPTS: >-
     -DCMAKE_BUILD_TYPE=Release
+    -DCMAKE_C_COMPILER_LAUNCHER=ccache
+    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
     -Dminimal=ON
     -Dwasm=ON
     -Druntime_cxxmodules=OFF
@@ -68,6 +71,23 @@ jobs:
           version: ${{ env.EMSDK_VERSION }}
           actions-cache-folder: '.emsdk-cache'
 
+      - name: Install ccache
+        run: sudo apt-get install -y ccache
+
+      - name: Restore ccache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: wasm-ccache-${{ env.EMSDK_VERSION }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            wasm-ccache-${{ env.EMSDK_VERSION }}-${{ github.ref_name }}-
+            wasm-ccache-${{ env.EMSDK_VERSION }}-
+
+      - name: Configure ccache
+        run: |
+          ccache --max-size=500M
+          ccache --zero-stats
+
       - name: Cache CMake build directory
         uses: actions/cache@v4
         with:
@@ -84,6 +104,10 @@ jobs:
       - name: Build
         run: |
           cmake --build build-wasm --parallel $(nproc) --target RIO Core root_wasm_bindings ||           cmake --build build-wasm --parallel $(nproc) --target RIO Core
+
+      - name: ccache stats
+        if: always()
+        run: ccache --show-stats
 
       - name: Check WASM artefacts exist
         run: |
