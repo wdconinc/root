@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROOT in the Browser — WebAssembly Preview</title>
+
+  <!-- JSROOT from CDN -->
+  <script src="https://root.cern/js/latest/scripts/JSRoot.core.js"
+          crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --bg:      #0d1117;
+      --surface: #161b22;
+      --border:  #30363d;
+      --accent:  #3fb950;
+      --accent2: #58a6ff;
+      --text:    #c9d1d9;
+      --muted:   #8b949e;
+      --prompt:  #79c0ff;
+      --error:   #f85149;
+      --warn:    #e3b341;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── header ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    header img { height: 36px; }
+    header h1  { font-size: 1.25rem; font-weight: 600; color: var(--text); }
+    header .badge {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em;
+      background: #21262d; border: 1px solid var(--border);
+      color: var(--warn); padding: 2px 8px; border-radius: 12px;
+    }
+    nav {
+      margin-left: auto;
+      display: flex; gap: 12px;
+    }
+    nav a {
+      color: var(--muted); text-decoration: none; font-size: 0.85rem;
+    }
+    nav a:hover { color: var(--text); }
+
+    /* ── main layout ── */
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto 1fr;
+      gap: 0;
+      flex: 1;
+      overflow: hidden;
+    }
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+    }
+
+    /* ── panel base ── */
+    .panel {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .panel-title {
+      background: #21262d;
+      border-bottom: 1px solid var(--border);
+      padding: 8px 16px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .panel-title .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* ── terminal / REPL ── */
+    #terminal {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    .output-block { margin-bottom: 4px; }
+    .output-block.cmd   { color: var(--prompt); }
+    .output-block.out   { color: var(--text); }
+    .output-block.error { color: var(--error); }
+    .output-block.info  { color: var(--muted); font-style: italic; }
+
+    #input-row {
+      display: flex;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      padding: 8px 16px;
+      gap: 8px;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.85rem;
+    }
+    #input-row .prompt-label { color: var(--prompt); user-select: none; }
+    #cmd-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: inherit;
+      font-size: inherit;
+    }
+    #run-btn {
+      background: var(--accent);
+      color: #0d1117;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #run-btn:hover { opacity: 0.85; }
+
+    /* ── canvas / visualisation ── */
+    #jsroot-canvas {
+      flex: 1;
+      min-height: 300px;
+    }
+
+    /* ── file loader ── */
+    #file-panel {
+      grid-column: 1 / -1;
+      border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.82rem;
+      background: #161b22;
+    }
+    #file-url { 
+      flex: 1; background: #0d1117; border: 1px solid var(--border);
+      border-radius: 4px; color: var(--text); padding: 4px 10px;
+      font-size: 0.82rem; font-family: monospace;
+    }
+    #file-url:focus { outline: none; border-color: var(--accent2); }
+    #open-btn {
+      background: var(--accent2); color: #0d1117;
+      border: none; border-radius: 4px;
+      padding: 5px 14px; font-weight: 600; cursor: pointer;
+      font-size: 0.8rem;
+    }
+    #open-btn:hover { opacity: 0.85; }
+    #file-status { color: var(--muted); font-size: 0.78rem; }
+
+    /* ── status bar ── */
+    footer {
+      background: #21262d;
+      border-top: 1px solid var(--border);
+      padding: 4px 16px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex; gap: 20px;
+    }
+    footer span.ok   { color: var(--accent); }
+    footer span.warn { color: var(--warn); }
+  </style>
+</head>
+<body>
+
+<header>
+  <!-- ROOT logo from upstream CDN -->
+  <img src="https://root.cern/img/logos/ROOT_Logo/logos/linux/CERN-logo-color-96.png"
+       alt="CERN logo" onerror="this.style.display='none'">
+  <h1>ROOT in the Browser</h1>
+  <span class="badge">WebAssembly Preview</span>
+  <nav>
+    <a href="https://github.com/wdconinc/root/tree/wasm-support" target="_blank">Source</a>
+    <a href="https://root.cern/js/" target="_blank">JSROOT docs</a>
+    <a href="https://github.com/compiler-research/xeus-cpp-lite" target="_blank">xeus-cpp-lite</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ── LEFT: REPL/Terminal ── -->
+  <div class="panel" style="border-right: none;">
+    <div class="panel-title"><span class="dot"></span> ROOT prompt</div>
+    <div id="terminal">
+      <div class="output-block info">ROOT WebAssembly REPL — powered by JSROOT + xeus-cpp-lite</div>
+      <div class="output-block info">Type JSROOT or histogram commands below. Histograms will appear in the canvas →</div>
+      <div class="output-block info">Try: <code>demo()</code> or <code>openFile("https://...")</code></div>
+    </div>
+    <div id="input-row">
+      <span class="prompt-label">root [0]&gt;</span>
+      <input id="cmd-input" type="text" placeholder="Enter a command…"
+             autocomplete="off" spellcheck="false">
+      <button id="run-btn">Run</button>
+    </div>
+  </div>
+
+  <!-- ── RIGHT: JSROOT Canvas ── -->
+  <div class="panel">
+    <div class="panel-title"><span class="dot" style="background:var(--accent2)"></span> Canvas</div>
+    <div id="jsroot-canvas"></div>
+  </div>
+
+  <!-- ── BOTTOM: File opener ── -->
+  <div id="file-panel">
+    <label style="color:var(--muted);white-space:nowrap">Open ROOT file:</label>
+    <input id="file-url" type="text"
+           placeholder="https://example.com/path/to/file.root (or drop a local .root file)">
+    <button id="open-btn">Open</button>
+    <span id="file-status"></span>
+    <label style="color:var(--muted);margin-left:auto;white-space:nowrap">Local file:
+      <input id="local-file" type="file" accept=".root" style="font-size:0.78rem">
+    </label>
+  </div>
+</main>
+
+<footer>
+  <span>JSROOT: <span class="ok" id="jsroot-version">loading…</span></span>
+  <span>WASM interpreter: <span class="warn">in progress — see <a href="https://github.com/wdconinc/root/tree/wasm-support" style="color:var(--accent2)">wasm-support branch</a></span></span>
+  <span>Repo: <a href="https://github.com/wdconinc/root" style="color:var(--accent2)">wdconinc/root</a></span>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────────────────────────────────────
+let cmdCount = 0;
+let painter  = null;   // JSROOT painter for the canvas
+let openedFile = null; // JSROOT TFile handle
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Terminal helpers
+// ─────────────────────────────────────────────────────────────────────────────
+const terminal = document.getElementById('terminal');
+
+function print(text, cls = 'out') {
+  const d = document.createElement('div');
+  d.className = 'output-block ' + cls;
+  d.textContent = text;
+  terminal.appendChild(d);
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+function printHTML(html, cls = 'out') {
+  const d = document.createElement('div');
+  d.className = 'output-block ' + cls;
+  d.innerHTML = html;
+  terminal.appendChild(d);
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REPL commands — a small built-in interpreter until full WASM ROOT lands
+// ─────────────────────────────────────────────────────────────────────────────
+const REPL = {
+  // Draw a demo Gaussian histogram using JSROOT
+  demo() {
+    const nbins = 100, lo = -5, hi = 5;
+    const th1 = JSROOT.createHistogram('TH1F', nbins);
+    th1.fName  = 'demo';
+    th1.fTitle = 'Gaussian demo; x; counts';
+    th1.fXaxis.fXmin = lo;
+    th1.fXaxis.fXmax = hi;
+    // Fill with a Gaussian via Box-Muller
+    for (let i = 0; i < 10000; i++) {
+      const u1 = Math.random(), u2 = Math.random();
+      const z  = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+      const bin = Math.floor((z - lo) / (hi - lo) * nbins) + 1;
+      if (bin >= 1 && bin <= nbins) th1.fArray[bin]++;
+    }
+    drawObject(th1, 'hist');
+    return 'Demo histogram drawn.';
+  },
+
+  // Open a remote .root file and browse its top-level keys
+  async openFile(url) {
+    setFileStatus('Opening ' + url + ' …', false);
+    try {
+      openedFile = await JSROOT.openFile(url);
+      const keys = await openedFile.readKeys();
+      const names = keys.map(k => k.fName + ' [' + k.fClassName + ']');
+      setFileStatus('Opened: ' + url, true);
+      return 'Keys:\n  ' + names.join('\n  ');
+    } catch(e) {
+      setFileStatus('Error: ' + e.message, false);
+      throw e;
+    }
+  },
+
+  // Draw an object from the opened file by key name
+  async draw(keyname, option = '') {
+    if (!openedFile) throw new Error('No file open. Call openFile(url) first.');
+    const obj = await openedFile.readObject(keyname);
+    drawObject(obj, option);
+    return 'Drawing ' + keyname;
+  },
+
+  // List top-level keys of the opened file
+  async ls() {
+    if (!openedFile) throw new Error('No file open. Call openFile(url) first.');
+    const keys = await openedFile.readKeys();
+    return keys.map(k => k.fName.padEnd(32) + k.fClassName).join('\n');
+  },
+
+  // Clear the canvas
+  clear() {
+    const div = document.getElementById('jsroot-canvas');
+    if (painter) { try { painter.cleanup(); } catch(_) {} painter = null; }
+    div.innerHTML = '';
+    return 'Canvas cleared.';
+  },
+
+  // Show help
+  help() {
+    return [
+      'Available commands:',
+      '  demo()                   — draw a Gaussian histogram',
+      '  openFile("url")          — open a remote .root file',
+      '  ls()                     — list keys in opened file',
+      '  draw("keyname","opts")   — draw object from file',
+      '  clear()                  — clear canvas',
+      '  help()                   — this message',
+      '',
+      'You can also drop a local .root file onto the file input below.',
+      'Full in-browser C++ REPL is coming via xeus-cpp-lite + ROOT WASM.',
+    ].join('\n');
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Draw an object in the JSROOT canvas panel
+// ─────────────────────────────────────────────────────────────────────────────
+async function drawObject(obj, option = '') {
+  const div = document.getElementById('jsroot-canvas');
+  if (painter) { try { painter.cleanup(); } catch(_) {} painter = null; }
+  div.innerHTML = '';
+  try {
+    painter = await JSROOT.draw(div, obj, option);
+  } catch(e) {
+    print('Draw error: ' + e.message, 'error');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Execute a command typed in the REPL
+// ─────────────────────────────────────────────────────────────────────────────
+async function executeCommand(raw) {
+  const cmd = raw.trim();
+  if (!cmd) return;
+
+  print('root [' + cmdCount + ']> ' + cmd, 'cmd');
+  cmdCount++;
+
+  // Update prompt label
+  document.querySelector('.prompt-label').textContent = 'root [' + cmdCount + ']>';
+
+  try {
+    // Evaluate in REPL context — expose helpers as globals
+    const fn = new Function(
+      'demo','openFile','draw','ls','clear','help','JSROOT','drawObject',
+      '"use strict"; return (' + cmd + ')'
+    );
+    const result = await Promise.resolve(
+      fn(REPL.demo, REPL.openFile, REPL.draw, REPL.ls, REPL.clear, REPL.help,
+         window.JSROOT, drawObject)
+    );
+    if (result !== undefined) {
+      const out = typeof result === 'string' ? result : JSON.stringify(result, null, 2);
+      out.split('\n').forEach(line => print(line));
+    }
+  } catch(e) {
+    print('Error: ' + e.message, 'error');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// UI wiring
+// ─────────────────────────────────────────────────────────────────────────────
+const input  = document.getElementById('cmd-input');
+const runBtn = document.getElementById('run-btn');
+
+runBtn.addEventListener('click', () => {
+  executeCommand(input.value);
+  input.value = '';
+});
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    executeCommand(input.value);
+    input.value = '';
+  }
+});
+input.focus();
+
+// File opener
+document.getElementById('open-btn').addEventListener('click', () => {
+  const url = document.getElementById('file-url').value.trim();
+  if (url) executeCommand('openFile("' + url.replace(/"/g, '\\"') + '")');
+});
+
+// Local file via FileReader → Emscripten MEMFS bridge (future WASM hook)
+document.getElementById('local-file').addEventListener('change', async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  setFileStatus('Reading local file ' + file.name + ' …', false);
+  try {
+    // For now, feed to JSROOT directly via URL.createObjectURL
+    const url = URL.createObjectURL(file);
+    await executeCommand('openFile("' + url + '")');
+  } catch(err) {
+    setFileStatus('Error: ' + err.message, false);
+  }
+});
+
+function setFileStatus(msg, ok) {
+  const el = document.getElementById('file-status');
+  el.textContent = msg;
+  el.style.color = ok ? 'var(--accent)' : 'var(--warn)';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// JSROOT initialisation
+// ─────────────────────────────────────────────────────────────────────────────
+function initJSROOT() {
+  const ver = JSROOT.version || (JSROOT.settings && JSROOT.settings.Version) || 'unknown';
+  document.getElementById('jsroot-version').textContent = ver;
+  print('JSROOT ' + ver + ' loaded.', 'info');
+  print('Type help() for available commands.', 'info');
+}
+
+if (typeof JSROOT !== 'undefined') {
+  initJSROOT();
+} else {
+  // JSROOT loads asynchronously via its own bootstrap
+  window.addEventListener('load', () => {
+    if (typeof JSROOT !== 'undefined') initJSROOT();
+    else print('Warning: JSROOT failed to load. Visualisation unavailable.', 'error');
+  });
+}
+</script>
+</body>
+</html>

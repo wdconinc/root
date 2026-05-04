@@ -1,0 +1,6 @@
+theme: jekyll-theme-minimal
+title: ROOT in the Browser — WebAssembly Preview
+description: >
+  Experimental in-browser ROOT session using JSROOT for visualisation
+  and a growing WebAssembly backend built from the wasm-support branch
+  of wdconinc/root.
