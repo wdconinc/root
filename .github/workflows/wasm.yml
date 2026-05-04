@@ -1,0 +1,120 @@
+name: 'ROOT WebAssembly (Emscripten) build'
+
+on:
+  push:
+    branches:
+      - 'wasm-support'
+      - 'wasm-*'
+    paths-ignore:
+      - 'doc/**'
+      - 'documentation/**'
+      - 'README/**'
+  pull_request:
+    branches:
+      - 'master'
+    paths:
+      - 'cmake/toolchains/Emscripten.cmake'
+      - 'cmake/modules/SetUpEmscripten.cmake'
+      - 'cmake/modules/CheckCompiler.cmake'
+      - 'cmake/modules/RootBuildOptions.cmake'
+      - 'core/wasm/**'
+      - 'io/io/src/RRawFileWasm.cxx'
+      - 'io/io/inc/ROOT/RRawFileWasm.hxx'
+      - '.github/workflows/wasm.yml'
+  workflow_dispatch:
+    inputs:
+      emsdk_version:
+        description: 'emsdk version (default: 4.0.9)'
+        required: false
+        default: '4.0.9'
+
+env:
+  EMSDK_VERSION: ${{ github.event.inputs.emsdk_version || '4.0.9' }}
+  # Minimal ROOT configuration for WASM (no interpreter, no X11, no optional deps)
+  CMAKE_OPTS: >-
+    -DCMAKE_BUILD_TYPE=Release
+    -Dminimal=ON
+    -Dwasm=ON
+    -Druntime_cxxmodules=OFF
+    -Dcling=OFF
+    -Dgdml=OFF
+    -Dxml=OFF
+    -Dhttp=OFF
+    -Dssl=OFF
+
+jobs:
+  build-wasm:
+    name: 'WASM minimal build (emsdk ${{ github.event.inputs.emsdk_version || ''4.0.9'' }})'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout ROOT
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Install emsdk ${{ env.EMSDK_VERSION }}
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: ${{ env.EMSDK_VERSION }}
+          actions-cache-folder: '.emsdk-cache'
+
+      - name: Cache CMake build directory
+        uses: actions/cache@v4
+        with:
+          path: build-wasm
+          key: wasm-build-${{ env.EMSDK_VERSION }}-${{ hashFiles('cmake/**', 'core/CMakeLists.txt', 'io/io/CMakeLists.txt') }}
+          restore-keys: |
+            wasm-build-${{ env.EMSDK_VERSION }}-
+
+      - name: Configure (emcmake)
+        run: |
+          emcmake cmake -S . -B build-wasm \
+            -DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/Emscripten.cmake \
+            ${{ env.CMAKE_OPTS }}
+
+      - name: Build
+        run: |
+          cmake --build build-wasm --parallel $(nproc) --target RIO Core
+
+      - name: Check WASM artefacts exist
+        run: |
+          echo "=== build-wasm/lib/ WASM objects ==="
+          find build-wasm/lib -name '*.a' | head -20
+          echo "=== TEmscriptenSystem compiled ==="
+          find build-wasm -name 'TEmscriptenSystem*' | head -5
+
+      - name: Upload build artefacts
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: root-wasm-libs
+          path: |
+            build-wasm/lib/*.a
+          retention-days: 7
+
+  # Standalone job: build the GitHub Pages front-end and deploy it.
+  # Only runs on pushes to wasm-support branch.
+  deploy-pages:
+    name: 'Deploy GitHub Pages'
+    runs-on: ubuntu-24.04
+    needs: []   # does not depend on WASM build — pure JS/HTML
+    if: github.ref == 'refs/heads/wasm-support' && github.event_name == 'push'
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout ROOT
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Deploy docs/ to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
+          force_orphan: true
+          commit_message: 'docs: update GitHub Pages from wasm-support [skip ci]'
