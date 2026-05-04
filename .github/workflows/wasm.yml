@@ -82,19 +82,29 @@ jobs:
           restore-keys: |
             wasm-ccache-${{ env.EMSDK_VERSION }}-${{ github.ref_name }}-
             wasm-ccache-${{ env.EMSDK_VERSION }}-
+          save-always: true
 
       - name: Configure ccache
         run: |
           ccache --max-size=500M
           ccache --zero-stats
 
-      - name: Cache CMake build directory
+      - name: Restore CMake configure state
         uses: actions/cache@v4
         with:
-          path: build-wasm
-          key: wasm-build-${{ env.EMSDK_VERSION }}-${{ hashFiles('cmake/**', 'core/CMakeLists.txt', 'io/io/CMakeLists.txt') }}
+          # Cache only the configure artefacts (CMakeCache, generated build
+          # files, ExternalProject stamps/downloads).  Compiled objects live
+          # in ccache instead, keeping this entry small and stable.
+          path: |
+            build-wasm/CMakeCache.txt
+            build-wasm/CMakeFiles
+            build-wasm/cmake_install.cmake
+            build-wasm/Makefile
+            build-wasm/builtins
+          key: wasm-cmake-${{ env.EMSDK_VERSION }}-${{ hashFiles('cmake/**', 'builtins/**', 'CMakeLists.txt') }}
           restore-keys: |
-            wasm-build-${{ env.EMSDK_VERSION }}-
+            wasm-cmake-${{ env.EMSDK_VERSION }}-
+          save-always: true
 
       - name: Configure (emcmake)
         run: |

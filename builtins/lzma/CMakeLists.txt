@@ -35,6 +35,16 @@ else()
         -DCMAKE_C_FLAGS=${liblzma_flags}
         -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER})
+    if(EMSCRIPTEN)
+        # Forward the Emscripten toolchain so xz's sub-cmake sets
+        # CMAKE_SYSTEM_NAME=Emscripten and CMAKE_CROSSCOMPILING=TRUE.
+        # CMake 3.20+ then sets CMAKE_C_BYTE_ORDER=LITTLE_ENDIAN for wasm32,
+        # which lets test_big_endian() short-circuit without running a binary.
+        # CMAKE_CROSSCOMPILING_EMULATOR (node) is the fallback for older CMake.
+        list(APPEND lzma_extra_cmake_args
+            -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+            -DCMAKE_CROSSCOMPILING_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR})
+    endif()
 endif()
 
 ExternalProject_Add(
