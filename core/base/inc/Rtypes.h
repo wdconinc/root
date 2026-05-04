@@ -483,4 +483,22 @@ namespace ROOT {                                                         \
 # define R__CLING_PTRCHECK(ONOFF)
 #endif
 
+// For Emscripten/WASM builds rootcling-generated dictionaries are not
+// available (ROOT_GENERATE_DICTIONARY() is a no-op for EMSCRIPTEN).
+// Remap every "outline" ClassDef variant to its "inline" counterpart so
+// that Class(), Streamer(), IsA() etc. are self-contained in the headers
+// and do not require externally-generated G__*.cxx translation units.
+#ifdef __EMSCRIPTEN__
+# undef ClassDef
+# define ClassDef(name,id)         ClassDefInline(name,id)
+# undef ClassDefOverride
+# define ClassDefOverride(name,id) ClassDefInlineOverride(name,id)
+# undef ClassDefNV
+# define ClassDefNV(name,id)       ClassDefInlineNV(name,id)
+# undef ClassDefT
+# define ClassDefT(name,id)        ClassDefInline(name,id)
+# undef ClassDefTNV
+# define ClassDefTNV(name,id)      ClassDefInlineNV(name,id)
+#endif // __EMSCRIPTEN__
+
 #endif
