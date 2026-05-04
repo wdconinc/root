@@ -11,7 +11,9 @@
 
 #include <ROOT/RConfig.h>
 #include <ROOT/RRawFile.hxx>
-#ifdef _WIN32
+#ifdef __EMSCRIPTEN__
+#include <ROOT/RRawFileWasm.hxx>
+#elif defined(_WIN32)
 #include <ROOT/RRawFileWin.hxx>
 #else
 #include <ROOT/RRawFileUnix.hxx>
@@ -65,13 +67,20 @@ ROOT::Internal::RRawFile::Create(std::string_view url, ROptions options)
 {
    std::string transport = GetTransport(url);
    if (transport == "file") {
-#ifdef _WIN32
+#ifdef __EMSCRIPTEN__
+      return std::unique_ptr<RRawFile>(new RRawFileWasm(url, options));
+#elif defined(_WIN32)
       return std::unique_ptr<RRawFile>(new RRawFileWin(url, options));
 #else
       return std::unique_ptr<RRawFile>(new RRawFileUnix(url, options));
 #endif
    }
    if (transport == "http" || transport == "https" || transport == "root" || transport == "roots") {
+#ifdef __EMSCRIPTEN__
+      // In WASM, HTTP(S) is handled via Emscripten fetch; no plugin needed.
+      if (transport == "http" || transport == "https")
+         return std::unique_ptr<RRawFile>(new RRawFileWasm(url, options));
+#endif
       std::string plgclass = transport.compare(0, 4, "http") == 0 ? "RRawFileDavix" : "RRawFileNetXNG";
       if (TPluginHandler *h =
              gROOT->GetPluginManager()->FindHandler("ROOT::Internal::RRawFile", std::string(url).c_str())) {

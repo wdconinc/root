@@ -8,13 +8,16 @@
 # CMakeLists.txt file for building ROOT io/io package
 ############################################################################
 
-if (WIN32)
+if(EMSCRIPTEN)
+  set(rawfile_local_headers ROOT/RRawFileWasm.hxx)
+  set(rawfile_local_sources src/RRawFileWasm.cxx)
+elseif(WIN32)
   set(rawfile_local_headers ROOT/RRawFileWin.hxx)
   set(rawfile_local_sources src/RRawFileWin.cxx)
-else ()
+else()
   set(rawfile_local_headers ROOT/RRawFileUnix.hxx)
   set(rawfile_local_sources src/RRawFileUnix.cxx)
-endif ()
+endif()
 
 if (uring)
   list(APPEND rawfile_local_headers ROOT/RIoUring.hxx)
