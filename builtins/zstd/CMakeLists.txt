@@ -32,6 +32,15 @@ if(MSVC)
             set(ROOT_ZSTD_BUILD_COMMAND_FLAGS "--config $<IF:$<CONFIG:Debug,RelWithDebInfo>,RelWithDebInfo,Release>")
         endif()
     endif()
+elseif(EMSCRIPTEN)
+    # Forward the Emscripten toolchain so zstd's sub-cmake targets wasm32.
+    # Without this the sub-cmake runs for the host (x86_64) and the resulting
+    # static library is unusable in the cross-compilation target.
+    set(zstd_extra_cmake_args
+        -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+        -DCMAKE_CROSSCOMPILING_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}
+        -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+        -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER})
 endif()
 
 ExternalProject_Add(
@@ -47,6 +56,7 @@ ExternalProject_Add(
     -DCMAKE_CXX_VISIBILITY_PRESET=hidden
     -DCMAKE_C_VISIBILITY_PRESET=hidden
     -DZSTD_BUILD_SHARED=OFF
+    ${zstd_extra_cmake_args}
     BUILD_COMMAND ${CMAKE_COMMAND} --build "<SOURCE_DIR>/<SOURCE_SUBDIR>" ${ROOT_ZSTD_BUILD_COMMAND_FLAGS}
     INSTALL_COMMAND ${CMAKE_COMMAND} --install "<SOURCE_DIR>/<SOURCE_SUBDIR>" ${ROOT_ZSTD_BUILD_COMMAND_FLAGS}
     LOG_DOWNLOAD 1 LOG_CONFIGURE 1 LOG_BUILD 1 LOG_INSTALL 1 LOG_OUTPUT_ON_FAILURE 1

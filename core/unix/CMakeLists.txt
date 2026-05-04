@@ -8,7 +8,7 @@
 # CMakeLists.txt file for building ROOT core/unix package
 ############################################################################
 
-if(NOT UNIX OR EMSCRIPTEN)
+if(NOT UNIX)
   return()
 endif()
 

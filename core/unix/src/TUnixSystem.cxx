@@ -3459,19 +3459,24 @@ int TUnixSystem::SetSockOpt(int sock, int opt, int val)
       }
       break;
    case kNoBlock:
+#ifndef __EMSCRIPTEN__
       if (ioctl(sock, FIONBIO, (char*)&val) == -1) {
          SysError("SetSockOpt", "ioctl(FIONBIO)");
          return -1;
       }
+#else
+      Error("SetSockOpt", "ioctl(FIONBIO) not supported in WebAssembly");
+      return -1;
+#endif
       break;
    case kProcessGroup:
-#ifndef R__WINGCC
+#if !defined(R__WINGCC) && !defined(__EMSCRIPTEN__)
       if (ioctl(sock, SIOCSPGRP, (char*)&val) == -1) {
          SysError("SetSockOpt", "ioctl(SIOCSPGRP)");
          return -1;
       }
 #else
-      Error("SetSockOpt", "ioctl(SIOCGPGRP) not supported on cygwin/gcc");
+      Error("SetSockOpt", "ioctl(SIOCSPGRP) not supported on this platform");
       return -1;
 #endif
       break;
@@ -3539,35 +3544,35 @@ int TUnixSystem::GetSockOpt(int sock, int opt, int *val)
       *val = flg & O_NDELAY;
       break;
    case kProcessGroup:
-#if !defined(R__LYNXOS) && !defined(R__WINGCC)
+#if !defined(R__LYNXOS) && !defined(R__WINGCC) && !defined(__EMSCRIPTEN__)
       if (ioctl(sock, SIOCGPGRP, (char*)val) == -1) {
          SysError("GetSockOpt", "ioctl(SIOCGPGRP)");
          return -1;
       }
 #else
-      Error("GetSockOpt", "ioctl(SIOCGPGRP) not supported on LynxOS and cygwin/gcc");
+      Error("GetSockOpt", "ioctl(SIOCGPGRP) not supported on this platform");
       return -1;
 #endif
       break;
    case kAtMark:
-#if !defined(R__LYNXOS)
+#if !defined(R__LYNXOS) && !defined(__EMSCRIPTEN__)
       if (ioctl(sock, SIOCATMARK, (char*)val) == -1) {
          SysError("GetSockOpt", "ioctl(SIOCATMARK)");
          return -1;
       }
 #else
-      Error("GetSockOpt", "ioctl(SIOCATMARK) not supported on LynxOS");
+      Error("GetSockOpt", "ioctl(SIOCATMARK) not supported on this platform");
       return -1;
 #endif
       break;
    case kBytesToRead:
-#if !defined(R__LYNXOS)
+#if !defined(R__LYNXOS) && !defined(__EMSCRIPTEN__)
       if (ioctl(sock, FIONREAD, (char*)val) == -1) {
          SysError("GetSockOpt", "ioctl(FIONREAD)");
          return -1;
       }
 #else
-      Error("GetSockOpt", "ioctl(FIONREAD) not supported on LynxOS");
+      Error("GetSockOpt", "ioctl(FIONREAD) not supported on this platform");
       return -1;
 #endif
       break;
