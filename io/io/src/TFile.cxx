@@ -3803,7 +3803,7 @@ TFile *TFile::Open(const char *url, Option_t *options, const char *ftitle,
    TString expandedUrl(url);
    gSystem->ExpandPathName(expandedUrl);
 
-#ifdef R__UNIX
+#if defined(R__UNIX) && !defined(__EMSCRIPTEN__)
    // If URL is a file on an EOS FUSE mount, attempt redirection to XRootD protocol.
    if (gEnv->GetValue("TFile.CrossProtocolRedirects", 1) == 1) {
       TUrl fileurl(expandedUrl, /* default is file */ kTRUE);

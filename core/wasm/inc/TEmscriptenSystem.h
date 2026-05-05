@@ -82,7 +82,8 @@ public:
    int               GetMemInfo(MemInfo_t *info) const override;
    int               GetProcInfo(ProcInfo_t *info) const override;
 
-   ClassDefOverride(TEmscriptenSystem, 0) // Interface to Emscripten/WASM OS services
+   // No ClassDefOverride: rootcling is not available in WASM cross-compilation,
+   // so standard C++ RTTI (inherited from TUnixSystem) is used instead.
 };
 
 #endif // ROOT_TEmscriptenSystem

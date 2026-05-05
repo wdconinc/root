@@ -24,7 +24,7 @@
 #include <cstring>
 #include <emscripten.h>
 
-ClassImp(TEmscriptenSystem);
+// No ClassImp: rootcling is not available in WASM cross-compilation.
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Construct a TEmscriptenSystem.

@@ -16,7 +16,6 @@ if(NOT EMSCRIPTEN)
   return()
 endif()
 
-set_property(TARGET Core APPEND PROPERTY DICT_HEADERS TEmscriptenSystem.h)
 target_sources(Core PRIVATE src/TEmscriptenSystem.cxx)
 target_include_directories(Core PRIVATE inc)
 
