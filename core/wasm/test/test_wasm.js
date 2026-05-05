@@ -51,6 +51,14 @@ async function main() {
    try {
       ROOT = await createROOT({
          locateFile: (f) => path.join(jsDir, f),
+         // Provide a minimal environment: Emscripten MODULARIZE mode does NOT
+         // automatically propagate Node.js process.env to the WASM module.
+         ENV: { HOME: process.env.HOME || '/tmp' },
+         // Suppress ROOT's stderr chatter (gitinfo warnings etc.) in tests.
+         printErr: (msg) => {
+            // Only print unexpected Fatal/Error messages; filter known warnings.
+            if (/Fatal|Segmentation|Abort/.test(msg)) process.stderr.write(msg + '\n');
+         },
       });
    } catch (e) {
       console.error('FATAL: createROOT() rejected:', e);

@@ -34,8 +34,19 @@ TEmscriptenSystem::TEmscriptenSystem() : TUnixSystem()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+/// Return a home directory that is always valid in the WASM sandbox.
+/// In browser WASM, Emscripten's virtual FS always has /tmp writable.
+/// In Node.js testing mode, /tmp is also reliably available.
+/// We do NOT rely on getenv("HOME") because Emscripten's MODULARIZE mode
+/// does not automatically propagate the host environment.
 
-TEmscriptenSystem::~TEmscriptenSystem() = default;
+const char *TEmscriptenSystem::HomeDirectory(const char * /*userName*/)
+{
+   return "/tmp";
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Initialise the Emscripten system layer.
