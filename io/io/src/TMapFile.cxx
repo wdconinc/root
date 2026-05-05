@@ -102,7 +102,8 @@ robust Streamer mechanism I opted for 3).
 
 #include <cmath>
 
-#if defined(R__UNIX) && !defined(R__WINGCC)
+#if defined(R__UNIX) && !defined(R__WINGCC) && !defined(__EMSCRIPTEN__)
+/* SysV IPC semaphores (semget/semop) are not available in Emscripten/WASM. */
 #define HAVE_SEMOP
 #include <sys/types.h>
 #include <sys/ipc.h>
