@@ -33,6 +33,8 @@ TEmscriptenSystem::TEmscriptenSystem() : TUnixSystem()
 {
 }
 
+TEmscriptenSystem::~TEmscriptenSystem() = default;
+
 ////////////////////////////////////////////////////////////////////////////////
 /// Return a home directory that is always valid in the WASM sandbox.
 /// In browser WASM, Emscripten's virtual FS always has /tmp writable.
