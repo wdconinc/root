@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ROOT in the Browser — WebAssembly Preview</title>
 
+  <!-- Cross-Origin Isolation via service worker (required for SharedArrayBuffer / pthreads WASM) -->
+  <script src="coi-serviceworker.min.js"></script>
+
   <!-- JSROOT from CDN -->
   <script src="https://root.cern/js/latest/scripts/JSRoot.core.js"
           crossorigin="anonymous"></script>
