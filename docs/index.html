@@ -253,6 +253,7 @@
 let cmdCount = 0;
 let painter  = null;   // JSROOT painter for the canvas
 let openedFile = null; // JSROOT TFile handle
+const replScope = {};  // persistent variable scope across REPL commands
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Terminal helpers
@@ -347,8 +348,13 @@ const REPL = {
       '  clear()                  — clear canvas',
       '  help()                   — this message',
       '',
+      'With ROOT WASM loaded, C++ declarations are also supported:',
+      '  TH1F h("h","Title;x;y",100,-5,5)  — create a TH1F named h',
+      '  TH2F h2("h2","2D;x;y",50,-5,5,50,-5,5)',
+      '  TRandom3 rng(42)',
+      'Variables declared this way are available in subsequent commands.',
+      '',
       'You can also drop a local .root file onto the file input below.',
-      'Full in-browser C++ REPL is coming via xeus-cpp-lite + ROOT WASM.',
     ].join('\n');
   }
 };
@@ -368,6 +374,46 @@ async function drawObject(obj, option = '') {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// C++ declaration helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Detect C++ style variable declaration: TypeName varName  or  TypeName varName(args)
+// Capture groups: (1) type name, (2) variable name, (3) optional constructor arg string.
+// Returns { typeName, varName, ctorArgs } or null.
+function parseCppDecl(cmd) {
+  const m = cmd.match(/^([A-Za-z_][A-Za-z0-9_:]*)\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:\((.*)\))?\s*;?\s*$/);
+  if (!m) return null;
+  return { typeName: m[1], varName: m[2], ctorArgs: m[3] };
+}
+
+// Parse a simple comma-separated constructor argument list containing string and number literals.
+function parseLiteralArgs(argsStr) {
+  if (!argsStr || !argsStr.trim()) return [];
+  const args = [];
+  let current = '', inStr = false, strChar = '';
+  for (let i = 0; i < argsStr.length; i++) {
+    const c = argsStr[i];
+    if (inStr) {
+      if (c === strChar) { inStr = false; }
+      else { current += c; }
+    } else if (c === '"' || c === "'") {
+      inStr = true; strChar = c;
+    } else if (c === ',') {
+      args.push(current.trim()); current = '';
+    } else {
+      current += c;
+    }
+  }
+  if (current.trim()) args.push(current.trim());
+  return args.map(a => {
+    if (a === 'true') return true;
+    if (a === 'false') return false;
+    const n = Number(a);
+    return isNaN(n) ? a : n;
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Execute a command typed in the REPL
 // ─────────────────────────────────────────────────────────────────────────────
 async function executeCommand(raw) {
@@ -380,15 +426,42 @@ async function executeCommand(raw) {
   // Update prompt label
   document.querySelector('.prompt-label').textContent = 'root [' + cmdCount + ']>';
 
+  // ── Intercept C++-style variable declarations before JS evaluation ──────────
+  const decl = parseCppDecl(cmd);
+  if (decl) {
+    const { typeName, varName, ctorArgs } = decl;
+    if (ROOT_WASM && ROOT_WASM[typeName]) {
+      try {
+        const args = parseLiteralArgs(ctorArgs);
+        const obj = new ROOT_WASM[typeName](...args);
+        replScope[varName] = obj;
+        print('(' + typeName + ') ' + varName);
+      } catch(e) {
+        print('Error: ' + e.message, 'error');
+      }
+    } else if (!ROOT_WASM) {
+      print('Error: C++ declarations require ROOT WASM (not yet loaded).', 'error');
+      print('Try demo() or help() for available commands.', 'info');
+    } else {
+      const available = Object.keys(ROOT_WASM).filter(k => /^T[A-Z]/.test(k)).join(', ');
+      print('Error: Unknown type \'' + typeName + '\'. Available ROOT types: ' + (available || 'none') + '.', 'error');
+    }
+    return;
+  }
+
+  // ── Standard JS evaluation with persistent scope ───────────────────────────
   try {
-    // Evaluate in REPL context — expose helpers as globals
+    // Include any variables created in this session alongside the built-in helpers
+    const scopeKeys = Object.keys(replScope);
+    const scopeVals = scopeKeys.map(k => replScope[k]);
     const fn = new Function(
       'demo','openFile','draw','ls','clear','help','JSROOT','drawObject',
+      ...scopeKeys,
       '"use strict"; return (' + cmd + ')'
     );
     const result = await Promise.resolve(
       fn(REPL.demo, REPL.openFile, REPL.draw, REPL.ls, REPL.clear, REPL.help,
-         window.JSROOT, drawObject)
+         window.JSROOT, drawObject, ...scopeVals)
     );
     if (result !== undefined) {
       const out = typeof result === 'string' ? result : JSON.stringify(result, null, 2);
