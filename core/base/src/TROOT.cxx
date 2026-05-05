@@ -2217,6 +2217,18 @@ void TROOT::InitThreads()
 
 void TROOT::InitInterpreter()
 {
+#if defined(__EMSCRIPTEN__)
+   // WebAssembly / Emscripten: everything is statically linked; there is no
+   // dynamic library loader and no Cling interpreter.  Mark ROOT as initialised
+   // and skip all dlopen / dlsym work so that basic (non-interpreter) ROOT
+   // functionality works in the browser and in Node.js unit tests.
+   fgRootInit = kTRUE;
+   if (!gClassTable)
+      new TClassTable;
+   GetModuleHeaderInfoBuffer().clear();
+   return;
+#endif // __EMSCRIPTEN__
+
    // usedToIdentifyRootClingByDlSym is available when TROOT is part of
    // rootcling.
    if (!dlsym(RTLD_DEFAULT, "usedToIdentifyRootClingByDlSym")
