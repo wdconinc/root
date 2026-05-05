@@ -741,6 +741,7 @@ void TClonesArray::Sort(Int_t upto)
 /// are also stored (using one byte per slot). If you don't want this
 /// use a TOrdCollection or TList.
 
+#ifndef __EMSCRIPTEN__
 void TClonesArray::Streamer(TBuffer &b)
 {
    // Important Note: if you modify this function, remember to also modify
@@ -906,6 +907,7 @@ void TClonesArray::Streamer(TBuffer &b)
          BypassStreamer();
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Return pointer to reserved area in which a new object of clones

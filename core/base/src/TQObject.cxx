@@ -1030,6 +1030,7 @@ Bool_t TQObject::Disconnect(const char *signal,
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TQObject.
 
+#ifndef __EMSCRIPTEN__
 void TQObject::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1038,6 +1039,7 @@ void TQObject::Streamer(TBuffer &R__b)
       // nothing to write
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Returns true if all signals are blocked.

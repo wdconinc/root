@@ -1221,6 +1221,7 @@ void TAxis::SetTimeOffset(Double_t toffset, Option_t *option)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TAxis.
 
+#ifndef __EMSCRIPTEN__
 void TAxis::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1270,6 +1271,7 @@ void TAxis::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TAxis::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Reset first & last bin to the full range

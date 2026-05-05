@@ -526,6 +526,7 @@ void TListOfDataMembers::Load()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TListOfDataMembers.
 
+#ifndef __EMSCRIPTEN__
 void TListOfDataMembers::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -535,6 +536,7 @@ void TListOfDataMembers::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TListOfDataMembers::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Move the member or data member to the expect set of list.

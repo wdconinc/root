@@ -757,6 +757,7 @@ void TF3::SetRange(Double_t xmin, Double_t ymin, Double_t zmin, Double_t xmax, D
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TF3.
 
+#ifndef __EMSCRIPTEN__
 void TF3::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -776,6 +777,7 @@ void TF3::Streamer(TBuffer &R__b)
       if (saved) { fSave.clear(); }
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Return x^nx * y^ny * z^nz moment of a 3d function in range [ax,bx],[ay,by],[az,bz]

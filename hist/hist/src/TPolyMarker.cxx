@@ -430,6 +430,7 @@ void TPolyMarker::SetPolyMarker(Int_t n, Double_t *x, Double_t *y, Option_t *opt
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TPolyMarker::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -457,3 +458,4 @@ void TPolyMarker::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TPolyMarker::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

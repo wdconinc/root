@@ -502,6 +502,7 @@ void TGraph2DErrors::SavePrimitive(std::ostream &out, Option_t *option)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGraph2DErrors.
 
+#ifndef __EMSCRIPTEN__
 void TGraph2DErrors::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -512,3 +513,4 @@ void TGraph2DErrors::Streamer(TBuffer &b)
       b.WriteClassBuffer(TGraph2DErrors::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

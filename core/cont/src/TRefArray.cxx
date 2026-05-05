@@ -513,6 +513,7 @@ TObject *TRefArray::GetFromTable(Int_t idx) const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream all objects in the array to or from the I/O buffer.
 
+#ifndef __EMSCRIPTEN__
 void TRefArray::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -562,6 +563,7 @@ void TRefArray::Streamer(TBuffer &R__b)
       R__b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Return the object in the first slot.

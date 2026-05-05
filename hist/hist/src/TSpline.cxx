@@ -222,6 +222,7 @@ void TSpline::Paint(Option_t *option)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TSpline.
 
+#ifndef __EMSCRIPTEN__
 void TSpline::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -255,6 +256,7 @@ void TSpline::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TSpline::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 /** \class TSplinePoly
     \ingroup Hist
@@ -1162,6 +1164,7 @@ L30: j = l-1;
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TSpline3.
 
+#ifndef __EMSCRIPTEN__
 void TSpline3::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1188,6 +1191,7 @@ void TSpline3::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TSpline3::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 /** \class TSpline5
     \ingroup Hist
@@ -2476,6 +2480,7 @@ void TSpline5::Test()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TSpline5.
 
+#ifndef __EMSCRIPTEN__
 void TSpline5::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -2498,3 +2503,4 @@ void TSpline5::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TSpline5::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

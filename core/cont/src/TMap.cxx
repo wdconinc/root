@@ -357,6 +357,7 @@ void TMap::SetOwnerKeyValue(Bool_t ownkeys, Bool_t ownvals)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream all key/value pairs in the map to or from the I/O buffer.
 
+#ifndef __EMSCRIPTEN__
 void TMap::Streamer(TBuffer &b)
 {
    TObject *obj = nullptr;
@@ -392,6 +393,7 @@ void TMap::Streamer(TBuffer &b)
       b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Write all objects in this map. By default all objects in

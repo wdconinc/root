@@ -162,6 +162,7 @@ void TInetAddress::AddAlias(const char *alias)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TInetAddress.
 
+#ifndef __EMSCRIPTEN__
 void TInetAddress::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -206,3 +207,4 @@ void TInetAddress::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TInetAddress::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__

@@ -244,6 +244,7 @@ void TRandom3::SetSeed(ULong_t seed)
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Streamer for an object of class TRandom3.
 
+#ifndef __EMSCRIPTEN__
 void TRandom3::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -264,3 +265,4 @@ void TRandom3::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TRandom3::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

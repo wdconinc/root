@@ -144,6 +144,7 @@ void TArrayI::Set(Int_t n, const Int_t *array)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a TArrayI object.
 
+#ifndef __EMSCRIPTEN__
 void TArrayI::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -156,4 +157,5 @@ void TArrayI::Streamer(TBuffer &b)
       b.WriteFastArray(fArray, fN);
    }
 }
+#endif // __EMSCRIPTEN__
 

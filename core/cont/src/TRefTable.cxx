@@ -387,6 +387,7 @@ void TRefTable::SetRefTable(TRefTable *table)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TRefTable.
 
+#ifndef __EMSCRIPTEN__
 void TRefTable::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -411,3 +412,4 @@ void TRefTable::Streamer(TBuffer &R__b)
 #endif
    }
 }
+#endif // __EMSCRIPTEN__

@@ -456,6 +456,7 @@ void TBtree::RootIsEmpty()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream all objects in the btree to or from the I/O buffer.
 
+#ifndef __EMSCRIPTEN__
 void TBtree::Streamer(TBuffer &b)
 {
    UInt_t R__s, R__c;
@@ -481,6 +482,7 @@ void TBtree::Streamer(TBuffer &b)
       b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 /** \class TBtItem

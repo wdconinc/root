@@ -2558,6 +2558,7 @@ void TGraph::Sort(Bool_t (*greaterfunc)(const TGraph *, Int_t, Int_t) /*=TGraph:
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGraph.
 
+#ifndef __EMSCRIPTEN__
 void TGraph::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -2621,6 +2622,7 @@ void TGraph::Streamer(TBuffer &b)
       b.WriteClassBuffer(TGraph::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Swap points.

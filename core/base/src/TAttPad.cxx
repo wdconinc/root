@@ -146,6 +146,7 @@ void TAttPad::SetMargin(Float_t left, Float_t right, Float_t bottom, Float_t top
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TAttPad.
 
+#ifndef __EMSCRIPTEN__
 void TAttPad::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -181,3 +182,4 @@ void TAttPad::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TAttPad::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

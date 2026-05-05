@@ -817,6 +817,7 @@ void TGraphErrors::SetPointError(Int_t i, Double_t ex, Double_t ey)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGraphErrors.
 
+#ifndef __EMSCRIPTEN__
 void TGraphErrors::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -852,6 +853,7 @@ void TGraphErrors::Streamer(TBuffer &b)
       b.WriteClassBuffer(TGraphErrors::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Swap points.

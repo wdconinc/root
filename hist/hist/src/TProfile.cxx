@@ -1817,6 +1817,7 @@ void TProfile::SetErrorOption(Option_t *option)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TProfile.
 
+#ifndef __EMSCRIPTEN__
 void TProfile::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1847,6 +1848,7 @@ void TProfile::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TProfile::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 ////////////////////////////////////////////////////////////////////////////////
 /// Create/delete structure to store sum of squares of weights per bin.
 ///

@@ -667,6 +667,7 @@ std::vector<std::vector<Double_t> > TKDTreeBinning::GetPointsInBin(UInt_t bin) c
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
+#ifndef __EMSCRIPTEN__
 void TKDTreeBinning::Streamer(TBuffer &b) {
    if (b.IsReading() ) {
       UInt_t R__s, R__c;
@@ -682,3 +683,4 @@ void TKDTreeBinning::Streamer(TBuffer &b) {
        //std::cout << "writing npar = " << GetNpar() << std::endl;
    }
 }
+#endif // __EMSCRIPTEN__

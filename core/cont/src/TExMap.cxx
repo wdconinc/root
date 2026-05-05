@@ -302,6 +302,7 @@ void TExMap::Expand(Int_t newSize)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream all objects in the collection to or from the I/O buffer.
 
+#ifndef __EMSCRIPTEN__
 void TExMap::Streamer(TBuffer &b)
 {
    Int_t i;
@@ -382,6 +383,7 @@ void TExMap::Streamer(TBuffer &b)
       b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 

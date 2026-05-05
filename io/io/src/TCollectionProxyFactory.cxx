@@ -157,6 +157,7 @@ void TCollectionStreamer::AdoptStreamer(TGenCollectionProxy* streamer)
    fStreamer = streamer;
 }
 
+#ifndef __EMSCRIPTEN__
 void TCollectionStreamer::Streamer(TBuffer &buff, void *pObj, int /* siz */, TClass* onFileClass )
 {
    // Streamer for I/O handling.
@@ -169,3 +170,4 @@ void TCollectionStreamer::Streamer(TBuffer &buff, void *pObj, int /* siz */, TCl
    }
    InvalidProxyError();
 }
+#endif // __EMSCRIPTEN__

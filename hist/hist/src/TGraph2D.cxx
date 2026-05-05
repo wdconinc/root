@@ -1803,6 +1803,7 @@ void TGraph2D::SetTitle(const char* title)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object
 
+#ifndef __EMSCRIPTEN__
 void TGraph2D::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -1815,3 +1816,4 @@ void TGraph2D::Streamer(TBuffer &b)
       b.WriteClassBuffer(TGraph2D::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__

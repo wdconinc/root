@@ -203,6 +203,7 @@ Bool_t TRemoteObject::GetFileStat(FileStat_t *buf)
 ////////////////////////////////////////////////////////////////////////////////
 /// Remote object streamer.
 
+#ifndef __EMSCRIPTEN__
 void TRemoteObject::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -237,3 +238,4 @@ void TRemoteObject::Streamer(TBuffer &b)
    }
    TNamed::Streamer(b);
 }
+#endif // __EMSCRIPTEN__

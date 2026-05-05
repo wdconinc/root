@@ -253,7 +253,9 @@ Bool_t TVirtualStreamerInfo::SetStreamMemberWise(Bool_t enable)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TVirtualStreamerInfo.
 
+#ifndef __EMSCRIPTEN__
 void TVirtualStreamerInfo::Streamer(TBuffer &R__b)
 {
    TNamed::Streamer(R__b);
 }
+#endif // __EMSCRIPTEN__

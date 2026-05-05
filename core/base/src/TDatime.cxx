@@ -412,6 +412,7 @@ void TDatime::Set(const char* sqlDateTime)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a object of type TDatime.
 
+#ifndef __EMSCRIPTEN__
 void TDatime::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -420,6 +421,7 @@ void TDatime::Streamer(TBuffer &b)
       b << fDatime;
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Static function that returns the date and time. The input is

@@ -144,6 +144,7 @@ void TArrayL64::Set(Int_t n, const Long64_t *array)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a TArrayL64 object.
 
+#ifndef __EMSCRIPTEN__
 void TArrayL64::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -156,3 +157,4 @@ void TArrayL64::Streamer(TBuffer &b)
       b.WriteFastArray(fArray, fN);
    }
 }
+#endif // __EMSCRIPTEN__

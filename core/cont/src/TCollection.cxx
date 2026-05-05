@@ -634,6 +634,7 @@ void TCollection::RemoveAll(TCollection *col)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream all objects in the collection to or from the I/O buffer.
 
+#ifndef __EMSCRIPTEN__
 void TCollection::Streamer(TBuffer &b)
 {
    Int_t nobjects;
@@ -667,6 +668,7 @@ void TCollection::Streamer(TBuffer &b)
       b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Write all objects in this collection. By default all objects in

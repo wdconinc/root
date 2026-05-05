@@ -1407,6 +1407,7 @@ void TGraphAsymmErrors::SetPointEYhigh(Int_t i, Double_t eyh)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGraphAsymmErrors.
 
+#ifndef __EMSCRIPTEN__
 void TGraphAsymmErrors::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -1454,6 +1455,7 @@ void TGraphAsymmErrors::Streamer(TBuffer &b)
       b.WriteClassBuffer(TGraphAsymmErrors::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////

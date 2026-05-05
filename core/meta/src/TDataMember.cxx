@@ -964,6 +964,7 @@ Bool_t TDataMember::Update(DataMemberInfo_t *info)
 /// Stream an object of TDataMember. Forces calculation of all cached
 /// (and persistent) values.
 
+#ifndef __EMSCRIPTEN__
 void TDataMember::Streamer(TBuffer& b) {
    if (b.IsReading()) {
       b.ReadClassBuffer(Class(), this);
@@ -985,6 +986,7 @@ void TDataMember::Streamer(TBuffer& b) {
       b.WriteClassBuffer(Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Constructor.

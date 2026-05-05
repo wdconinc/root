@@ -2455,6 +2455,7 @@ Int_t TFile::Sizeof() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a TFile object.
 
+#ifndef __EMSCRIPTEN__
 void TFile::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -2463,6 +2464,7 @@ void TFile::Streamer(TBuffer &b)
       b.WriteVersion(TFile::IsA());
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Increment statistics for buffer sizes of objects in this file.

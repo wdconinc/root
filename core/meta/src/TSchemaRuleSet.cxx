@@ -558,6 +558,7 @@ Bool_t TSchemaRuleSet::TMatches::HasRuleWithTarget( const TString& name, Bool_t 
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class ROOT::TSchemaRuleSet.
 
+#ifndef __EMSCRIPTEN__
 void TSchemaRuleSet::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -569,4 +570,5 @@ void TSchemaRuleSet::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(ROOT::Detail::TSchemaRuleSet::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 

@@ -5605,6 +5605,7 @@ void TStreamerInfo::SetClass(TClass *newcl)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerInfo.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerInfo::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -5710,6 +5711,7 @@ void TStreamerInfo::Streamer(TBuffer &R__b)
       R__b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Mark the classindex of the current file as using this TStreamerInfo.

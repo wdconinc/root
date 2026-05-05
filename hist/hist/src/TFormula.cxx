@@ -3797,6 +3797,7 @@ void TFormula::Print(Option_t *option) const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TFormula::Streamer(TBuffer &b)
 {
    if (b.IsReading() ) {
@@ -3930,3 +3931,4 @@ void TFormula::Streamer(TBuffer &b)
       // std::cout << "writing npar = " << GetNpar() << std::endl;
    }
 }
+#endif // __EMSCRIPTEN__

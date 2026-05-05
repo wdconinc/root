@@ -991,6 +991,7 @@ Int_t TObject::Write(const char *name, Int_t option, Int_t bufsize)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TObject.
 
+#ifndef __EMSCRIPTEN__
 void TObject::Streamer(TBuffer &R__b)
 {
    if (IsA()->CanIgnoreTObjectStreamer())
@@ -1049,6 +1050,7 @@ void TObject::Streamer(TBuffer &R__b)
       }
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Interface to ErrorHandler (protected).

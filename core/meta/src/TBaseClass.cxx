@@ -143,6 +143,7 @@ Long_t TBaseClass::Property() const
 /// Stream an object of TBaseClass. Triggers the calculation of the
 /// cache variables to store them.
 
+#ifndef __EMSCRIPTEN__
 void TBaseClass::Streamer(TBuffer& b) {
    if (b.IsReading()) {
       b.ReadClassBuffer(Class(), this);
@@ -155,3 +156,4 @@ void TBaseClass::Streamer(TBuffer& b) {
       b.WriteClassBuffer(Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__

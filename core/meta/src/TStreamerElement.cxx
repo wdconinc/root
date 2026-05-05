@@ -538,6 +538,7 @@ void TStreamerElement::SetStreamer(TMemberStreamer *streamer)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerElement.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerElement::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -595,6 +596,7 @@ void TStreamerElement::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TStreamerElement::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 ///function called by the TClass constructor when replacing an emulated class
@@ -848,6 +850,7 @@ Int_t TStreamerBase::ReadBuffer (TBuffer &b, char *pointer)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerBase.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerBase::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -880,6 +883,7 @@ void TStreamerBase::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TStreamerBase::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 ///Function called by the TClass constructor when replacing an emulated class
@@ -1029,6 +1033,7 @@ void TStreamerBasicPointer::SetArrayDim(Int_t dim)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerBasicPointer.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerBasicPointer::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -1050,6 +1055,7 @@ void TStreamerBasicPointer::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TStreamerBasicPointer::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 //______________________________________________________________________________
@@ -1152,6 +1158,7 @@ const char *TStreamerLoop::GetInclude() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerLoop.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerLoop::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -1172,6 +1179,7 @@ void TStreamerLoop::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TStreamerLoop::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 //______________________________________________________________________________
@@ -1227,6 +1235,7 @@ Int_t TStreamerBasicType::GetSize() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerBasicType.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerBasicType::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -1270,6 +1279,7 @@ void TStreamerBasicType::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TStreamerBasicType::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 
@@ -1370,6 +1380,7 @@ std::size_t TStreamerObject::GetAlignment() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerObject.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerObject::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -1386,6 +1397,7 @@ void TStreamerObject::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TStreamerObject::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 //______________________________________________________________________________
@@ -1481,6 +1493,7 @@ std::size_t TStreamerObjectAny::GetAlignment() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerObjectAny.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerObjectAny::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -1497,6 +1510,7 @@ void TStreamerObjectAny::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TStreamerObjectAny::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 
@@ -1585,6 +1599,7 @@ void TStreamerObjectPointer::SetArrayDim(Int_t dim)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerObjectPointer.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerObjectPointer::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -1601,6 +1616,7 @@ void TStreamerObjectPointer::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TStreamerObjectPointer::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 //______________________________________________________________________________
@@ -1688,6 +1704,7 @@ void TStreamerObjectAnyPointer::SetArrayDim(Int_t dim)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerObjectAnyPointer.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerObjectAnyPointer::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1696,6 +1713,7 @@ void TStreamerObjectAnyPointer::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TStreamerObjectAnyPointer::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 //______________________________________________________________________________
@@ -1750,6 +1768,7 @@ Int_t TStreamerString::GetSize() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerString.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerString::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -1766,6 +1785,7 @@ void TStreamerString::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TStreamerString::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 //______________________________________________________________________________
 
@@ -2089,6 +2109,7 @@ void TStreamerSTL::SetStreamer(TMemberStreamer  *streamer)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerSTL.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerSTL::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -2155,6 +2176,7 @@ void TStreamerSTL::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TStreamerSTL::Class(), &tmp);
    }
 }
+#endif // __EMSCRIPTEN__
 
 //______________________________________________________________________________
 
@@ -2224,6 +2246,7 @@ Int_t TStreamerSTLstring::GetSize() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TStreamerSTLstring.
 
+#ifndef __EMSCRIPTEN__
 void TStreamerSTLstring::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -2240,6 +2263,7 @@ void TStreamerSTLstring::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TStreamerSTLstring::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 //______________________________________________________________________________
 
@@ -2250,6 +2274,7 @@ void TStreamerSTLstring::Streamer(TBuffer &R__b)
 ///////////////////////////////////////////////////////////////////////////////
 
 
+#ifndef __EMSCRIPTEN__
 void TStreamerArtificial::Streamer(TBuffer& /* R__b */)
 {
    // Avoid streaming the synthetic/artificial streamer elements.
@@ -2257,6 +2282,7 @@ void TStreamerArtificial::Streamer(TBuffer& /* R__b */)
    // Intentionally, nothing to do at all.
    return;
 }
+#endif // __EMSCRIPTEN__
 
 ROOT::TSchemaRule::ReadFuncPtr_t     TStreamerArtificial::GetReadFunc()
 {

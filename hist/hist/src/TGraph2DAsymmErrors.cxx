@@ -658,6 +658,7 @@ void TGraph2DAsymmErrors::SetPointError(Int_t i, Double_t exl, Double_t exh, Dou
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGraph2DAsymmErrors.
 
+#ifndef __EMSCRIPTEN__
 void TGraph2DAsymmErrors::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -668,3 +669,4 @@ void TGraph2DAsymmErrors::Streamer(TBuffer &b)
       b.WriteClassBuffer(TGraph2DAsymmErrors::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

@@ -1320,6 +1320,7 @@ Bool_t TListIter::operator!=(const TListIter &aIter) const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream all objects in the collection to or from the I/O buffer.
 
+#ifndef __EMSCRIPTEN__
 void TList::Streamer(TBuffer &b)
 {
    R__COLLECTION_WRITE_GUARD();
@@ -1402,3 +1403,4 @@ void TList::Streamer(TBuffer &b)
       b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__

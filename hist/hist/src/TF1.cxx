@@ -3623,6 +3623,7 @@ void TF1::SetTitle(const char *title)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TF1::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -3665,6 +3666,7 @@ void TF1::Streamer(TBuffer &b)
       }
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////

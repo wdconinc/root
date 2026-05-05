@@ -314,6 +314,7 @@ void TAttAxis::SetTitleFont(Style_t font)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TAttAxis.
 
+#ifndef __EMSCRIPTEN__
 void TAttAxis::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -347,6 +348,7 @@ void TAttAxis::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TAttAxis::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 void TAttAxis::SetLabelColor(TColorNumber lcolor)
 {

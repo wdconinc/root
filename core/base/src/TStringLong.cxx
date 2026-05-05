@@ -128,6 +128,7 @@ Int_t TStringLong::Sizeof() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a long (>255 characters) string object.
 
+#ifndef __EMSCRIPTEN__
 void TStringLong::Streamer(TBuffer &b)
 {
    Int_t nwh;
@@ -145,3 +146,4 @@ void TStringLong::Streamer(TBuffer &b)
       for (int i = 0; i < nwh; i++) b << data[i];
    }
 }
+#endif // __EMSCRIPTEN__

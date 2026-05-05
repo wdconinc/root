@@ -2068,6 +2068,7 @@ void TProfile2D::SetErrorOption(Option_t *option)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TProfile2D.
 
+#ifndef __EMSCRIPTEN__
 void TProfile2D::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -2098,6 +2099,7 @@ void TProfile2D::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TProfile2D::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Create/Delete structure to store sum of squares of weights per bin.

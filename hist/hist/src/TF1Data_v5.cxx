@@ -55,6 +55,7 @@ TF1Data::~TF1Data()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TF1Data::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -73,10 +74,12 @@ void TF1Data::Streamer(TBuffer &b)
    }
 
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// specialized streamer function being able to read old TF1 versions as TF1Data in memory
 
+#ifndef __EMSCRIPTEN__
 void TF1Data::Streamer(TBuffer &b, Int_t v, UInt_t R__s, UInt_t R__c, const TClass *onfile_class)
 {
    //printf("reading TF1Data ..- version  %d..\n",v);
@@ -146,6 +149,7 @@ void TF1Data::Streamer(TBuffer &b, Int_t v, UInt_t R__s, UInt_t R__c, const TCla
    b.CheckByteCount(R__s, R__c, TF1Data::IsA());
    //====end of old versions
 }
+#endif // __EMSCRIPTEN__
 
    }  // end namespace v5
 }   // end namespace ROOT

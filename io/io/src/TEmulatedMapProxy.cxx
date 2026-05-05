@@ -234,6 +234,7 @@ void TEmulatedMapProxy::ReadBuffer(TBuffer &b, void *obj)
    }
 }
 
+#ifndef __EMSCRIPTEN__
 void TEmulatedMapProxy::Streamer(TBuffer &b)
 {
    // TClassStreamer IO overload.
@@ -255,3 +256,4 @@ void TEmulatedMapProxy::Streamer(TBuffer &b)
       }
    }
 }
+#endif // __EMSCRIPTEN__

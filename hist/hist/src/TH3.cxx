@@ -3536,6 +3536,7 @@ void TH3::SetBinContent(Int_t bin, Double_t content)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TH3.
 
+#ifndef __EMSCRIPTEN__
 void TH3::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -3555,6 +3556,7 @@ void TH3::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TH3::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// static method performing the projection to 1D histogram
@@ -3741,6 +3743,7 @@ void TH3::SetShowProjection(const char *option,Int_t nbins)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TH3C.
 
+#ifndef __EMSCRIPTEN__
 void TH3C::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -3769,6 +3772,7 @@ void TH3C::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TH3C::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3980,6 +3984,7 @@ void TH3S::SetBinsLength(Int_t n)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TH3S.
 
+#ifndef __EMSCRIPTEN__
 void TH3S::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -4008,6 +4013,7 @@ void TH3S::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TH3S::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4607,6 +4613,7 @@ void TH3F::SetBinsLength(Int_t n)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TH3F.
 
+#ifndef __EMSCRIPTEN__
 void TH3F::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -4635,6 +4642,7 @@ void TH3F::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TH3F::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4823,6 +4831,7 @@ void TH3D::SetBinsLength(Int_t n)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TH3D.
 
+#ifndef __EMSCRIPTEN__
 void TH3D::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -4851,6 +4860,7 @@ void TH3D::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TH3D::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////

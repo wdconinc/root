@@ -7057,6 +7057,7 @@ void  TH1::StatOverflows(Bool_t flag)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TH1::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -7123,6 +7124,7 @@ void TH1::Streamer(TBuffer &b)
       b.WriteClassBuffer(TH1::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Print some global quantities for this histogram.

@@ -121,6 +121,7 @@ TVirtualPad::~TVirtualPad()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TVirtualPad.
 
+#ifndef __EMSCRIPTEN__
 void TVirtualPad::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -141,6 +142,7 @@ void TVirtualPad::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TVirtualPad::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Should always return false unless you have non-standard picking.

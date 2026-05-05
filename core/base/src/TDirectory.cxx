@@ -1463,6 +1463,7 @@ void TDirectory::UnregisterContext(TContext *ctxt) {
 
 ////////////////////////////////////////////////////////////////////////////////
 /// TDirectory Streamer.
+#ifndef __EMSCRIPTEN__
 void TDirectory::Streamer(TBuffer &R__b)
 {
    // Stream an object of class TDirectory.
@@ -1485,3 +1486,4 @@ void TDirectory::Streamer(TBuffer &R__b)
       R__b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__

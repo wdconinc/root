@@ -1415,6 +1415,7 @@ Int_t TString::Sizeof() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a string object.
 
+#ifndef __EMSCRIPTEN__
 void TString::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -1423,6 +1424,7 @@ void TString::Streamer(TBuffer &b)
       b.WriteTString(*this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Write TString object to buffer. Simplified version of

@@ -482,6 +482,7 @@ void TRef::SetStaticObject(TObject *obj)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TRef.
 
+#ifndef __EMSCRIPTEN__
 void TRef::Streamer(TBuffer &R__b)
 {
    UShort_t pidf;
@@ -529,3 +530,4 @@ void TRef::Streamer(TBuffer &R__b)
       }
    }
 }
+#endif // __EMSCRIPTEN__

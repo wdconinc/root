@@ -445,6 +445,7 @@ TObject *TObjArray::FindObject(const TObject *iobj) const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream all objects in the array to or from the I/O buffer.
 
+#ifndef __EMSCRIPTEN__
 void TObjArray::Streamer(TBuffer &b)
 {
    UInt_t R__s, R__c;
@@ -488,6 +489,7 @@ void TObjArray::Streamer(TBuffer &b)
       b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Return the object in the first slot.

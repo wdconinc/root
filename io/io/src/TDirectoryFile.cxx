@@ -1738,6 +1738,7 @@ Int_t TDirectoryFile::Sizeof() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object
 
+#ifndef __EMSCRIPTEN__
 void TDirectoryFile::Streamer(TBuffer &b)
 {
    Version_t v,version;
@@ -1844,6 +1845,7 @@ void TDirectoryFile::Streamer(TBuffer &b)
       }
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Write all objects in memory to disk.

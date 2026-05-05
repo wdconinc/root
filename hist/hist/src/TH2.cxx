@@ -2814,6 +2814,7 @@ void TH2::Smooth(Int_t ntimes, Option_t *option)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TH2.
 
+#ifndef __EMSCRIPTEN__
 void TH2::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -2835,6 +2836,7 @@ void TH2::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TH2::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 //______________________________________________________________________________
@@ -2995,6 +2997,7 @@ void TH2C::SetBinsLength(Int_t n)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TH2C.
 
+#ifndef __EMSCRIPTEN__
 void TH2C::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -3025,6 +3028,7 @@ void TH2C::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TH2C::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3258,6 +3262,7 @@ void TH2S::SetBinsLength(Int_t n)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TH2S.
 
+#ifndef __EMSCRIPTEN__
 void TH2S::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -3288,6 +3293,7 @@ void TH2S::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TH2S::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3973,6 +3979,7 @@ void TH2F::SetBinsLength(Int_t n)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TH2F.
 
+#ifndef __EMSCRIPTEN__
 void TH2F::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -4003,6 +4010,7 @@ void TH2F::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TH2F::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4246,6 +4254,7 @@ void TH2D::SetBinsLength(Int_t n)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TH2D.
 
+#ifndef __EMSCRIPTEN__
 void TH2D::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -4276,6 +4285,7 @@ void TH2D::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TH2D::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////

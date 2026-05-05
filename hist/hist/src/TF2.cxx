@@ -1053,6 +1053,7 @@ void TF2::SetRange(Double_t xmin, Double_t ymin, Double_t xmax, Double_t ymax)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TF2.
 
+#ifndef __EMSCRIPTEN__
 void TF2::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1096,6 +1097,7 @@ void TF2::Streamer(TBuffer &R__b)
       if (saved) {fSave.clear(); }
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Return x^nx * y^ny moment of a 2d function in range [ax,bx],[ay,by]

@@ -1372,6 +1372,7 @@ Int_t TKey::Sizeof() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TKey::Streamer(TBuffer &b)
 {
    Version_t version;
@@ -1463,6 +1464,7 @@ void TKey::Streamer(TBuffer &b)
       fTitle.Streamer(b);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Write the encoded object supported by this key.
