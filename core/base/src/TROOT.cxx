@@ -3304,9 +3304,12 @@ const TString &TROOT::GetSharedLibDir()
       }
    }
 
-#else
+#elif defined(__EMSCRIPTEN__)
 
-   auto callback = +[](struct dl_phdr_info *info, size_t /*size*/, void *data) -> int {
+   // No shared libraries in WebAssembly; nothing to iterate over.
+   (void)rootlibdir;
+
+#else
       TString &libdir = *static_cast<TString *>(data);
       if (!info->dlpi_name)
          return 0;

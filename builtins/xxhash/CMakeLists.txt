@@ -27,6 +27,12 @@ if(WIN32 AND NOT CMAKE_GENERATOR MATCHES Ninja)
   else()
     set(ROOT_XXHASH_BUILD_COMMAND_FLAGS "--config $<IF:$<CONFIG:Debug,RelWithDebInfo>,RelWithDebInfo,Release>")
   endif()
+elseif(EMSCRIPTEN)
+  set(xxhash_extra_cmake_args
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    -DCMAKE_CROSSCOMPILING_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}
+    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER})
 endif()
 
 ExternalProject_Add(
@@ -40,6 +46,7 @@ ExternalProject_Add(
              -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
              -DCMAKE_POSITION_INDEPENDENT_CODE=ON
              -DCMAKE_C_VISIBILITY_PRESET=hidden
+             ${xxhash_extra_cmake_args}
   BUILD_COMMAND ${CMAKE_COMMAND} --build . ${ROOT_XXHASH_BUILD_COMMAND_FLAGS}
   INSTALL_COMMAND ${CMAKE_COMMAND} --build . ${ROOT_XXHASH_BUILD_COMMAND_FLAGS} --target install
   LOG_CONFIGURE 1
