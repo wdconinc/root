@@ -68,8 +68,6 @@ if(ROOT_WASM_BINDINGS)
     "SHELL:-sALLOW_MEMORY_GROWTH=1"
     "SHELL:-sWASM_BIGINT=1"
     "SHELL:-sEXIT_RUNTIME=0"
-    # Pre-create 2 pthread workers so ROOT's thread API doesn't race during init
-    "SHELL:-sPTHREAD_POOL_SIZE=2"
     # Export the Embind-generated factory plus the C runtime init
     "SHELL:-sEXPORTED_RUNTIME_METHODS=['ccall','cwrap','UTF8ToString']"
     # Show all linker errors (default limit is 20)
