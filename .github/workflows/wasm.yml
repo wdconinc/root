@@ -138,6 +138,12 @@ jobs:
         run: |
           cmake --build build-wasm --parallel $(nproc) --target RIO Core root_wasm_bindings ||          cmake --build build-wasm --parallel $(nproc) --target RIO Core
 
+      - name: Run WASM unit tests
+        run: |
+          # Use emsdk's Node.js (same version used to build) to run the tests.
+          # The test script resolves root.wasm relative to root.js automatically.
+          "$EMSDK_NODE" core/wasm/test/test_wasm.js build-wasm/js/root.js
+
       - name: ccache stats
         if: always()
         run: ccache --show-stats
