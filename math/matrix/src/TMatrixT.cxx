@@ -3146,8 +3146,8 @@ void TMatrixTAutoloadOps::AMultBt(const Element *const ap, Int_t na, Int_t ncols
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TMatrixT.
 
-template <class Element>
 #ifndef __EMSCRIPTEN__
+template <class Element>
 void TMatrixT<Element>::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {

@@ -2332,8 +2332,8 @@ Bool_t TMatrixTAutoloadOps::VerifyVectorIdentity(const TVectorT<Element> &v1,con
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TVectorT.
 
-template<class Element>
 #ifndef __EMSCRIPTEN__
+template<class Element>
 void TVectorT<Element>::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
