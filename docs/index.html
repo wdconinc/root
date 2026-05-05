@@ -253,6 +253,7 @@
 let cmdCount = 0;
 let painter  = null;   // JSROOT painter for the canvas
 let openedFile = null; // JSROOT TFile handle
+const replScope = {};  // persistent variable scope across REPL commands
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Terminal helpers
@@ -347,8 +348,13 @@ const REPL = {
       '  clear()                  — clear canvas',
       '  help()                   — this message',
       '',
+      'With ROOT WASM loaded, C++ declarations are also supported:',
+      '  TH1F h("h","Title;x;y",100,-5,5)  — create a TH1F named h',
+      '  TH2F h2("h2","2D;x;y",50,-5,5,50,-5,5)',
+      '  TRandom3 rng(42)',
+      'Variables declared this way are available in subsequent commands.',
+      '',
       'You can also drop a local .root file onto the file input below.',
-      'Full in-browser C++ REPL is coming via xeus-cpp-lite + ROOT WASM.',
     ].join('\n');
   }
 };
@@ -368,6 +374,61 @@ async function drawObject(obj, option = '') {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// C++ declaration helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Detect C++ style variable declaration: TypeName varName  or  TypeName varName(args)
+// Capture groups: (1) type name, (2) variable name, (3) optional constructor arg string.
+// Returns { typeName, varName, ctorArgs } or null.
+function parseCppDecl(cmd) {
+  const m = cmd.match(/^([A-Za-z_][A-Za-z0-9_:]*)\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:\((.*)\))?\s*;?\s*$/);
+  if (!m) return null;
+  return { typeName: m[1], varName: m[2], ctorArgs: m[3] };
+}
+
+// Parse a comma-separated constructor argument list of string, number, and boolean literals.
+// Quoted tokens retain their string type; unquoted tokens are coerced to number or boolean.
+// Handles backslash-escaped characters inside quoted strings.
+function parseLiteralArgs(argsStr) {
+  if (argsStr == null || argsStr === '') return [];
+  const args = [];
+  // Each entry: { value: string, quoted: boolean }
+  let current = '', inStr = false, strChar = '', wasQuoted = false;
+  for (let i = 0; i < argsStr.length; i++) {
+    const c = argsStr[i];
+    if (inStr) {
+      if (c === '\\' && i + 1 < argsStr.length) {
+        // consume escaped character literally
+        current += argsStr[++i];
+      } else if (c === strChar) {
+        inStr = false;
+      } else {
+        current += c;
+      }
+    } else if (c === '"' || c === "'") {
+      inStr = true; strChar = c; wasQuoted = true;
+    } else if (c === ',') {
+      args.push({ value: current, quoted: wasQuoted });
+      current = ''; wasQuoted = false;
+    } else {
+      current += c;
+    }
+  }
+  // push last token — only push non-quoted empty tokens when they come from quoted context
+  if (argsStr.length > 0 && (current.length > 0 || wasQuoted)) {
+    args.push({ value: current, quoted: wasQuoted });
+  }
+  return args.map(({ value, quoted }) => {
+    if (quoted) return value;               // keep string type for quoted literals
+    const t = value.trim();
+    if (t === 'true')  return true;
+    if (t === 'false') return false;
+    const n = Number(t);
+    return isNaN(n) ? t : n;
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Execute a command typed in the REPL
 // ─────────────────────────────────────────────────────────────────────────────
 async function executeCommand(raw) {
@@ -380,15 +441,41 @@ async function executeCommand(raw) {
   // Update prompt label
   document.querySelector('.prompt-label').textContent = 'root [' + cmdCount + ']>';
 
+  // ── Intercept C++-style variable declarations before JS evaluation ──────────
+  // Only intercept when ROOT_WASM is loaded and the named type is exported, so
+  // valid JS expressions like `new Date()` or `typeof h1` still reach the JS evaluator.
+  const decl = parseCppDecl(cmd);
+  if (decl && ROOT_WASM && ROOT_WASM[decl.typeName]) {
+    const { typeName, varName, ctorArgs } = decl;
+    try {
+      const args = parseLiteralArgs(ctorArgs);
+      const obj = new ROOT_WASM[typeName](...args);
+      replScope[varName] = obj;
+      print('(' + typeName + ') ' + varName);
+    } catch(e) {
+      // Distinguish "type has no registered constructor" from bad arguments
+      if (/not constructible|not a constructor/i.test(e.message)) {
+        print('Error: \'' + typeName + '\' has no registered constructor. Check help() for constructible ROOT types.', 'error');
+      } else {
+        print('Error: ' + e.message, 'error');
+      }
+    }
+    return;
+  }
+
+  // ── Standard JS evaluation with persistent scope ───────────────────────────
   try {
-    // Evaluate in REPL context — expose helpers as globals
+    // Expose built-in helpers as formal parameters and merge the session scope
+    // via `with(__scope__)`. Using `with` is intentional here: it avoids injecting
+    // arbitrary user-defined variable names as formal parameters (which would throw
+    // a SyntaxError for reserved words like `let` or duplicates of built-in names).
     const fn = new Function(
-      'demo','openFile','draw','ls','clear','help','JSROOT','drawObject',
-      '"use strict"; return (' + cmd + ')'
+      'demo','openFile','draw','ls','clear','help','JSROOT','drawObject','__scope__',
+      'with(__scope__) { return (' + cmd + ') }'
     );
     const result = await Promise.resolve(
       fn(REPL.demo, REPL.openFile, REPL.draw, REPL.ls, REPL.clear, REPL.help,
-         window.JSROOT, drawObject)
+         window.JSROOT, drawObject, replScope)
     );
     if (result !== undefined) {
       const out = typeof result === 'string' ? result : JSON.stringify(result, null, 2);
