@@ -47,6 +47,8 @@ public:
    Bool_t            Init() override;
    const char       *HostName() override;
    const char       *HomeDirectory(const char *userName = nullptr) override;
+   void              SetDisplay() override;
+   TInetAddress      GetHostByName(const char *hostname) override;
 
    //---- Process management — unavailable in WASM ------------------
    Int_t             Exec(const char *shellcmd) override;

@@ -460,6 +460,12 @@ void TUUID::GetNodeIdentifier()
 
    if (gSystem) {
 #ifndef R__WIN32
+#ifdef __EMSCRIPTEN__
+      // getifaddrs() in Emscripten's musl uses netlink sockets and sendto(),
+      // which crashes in Emscripten's SOCKFS (no netlink peer).
+      // Skip straight to the random-seed fallback path below.
+      if (!adr) adr = 1;
+#else
       if (!adr) {
          UInt_t addr = 0;
 
@@ -492,6 +498,7 @@ void TUUID::GetNodeIdentifier()
          else
             adr = 1;  // illegal address
       }
+#endif // __EMSCRIPTEN__
 #else
       // this way to get the machine's IP address is needed because
       // GetHostByName() on Win32 contacts the DNS which we don't want

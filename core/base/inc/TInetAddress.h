@@ -37,6 +37,7 @@ class TInetAddress : public TObject {
 
 friend class TSystem;
 friend class TUnixSystem;
+friend class TEmscriptenSystem;
 friend class TWinNTSystem;
 friend class TUUID;
 friend class TSocket;

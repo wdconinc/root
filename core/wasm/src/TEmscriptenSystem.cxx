@@ -19,6 +19,7 @@
 
 #include "TEmscriptenSystem.h"
 #include "TError.h"
+#include "TInetAddress.h"
 
 #include <cstdlib>
 #include <cstring>
@@ -58,8 +59,8 @@ const char *TEmscriptenSystem::HomeDirectory(const char * /*userName*/)
 Bool_t TEmscriptenSystem::Init()
 {
    Bool_t ok = TUnixSystem::Init();
-   // Disable the SIGALRM-based timer; itimers are not supported in WASM.
-   SetDisplay();
+   // SetDisplay() is intentionally NOT called: it may invoke getnameinfo() or
+   // open a UDP socket for DNS, neither of which works in WASM's SOCKFS.
    return ok;
 }
 
@@ -69,6 +70,26 @@ Bool_t TEmscriptenSystem::Init()
 const char *TEmscriptenSystem::HostName()
 {
    return "localhost";
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// SetDisplay is a no-op in WebAssembly.
+/// The base class implementation opens utmp and may call getnameinfo(), which
+/// in Emscripten's SOCKFS would attempt a UDP DNS query and crash.
+
+void TEmscriptenSystem::SetDisplay()
+{
+   // intentional no-op
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// Return a TInetAddress without performing DNS resolution.
+/// DNS via UDP is not available in Emscripten's SOCKFS environment.
+/// Returns an invalid TInetAddress; callers must handle the IsValid()==false case.
+
+TInetAddress TEmscriptenSystem::GetHostByName(const char * /*hostname*/)
+{
+   return TInetAddress();
 }
 
 //---- Process management — not available in WASM --------------------------------
