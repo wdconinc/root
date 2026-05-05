@@ -1428,7 +1428,6 @@ void TGenCollectionProxy::ReadBuffer(TBuffer & /* b */, void * /* obj */)
 ////////////////////////////////////////////////////////////////////////////////
 /// Streamer Function.
 
-#ifndef __EMSCRIPTEN__
 void TGenCollectionProxy::Streamer(TBuffer &buff)
 {
    if ( fEnv ) {
@@ -1437,18 +1436,15 @@ void TGenCollectionProxy::Streamer(TBuffer &buff)
    }
    Fatal("TGenCollectionProxy","Streamer> Logic error - no proxy object set.");
 }
-#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Streamer I/O overload
 
-#ifndef __EMSCRIPTEN__
 void TGenCollectionProxy::Streamer(TBuffer &buff, void *objp, int /* siz */ )
 {
    TPushPop env(this, objp);
    Streamer(buff);
 }
-#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// TClassStreamer IO overload

@@ -626,7 +626,6 @@ void TEmulatedCollectionProxy::ReadBuffer(TBuffer &b, void *obj)
    }
 }
 
-#ifndef __EMSCRIPTEN__
 void TEmulatedCollectionProxy::Streamer(TBuffer &b)
 {
    // TClassStreamer IO overload
@@ -648,4 +647,3 @@ void TEmulatedCollectionProxy::Streamer(TBuffer &b)
       }
    }
 }
-#endif // __EMSCRIPTEN__

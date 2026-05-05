@@ -179,8 +179,10 @@ protected:
 //
 // In case we are building with -fmodules, we need to forward declare the
 // specialization in order to compile the dictionary G__Hist.cxx.
+#ifndef __EMSCRIPTEN__
 template<> void TNDArrayT<double>::Streamer(TBuffer &R__b);
 template<> TClass *TNDArrayT<double>::Class();
+#endif
 
 
 #endif // ROOT_TNDArray
