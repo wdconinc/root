@@ -1386,7 +1386,6 @@ void TGenCollectionStreamer::ReadBufferGeneric(TBuffer &b, void *obj, const TCla
    }
 }
 
-#ifndef __EMSCRIPTEN__
 void TGenCollectionStreamer::Streamer(TBuffer &b)
 {
    // TClassStreamer IO overload.
@@ -1464,7 +1463,6 @@ void TGenCollectionStreamer::Streamer(TBuffer &b)
       }
    }
 }
-#endif // __EMSCRIPTEN__
 
 void TGenCollectionStreamer::StreamerAsMap(TBuffer &b)
 {
