@@ -62,11 +62,6 @@ if(ROOT_WASM_BINDINGS)
   # Embind requires --bind linker flag
   target_link_options(root_wasm_bindings PRIVATE
     "--bind"
-    "SHELL:-sMODULARIZE=1"
-    "SHELL:-sEXPORT_NAME=createROOT"
-    "SHELL:-sFETCH=1"
-    "SHELL:-sALLOW_MEMORY_GROWTH=1"
-    "SHELL:-sWASM_BIGINT=1"
     "SHELL:-sEXIT_RUNTIME=0"
     # Export the Embind-generated factory plus the C runtime init
     "SHELL:-sEXPORTED_RUNTIME_METHODS=['ccall','cwrap','UTF8ToString']"

@@ -89,8 +89,14 @@ if(ROOT_WASM_NODEFS)
   add_link_options("SHELL:-libnodefs.js")
 endif()
 
-# Force-include Emscripten fetch support for HTTP I/O (TWebFile)
-add_link_options("SHELL:-sFETCH=1")
+# Emscripten Fetch API for HTTP I/O (TWebFile).  In Emscripten ≥4 this
+# implicitly enables pthreads when not used with Asyncify; disabled by default
+# to avoid unintended thread-pool initialization that crashes in Node.js.
+# Enable explicitly with -DROOT_WASM_FETCH=ON when building for the browser.
+option(ROOT_WASM_FETCH "Enable Emscripten Fetch API for HTTP I/O (enables pthreads)" OFF)
+if(ROOT_WASM_FETCH)
+  add_link_options("SHELL:-sFETCH=1")
+endif()
 
 # Modularize output so ROOT can be imported as an ES module / CommonJS module
 option(ROOT_WASM_MODULARIZE "Wrap output in a JS module factory function" ON)
