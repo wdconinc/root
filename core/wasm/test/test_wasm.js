@@ -42,6 +42,18 @@ function approxEqual(a, b, tol) {
       `Expected ${a} \u2248 ${b} (tolerance ${tol})`);
 }
 
+// ─── Global error catchers (catch process.exit / abort leaking out) ──────────
+process.on('uncaughtException', (err, origin) => {
+   process.stderr.write(`UNCAUGHT EXCEPTION (${origin}): ${err}\n`);
+   if (err && err.stack) process.stderr.write(err.stack + '\n');
+   process.exitCode = 1;
+});
+process.on('unhandledRejection', (reason) => {
+   process.stderr.write(`UNHANDLED REJECTION: ${reason}\n`);
+   if (reason && reason.stack) process.stderr.write(reason.stack + '\n');
+   process.exitCode = 1;
+});
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 async function main() {
    // createROOT() accepts an optional locateFile callback so the .wasm can be
@@ -54,14 +66,12 @@ async function main() {
          // Provide a minimal environment: Emscripten MODULARIZE mode does NOT
          // automatically propagate Node.js process.env to the WASM module.
          ENV: { HOME: process.env.HOME || '/tmp' },
-         // Suppress ROOT's stderr chatter (gitinfo warnings etc.) in tests.
-         printErr: (msg) => {
-            // Only print unexpected Fatal/Error messages; filter known warnings.
-            if (/Fatal|Segmentation|Abort/.test(msg)) process.stderr.write(msg + '\n');
-         },
+         // Print ALL stderr from the WASM module so we can diagnose crashes.
+         printErr: (msg) => { process.stderr.write(msg + '\n'); },
       });
    } catch (e) {
-      console.error('FATAL: createROOT() rejected:', e);
+      process.stderr.write(`FATAL: createROOT() rejected: ${e}\n`);
+      if (e && e.stack) process.stderr.write(e.stack + '\n');
       process.exit(1);
    }
 
