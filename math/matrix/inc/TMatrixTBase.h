@@ -204,7 +204,7 @@ public:
    ClassDefOverride(TMatrixTBase,5) // Matrix base class (template)
 };
 
-#ifndef __CLING__
+#if !defined(__CLING__) && !defined(__EMSCRIPTEN__)
 // When building with -fmodules, it instantiates all pending instantiations,
 // instead of delaying them until the end of the translation unit.
 // We 'got away with' probably because the use and the definition of the
@@ -213,7 +213,7 @@ public:
 // In case we are building with -fmodules, we need to forward declare the
 // specialization in order to compile the dictionary G__Matrix.cxx.
 template <> TClass *TMatrixTBase<double>::Class();
-#endif // __CLING__
+#endif // !__CLING__ && !__EMSCRIPTEN__
 
 
 template<class Element> Element TMatrixTBase<Element>::SetTol(Element newTol)

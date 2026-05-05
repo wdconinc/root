@@ -212,7 +212,9 @@ public:
 //
 // In case we are building with -fmodules, we need to forward declare the
 // specialization in order to compile the dictionary G__Matrix.cxx.
+#ifndef __EMSCRIPTEN__
 template <> TClass *TVectorT<double>::Class();
+#endif
 
 template<class Element> inline       TVectorT<Element> &TVectorT<Element>::Use     (Int_t n,Element *data) { return Use(0,n-1,data); }
 template<class Element> inline const TVectorT<Element> &TVectorT<Element>::Use     (Int_t n,const Element *data) const { return Use(0,n-1,data); }

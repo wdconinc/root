@@ -232,7 +232,9 @@ public:
 //
 // In case we are building with -fmodules, we need to forward declare the
 // specialization in order to compile the dictionary G__Matrix.cxx.
+#ifndef __EMSCRIPTEN__
 template <> TClass *TMatrixT<double>::Class();
+#endif
 
 
 template <class Element> inline const Element           *TMatrixT<Element>::GetMatrixArray() const { return fElements; }

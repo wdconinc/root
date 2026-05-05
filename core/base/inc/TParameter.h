@@ -200,7 +200,9 @@ inline Int_t TParameter<Bool_t>::Merge(TCollection *in)
 //
 // In case we are building with -fmodules, we need to forward declare the
 // specialization in order to compile the dictionary G__Core.cxx.
+#ifndef __EMSCRIPTEN__
 template <> void TParameter<Long64_t>::Streamer(TBuffer &R__b);
 template<> TClass *TParameter<Long64_t>::Class();
+#endif
 
 #endif
