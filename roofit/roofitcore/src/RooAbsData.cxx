@@ -2361,6 +2361,7 @@ void RooAbsData::addOwnedComponent(const char* idxlabel, RooAbsData& data)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class RooAbsData.
 
+#ifndef __EMSCRIPTEN__
 void RooAbsData::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -2376,6 +2377,7 @@ void RooAbsData::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(RooAbsData::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 

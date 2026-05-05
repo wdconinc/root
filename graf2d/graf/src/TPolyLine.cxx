@@ -730,6 +730,7 @@ void TPolyLine::SetPolyLine(Int_t n, Double_t *x, Double_t *y, Option_t *option)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TPolyLine::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -764,3 +765,4 @@ void TPolyLine::Streamer(TBuffer &b)
       b.WriteClassBuffer(TPolyLine::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

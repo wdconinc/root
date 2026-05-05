@@ -2253,6 +2253,7 @@ void TGeoVolume::SortNodes()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGeoVolume.
 
+#ifndef __EMSCRIPTEN__
 void TGeoVolume::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -2274,6 +2275,7 @@ void TGeoVolume::Streamer(TBuffer &R__b)
       }
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Set the current options (none implemented)

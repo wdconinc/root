@@ -432,6 +432,7 @@ double RooONNXFunc::evaluate() const
    return static_cast<double>(out);
 }
 
+#ifndef __EMSCRIPTEN__
 void RooONNXFunc::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -441,3 +442,4 @@ void RooONNXFunc::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(RooONNXFunc::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__

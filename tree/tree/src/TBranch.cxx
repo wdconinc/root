@@ -2965,6 +2965,7 @@ void TBranch::SetStatus(bool status)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object
 
+#ifndef __EMSCRIPTEN__
 void TBranch::Streamer(TBuffer& b)
 {
    if (b.IsReading()) {
@@ -3206,6 +3207,7 @@ void TBranch::Streamer(TBuffer& b)
       fMaxBaskets = maxBaskets;
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Write the current basket to disk and return the number of bytes

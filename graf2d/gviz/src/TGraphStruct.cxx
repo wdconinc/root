@@ -304,6 +304,8 @@ void TGraphStruct::SavePrimitive(std::ostream &out, Option_t *option)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __EMSCRIPTEN__
 void TGraphStruct::Streamer(TBuffer &/*b*/)
 {
 }
+#endif // __EMSCRIPTEN__

@@ -225,6 +225,7 @@ Long64_t TNtupleD::ReadStream(std::istream &inputStream, const char * /*branchDe
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TNtupleD::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -241,3 +242,4 @@ void TNtupleD::Streamer(TBuffer &b)
       b.WriteClassBuffer(TNtupleD::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

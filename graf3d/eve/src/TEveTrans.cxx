@@ -938,6 +938,7 @@ Double_t TEveTrans::Invert()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TEveTrans.
 
+#ifndef __EMSCRIPTEN__
 void TEveTrans::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -947,6 +948,7 @@ void TEveTrans::Streamer(TBuffer &R__b)
       TEveTrans::Class()->WriteBuffer(R__b, this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Print in reasonable format.

@@ -3020,6 +3020,7 @@ void TChain::SetWeight(Double_t w, Option_t* option)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TChain::Streamer(TBuffer& b)
 {
    if (b.IsReading()) {
@@ -3057,6 +3058,7 @@ void TChain::Streamer(TBuffer& b)
       b.WriteClassBuffer(TChain::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Dummy function kept for back compatibility.

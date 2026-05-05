@@ -914,6 +914,7 @@ void TCandle::PaintLine(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Bool
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TCandle.
 
+#ifndef __EMSCRIPTEN__
 void TCandle::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -927,6 +928,7 @@ void TCandle::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TCandle::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// The coordinates in the TParallelCoordVar-class are in Pad-Coordinates, so we need to convert them

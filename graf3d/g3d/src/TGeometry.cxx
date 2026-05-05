@@ -569,6 +569,7 @@ void TGeometry::RecursiveRemove(TObject *obj)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TGeometry::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -626,6 +627,7 @@ void TGeometry::Streamer(TBuffer &b)
       b.WriteClassBuffer(TGeometry::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Update global rotation matrix/translation vector for this node

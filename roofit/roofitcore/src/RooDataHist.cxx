@@ -2358,6 +2358,7 @@ void RooDataHist::printContents(std::ostream& os) const
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class RooDataHist.
+#ifndef __EMSCRIPTEN__
 void RooDataHist::Streamer(TBuffer &R__b) {
   if (R__b.IsReading()) {
 
@@ -2427,6 +2428,7 @@ void RooDataHist::Streamer(TBuffer &R__b) {
     R__b.WriteClassBuffer(RooDataHist::Class(),this);
   }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////

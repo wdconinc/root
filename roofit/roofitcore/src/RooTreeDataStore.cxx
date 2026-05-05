@@ -1088,6 +1088,7 @@ void RooTreeDataStore::checkInit() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class RooTreeDataStore.
 
+#ifndef __EMSCRIPTEN__
 void RooTreeDataStore::Streamer(TBuffer &R__b)
 {
   if (R__b.IsReading()) {
@@ -1129,6 +1130,7 @@ void RooTreeDataStore::Streamer(TBuffer &R__b)
     _tree = tmpTree;
   }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Generate a name for the storage tree from the name and title of this instance.

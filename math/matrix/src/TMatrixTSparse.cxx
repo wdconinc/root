@@ -2988,6 +2988,7 @@ Bool_t AreCompatible(const TMatrixTSparse<Element> &m1,const TMatrixTSparse<Elem
 /// Stream an object of class TMatrixTSparse.
 
 template<class Element>
+#ifndef __EMSCRIPTEN__
 void TMatrixTSparse<Element>::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -3001,6 +3002,7 @@ void TMatrixTSparse<Element>::Streamer(TBuffer &R__b)
          R__b.WriteClassBuffer(TMatrixTSparse<Element>::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 template class TMatrixTSparse<Float_t>;
 

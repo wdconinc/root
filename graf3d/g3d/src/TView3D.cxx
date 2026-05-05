@@ -1858,6 +1858,7 @@ void TView3D::ZoomOut()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TView3D.
 
+#ifndef __EMSCRIPTEN__
 void TView3D::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1924,6 +1925,7 @@ void TView3D::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TView3D::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 //      Shortcuts for menus
 void TView3D::Centered(){Centered3DImages();}

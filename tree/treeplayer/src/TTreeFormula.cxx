@@ -5206,6 +5206,7 @@ void TTreeFormula::SetAxis(TAxis *axis)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TTreeFormula.
 
+#ifndef __EMSCRIPTEN__
 void TTreeFormula::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -5235,6 +5236,7 @@ void TTreeFormula::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TTreeFormula::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Try to 'demote' a string into an array bytes.  If this is not possible,

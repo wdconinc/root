@@ -1573,6 +1573,7 @@ void RooDataSet::SetNameTitle(const char *name, const char* title)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class RooDataSet.
 
+#ifndef __EMSCRIPTEN__
 void RooDataSet::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1626,6 +1627,7 @@ void RooDataSet::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(RooDataSet::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 

@@ -149,6 +149,7 @@ void TCTUB::SetPoints(Double_t *points) const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TCTUB.
 
+#ifndef __EMSCRIPTEN__
 void TCTUB::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -169,3 +170,4 @@ void TCTUB::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TCTUB::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

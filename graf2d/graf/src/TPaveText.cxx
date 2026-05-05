@@ -773,6 +773,7 @@ void TPaveText::SetAllWith(const char *text, Option_t *option, Double_t value)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TPaveText.
 
+#ifndef __EMSCRIPTEN__
 void TPaveText::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -796,6 +797,7 @@ void TPaveText::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TPaveText::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Replace current attributes by current style.

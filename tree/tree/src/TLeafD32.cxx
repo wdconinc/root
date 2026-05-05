@@ -202,6 +202,7 @@ void TLeafD32::SetAddress(void *add)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TLeafD32.
 
+#ifndef __EMSCRIPTEN__
 void TLeafD32::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -222,3 +223,4 @@ void TLeafD32::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TLeafD32::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__

@@ -2216,6 +2216,7 @@ void TCanvas::Show()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TCanvas::Streamer(TBuffer &b)
 {
    UInt_t R__s, R__c;
@@ -2413,6 +2414,7 @@ void TCanvas::Streamer(TBuffer &b)
       b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Toggle pad auto execution of list of TExecs.

@@ -1936,6 +1936,7 @@ Int_t TLinearFitter::HistLinearFitter()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __EMSCRIPTEN__
 void TLinearFitter::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1956,6 +1957,7 @@ void TLinearFitter::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TLinearFitter::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 ///Finds the parameters of the fitted function in case data contains

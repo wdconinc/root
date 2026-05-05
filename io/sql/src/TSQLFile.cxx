@@ -2664,6 +2664,7 @@ void TSQLFile::DirWriteHeader(TDirectory *dir)
 /// Streamer for TSQLFile class.
 /// Stores only data for TDirectory.
 
+#ifndef __EMSCRIPTEN__
 void TSQLFile::Streamer(TBuffer &b)
 {
    TString sbuf;
@@ -2711,3 +2712,4 @@ void TSQLFile::Streamer(TBuffer &b)
       b.ClassEnd(TSQLFile::Class());
    }
 }
+#endif // __EMSCRIPTEN__

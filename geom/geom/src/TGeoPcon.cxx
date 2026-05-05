@@ -1764,6 +1764,7 @@ const TBuffer3D &TGeoPcon::GetBuffer3D(Int_t reqSections, Bool_t localFrame) con
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGeoPcon.
 
+#ifndef __EMSCRIPTEN__
 void TGeoPcon::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1784,6 +1785,7 @@ void TGeoPcon::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TGeoPcon::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Check the inside status for each of the points in the array.

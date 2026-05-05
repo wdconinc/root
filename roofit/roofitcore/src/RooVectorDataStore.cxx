@@ -1102,6 +1102,7 @@ void RooVectorDataStore::dump()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class RooVectorDataStore.
 
+#ifndef __EMSCRIPTEN__
 void RooVectorDataStore::Streamer(TBuffer &R__b)
 {
   if (R__b.IsReading()) {
@@ -1124,6 +1125,7 @@ void RooVectorDataStore::Streamer(TBuffer &R__b)
     R__b.WriteClassBuffer(RooVectorDataStore::Class(),this);
   }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////

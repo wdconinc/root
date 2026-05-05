@@ -614,6 +614,7 @@ void TPolyMarker3D::SetPolyMarker(Int_t n, Double_t *p, Marker_t marker, Option_
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a 3-D polymarker object.
 
+#ifndef __EMSCRIPTEN__
 void TPolyMarker3D::Streamer(TBuffer &b)
 {
    UInt_t R__s, R__c;
@@ -660,6 +661,7 @@ void TPolyMarker3D::Streamer(TBuffer &b)
       b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Fills the parameters x, y, z with the coordinate of the n-th point

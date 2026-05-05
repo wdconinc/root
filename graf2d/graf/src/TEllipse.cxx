@@ -658,6 +658,7 @@ void TEllipse::SetNoEdges(Bool_t noEdges)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TEllipse.
 
+#ifndef __EMSCRIPTEN__
 void TEllipse::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -686,6 +687,7 @@ void TEllipse::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TEllipse::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Return the bounding Box of the Ellipse, currently not taking into

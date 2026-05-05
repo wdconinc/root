@@ -9810,6 +9810,7 @@ void TFriendElement__SetTree(TTree *tree, TList *frlist)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TTree::Streamer(TBuffer& b)
 {
    if (b.IsReading()) {
@@ -9906,6 +9907,7 @@ void TTree::Streamer(TBuffer& b)
       if (table) TRefTable::SetRefTable(table);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Unbinned fit of one or more variable(s) from a tree.

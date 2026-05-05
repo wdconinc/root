@@ -478,6 +478,7 @@ void TLeaf::SetLeafCount(TLeaf *leaf)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TLeaf::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -506,4 +507,5 @@ void TLeaf::Streamer(TBuffer &b)
       b.WriteClassBuffer(TLeaf::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__
 

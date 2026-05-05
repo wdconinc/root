@@ -93,6 +93,7 @@ void TMixture::DefineElement(Int_t n, Float_t a, Float_t z, Float_t w)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TMixture::Streamer(TBuffer &b)
 {
    UInt_t R__s, R__c;
@@ -119,3 +120,4 @@ void TMixture::Streamer(TBuffer &b)
       b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__

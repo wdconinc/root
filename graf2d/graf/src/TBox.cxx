@@ -610,6 +610,7 @@ void TBox::SetToolTipText(const char *text, Long_t delayms)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TBox.
 
+#ifndef __EMSCRIPTEN__
 void TBox::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -635,6 +636,7 @@ void TBox::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TBox::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Return the "bounding Box" of the Box

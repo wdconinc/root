@@ -489,6 +489,7 @@ void TGeoVGShape::InspectShape() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGeoVGShape.
 
+#ifndef __EMSCRIPTEN__
 void TGeoVGShape::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -502,3 +503,4 @@ void TGeoVGShape::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TGeoVGShape::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__

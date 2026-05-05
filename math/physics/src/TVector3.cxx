@@ -415,6 +415,7 @@ void TVector3::SetMagThetaPhi(Double_t mag, Double_t theta, Double_t phi)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TVector3.
 
+#ifndef __EMSCRIPTEN__
 void TVector3::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -436,6 +437,7 @@ void TVector3::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TVector3::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Operator +

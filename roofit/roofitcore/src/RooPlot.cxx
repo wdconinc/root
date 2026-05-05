@@ -1320,6 +1320,7 @@ void RooPlot::Browse(TBrowser * /*b*/)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __EMSCRIPTEN__
 void RooPlot::Streamer(TBuffer &R__b)
 {
   // Custom streamer, needed for backward compatibility
@@ -1370,6 +1371,7 @@ void RooPlot::Streamer(TBuffer &R__b)
     R__b.WriteClassBuffer(RooPlot::Class(),this);
   }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Build a legend that contains all objects that have been drawn on the plot.

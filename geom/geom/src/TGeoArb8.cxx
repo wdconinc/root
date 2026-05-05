@@ -1320,6 +1320,7 @@ void TGeoArb8::Sizeof3D() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGeoManager.
 
+#ifndef __EMSCRIPTEN__
 void TGeoArb8::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1329,6 +1330,7 @@ void TGeoArb8::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TGeoArb8::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Check the inside status for each of the points in the array.

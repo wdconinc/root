@@ -153,6 +153,7 @@ void TPointSet3D::PointSelected(Int_t n)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TPointSet3D.
 
+#ifndef __EMSCRIPTEN__
 void TPointSet3D::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -178,3 +179,4 @@ void TPointSet3D::Streamer(TBuffer &R__b)
       }
    }
 }
+#endif // __EMSCRIPTEN__

@@ -295,6 +295,7 @@ double RooBinning::binHigh(Int_t bin) const
 ////////////////////////////////////////////////////////////////////////////////
 /// Custom streamer that provides backward compatibility to read v1 data
 
+#ifndef __EMSCRIPTEN__
 void RooBinning::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -344,6 +345,7 @@ void RooBinning::Streamer(TBuffer &R__b)
      R__b.WriteClassBuffer(RooBinning::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 std::string RooBinning::translateBinNumber(RooFit::Experimental::CodegenContext &ctx, RooAbsArg const &var, int coef) const
 {

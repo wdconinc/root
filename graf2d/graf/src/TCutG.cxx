@@ -426,6 +426,7 @@ void TCutG::SetVarY(const char *vary)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TCutG.
 
+#ifndef __EMSCRIPTEN__
 void TCutG::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -435,3 +436,4 @@ void TCutG::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TCutG::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__

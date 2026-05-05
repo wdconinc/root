@@ -6075,6 +6075,7 @@ void TASImage::CreateThumbnail()
 ////////////////////////////////////////////////////////////////////////////////
 /// Streamer for ROOT I/O.
 
+#ifndef __EMSCRIPTEN__
 void TASImage::Streamer(TBuffer &b)
 {
    Bool_t image_type = 0;
@@ -6163,6 +6164,7 @@ void TASImage::Streamer(TBuffer &b)
       b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Browse image.

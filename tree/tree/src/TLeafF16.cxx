@@ -215,6 +215,7 @@ void TLeafF16::SetAddress(void *add)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TLeafF16.
 
+#ifndef __EMSCRIPTEN__
 void TLeafF16::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -235,3 +236,4 @@ void TLeafF16::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TLeafF16::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__

@@ -1642,6 +1642,7 @@ Int_t TEntryList::Scan(const char *fn, TList *roots)
 /// Custom streamer for class TEntryList to handle the different interpretation
 /// of fFileName between version 1 and >1 .
 
+#ifndef __EMSCRIPTEN__
 void TEntryList::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -1657,3 +1658,4 @@ void TEntryList::Streamer(TBuffer &b)
       b.WriteClassBuffer(TEntryList::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__

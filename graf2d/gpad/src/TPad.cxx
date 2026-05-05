@@ -6673,6 +6673,7 @@ void TPad::SetVertical(Bool_t vert)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TPad::Streamer(TBuffer &b)
 {
    UInt_t R__s, R__c;
@@ -6883,6 +6884,7 @@ void TPad::Streamer(TBuffer &b)
       b.WriteClassBuffer(TPad::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Force a copy of current style for all objects in pad.

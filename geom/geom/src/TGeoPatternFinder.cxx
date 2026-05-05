@@ -1833,6 +1833,7 @@ void TGeoPatternCylPhi::SavePrimitive(std::ostream &out, Option_t * /*option*/ /
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGeoVolume.
 
+#ifndef __EMSCRIPTEN__
 void TGeoPatternCylPhi::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1848,6 +1849,7 @@ void TGeoPatternCylPhi::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TGeoPatternCylPhi::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Return new matrix of type used by  this finder.

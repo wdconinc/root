@@ -2114,6 +2114,7 @@ void RooAbsArg::SetNameTitle(const char *name, const char *title)
 
 /// Stream an object of class RooAbsArg.
 
+#ifndef __EMSCRIPTEN__
 void RooAbsArg::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -2126,6 +2127,7 @@ void RooAbsArg::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(RooAbsArg::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 void RooAbsArg::addToIoEvoList(RooAbsArg *newObj, TRefArray const &onfileProxyList)
 {
@@ -2189,6 +2191,7 @@ RooAbsArg::RefCountListLegacyIterator_t *RooAbsArg::makeLegacyIterator(const Roo
 
 /// Stream an object of class RooRefArray.
 
+#ifndef __EMSCRIPTEN__
 void RooRefArray::Streamer(TBuffer &R__b)
 {
    UInt_t R__s;
@@ -2224,6 +2227,7 @@ void RooRefArray::Streamer(TBuffer &R__b)
       R__b.SetByteCount(R__c, true);
    }
 }
+#endif // __EMSCRIPTEN__
 
 /// Print at the prompt
 namespace cling {

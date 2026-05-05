@@ -1378,6 +1378,7 @@ void TGeoTessellated::ComputeNormal(const Double_t *point, const Double_t *dir, 
 /// Custom streamer which performs Closing on read.
 /// Recalculation of BVH and normals is fast
 
+#ifndef __EMSCRIPTEN__
 void TGeoTessellated::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -1387,6 +1388,7 @@ void TGeoTessellated::Streamer(TBuffer &b)
       b.WriteClassBuffer(TGeoTessellated::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Calculate the normals

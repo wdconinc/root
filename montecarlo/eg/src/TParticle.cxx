@@ -399,6 +399,7 @@ void TParticle::Sizeof3D() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TParticle.
 
+#ifndef __EMSCRIPTEN__
 void TParticle::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -436,3 +437,4 @@ void TParticle::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TParticle::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

@@ -22,6 +22,7 @@
 
 #include <xxhash.h>
 
+#ifndef __EMSCRIPTEN__
 void ROOT::RNTuple::Streamer(TBuffer &buf)
 {
    if (buf.IsReading()) {
@@ -47,6 +48,7 @@ void ROOT::RNTuple::Streamer(TBuffer &buf)
       buf << checksum;
    }
 }
+#endif // __EMSCRIPTEN__
 
 ROOT::RNTuple
 ROOT::Internal::CreateAnchor(std::uint16_t versionEpoch, std::uint16_t versionMajor, std::uint16_t versionMinor,

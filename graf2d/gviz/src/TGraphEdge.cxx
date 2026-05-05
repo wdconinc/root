@@ -212,6 +212,8 @@ void TGraphEdge::SaveAttributes(std::ostream &out, const char* name)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __EMSCRIPTEN__
 void TGraphEdge::Streamer(TBuffer &/*b*/)
 {
 }
+#endif // __EMSCRIPTEN__

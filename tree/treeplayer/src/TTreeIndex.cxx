@@ -623,6 +623,7 @@ void TTreeIndex::Print(Option_t * option) const
 /// Note that this Streamer should be changed to an automatic Streamer
 /// once TStreamerInfo supports an index of type Long64_t
 
+#ifndef __EMSCRIPTEN__
 void TTreeIndex::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -655,6 +656,7 @@ void TTreeIndex::Streamer(TBuffer &R__b)
       R__b.SetByteCount(R__c, true);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Called by TChain::LoadTree when the parent chain changes it's tree.

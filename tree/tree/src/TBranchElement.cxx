@@ -6022,6 +6022,7 @@ void TBranchElement::SetupAddressesImpl()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TBranchElement.
 
+#ifndef __EMSCRIPTEN__
 void TBranchElement::Streamer(TBuffer& R__b)
 {
    if (R__b.IsReading()) {
@@ -6128,6 +6129,7 @@ void TBranchElement::Streamer(TBuffer& R__b)
       fDirectory = dirsav;
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////

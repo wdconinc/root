@@ -3025,6 +3025,7 @@ void TGaxis::SetExponentOffset(Float_t xoff, Float_t yoff, Option_t *axis)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGaxis.
 
+#ifndef __EMSCRIPTEN__
 void TGaxis::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -3065,6 +3066,7 @@ void TGaxis::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TGaxis::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 void TGaxis::SetLabelColor(TColorNumber lcolor)
 {

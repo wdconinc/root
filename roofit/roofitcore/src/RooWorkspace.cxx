@@ -2328,6 +2328,7 @@ void RooWorkspace::Print(Option_t* opts) const
 /// and compile missing classes before proceeding with streaming
 /// of workspace contents to avoid errors.
 
+#ifndef __EMSCRIPTEN__
 void RooWorkspace::CodeRepo::Streamer(TBuffer &R__b)
 {
    typedef ::RooWorkspace::CodeRepo thisClass;
@@ -2423,6 +2424,7 @@ void RooWorkspace::CodeRepo::Streamer(TBuffer &R__b)
       R__b.SetByteCount(R__c, true);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2433,6 +2435,7 @@ void RooWorkspace::CodeRepo::Streamer(TBuffer &R__b)
 /// objects contained in the workspace as input)
 /// After the actual writing, these client links are restored.
 
+#ifndef __EMSCRIPTEN__
 void RooWorkspace::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -2546,6 +2549,7 @@ void RooWorkspace::Streamer(TBuffer &R__b)
       }
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 

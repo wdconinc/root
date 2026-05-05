@@ -114,6 +114,7 @@ void RooAbsBinning::printValue(ostream &os) const
 ////////////////////////////////////////////////////////////////////////////////
 /// Custom streamer implementing schema evolution between V1 and V2 persistent binnings
 
+#ifndef __EMSCRIPTEN__
 void RooAbsBinning::Streamer(TBuffer &R__b)
 {
    UInt_t R__s;
@@ -136,6 +137,7 @@ void RooAbsBinning::Streamer(TBuffer &R__b)
       R__b.SetByteCount(R__c, true);
    }
 }
+#endif // __EMSCRIPTEN__
 
 std::string RooAbsBinning::translateBinNumber(RooFit::Experimental::CodegenContext &, RooAbsArg const &, int) const
 {

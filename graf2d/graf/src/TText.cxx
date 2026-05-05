@@ -761,6 +761,7 @@ void TText::SetMbTitle(const wchar_t *title)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TText.
 
+#ifndef __EMSCRIPTEN__
 void TText::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -782,6 +783,7 @@ void TText::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TText::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 ////////////////////////////////////////////////////////////////////////////////
 /// Return the "bounding Box" of the Box
 

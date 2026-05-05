@@ -396,6 +396,7 @@ void TEventList::Sort()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TEventList.
 
+#ifndef __EMSCRIPTEN__
 void TEventList::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -427,6 +428,7 @@ void TEventList::Streamer(TBuffer &b)
       b.WriteClassBuffer(TEventList::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Remove elements from this list that are present in alist.

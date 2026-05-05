@@ -894,6 +894,7 @@ RooLinkedListElem* RooLinkedList::mergesort_impl(
 ////////////////////////////////////////////////////////////////////////////////
 /// Custom streaming handling schema evolution w.r.t past implementations
 
+#ifndef __EMSCRIPTEN__
 void RooLinkedList::Streamer(TBuffer &R__b)
 {
   if (R__b.IsReading()) {
@@ -929,3 +930,4 @@ void RooLinkedList::Streamer(TBuffer &R__b)
     R__b << _name ;
   }
 }
+#endif // __EMSCRIPTEN__

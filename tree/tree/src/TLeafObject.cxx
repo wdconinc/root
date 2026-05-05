@@ -188,6 +188,7 @@ void TLeafObject::SetAddress(void *add)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TLeafObject.
 
+#ifndef __EMSCRIPTEN__
 void TLeafObject::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -222,6 +223,7 @@ void TLeafObject::Streamer(TBuffer &b)
       b.WriteClassBuffer(TLeafObject::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Return true if this leaf is does not have any sub-branch/leaf.

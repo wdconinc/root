@@ -368,6 +368,7 @@ void TMarker::SetNDC(Bool_t isNDC)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TMarker.
 
+#ifndef __EMSCRIPTEN__
 void TMarker::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -389,6 +390,7 @@ void TMarker::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TMarker::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Return the bounding Box of the Line

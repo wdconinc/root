@@ -169,6 +169,7 @@ void TTreeRow::SetRow(const Int_t *fields, const char *row)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TTreeRow.
 
+#ifndef __EMSCRIPTEN__
 void TTreeRow::Streamer(TBuffer &R__b)
 {
    UInt_t R__s, R__c;
@@ -194,3 +195,4 @@ void TTreeRow::Streamer(TBuffer &R__b)
       R__b.SetByteCount(R__c,true);
    }
 }
+#endif // __EMSCRIPTEN__

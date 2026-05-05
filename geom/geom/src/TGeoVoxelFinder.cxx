@@ -2470,6 +2470,7 @@ void TGeoVoxelFinder::Voxelize(Option_t * /*option*/)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGeoVoxelFinder.
 
+#ifndef __EMSCRIPTEN__
 void TGeoVoxelFinder::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -2489,3 +2490,4 @@ void TGeoVoxelFinder::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TGeoVoxelFinder::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__

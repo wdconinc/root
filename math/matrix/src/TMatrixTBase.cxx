@@ -1054,6 +1054,7 @@ Bool_t TMatrixTAutoloadOps::VerifyMatrixIdentity(const TMatrixTBase<Element> &m1
 /// Stream an object of class TMatrixTBase<Element>.
 
 template<class Element>
+#ifndef __EMSCRIPTEN__
 void TMatrixTBase<Element>::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -1070,6 +1071,7 @@ void TMatrixTBase<Element>::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TMatrixTBase<Element>::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 // trick to return a reference to nan in operator(i,j_ when i,j are outside of range
 template<class Element>

@@ -706,6 +706,7 @@ void TPave::SetY2(Double_t y2)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TPave.
 
+#ifndef __EMSCRIPTEN__
 void TPave::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -734,3 +735,4 @@ void TPave::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TPave::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

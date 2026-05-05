@@ -267,6 +267,7 @@ void TSPHE::MakeTableOfCoSin() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object
 
+#ifndef __EMSCRIPTEN__
 void TSPHE::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -302,6 +303,7 @@ void TSPHE::Streamer(TBuffer &b)
       b.WriteClassBuffer(TSPHE::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Get buffer 3d.

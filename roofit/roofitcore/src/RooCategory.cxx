@@ -428,6 +428,7 @@ bool RooCategory::isStateInRange(const char* rangeName, const char* stateName) c
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __EMSCRIPTEN__
 void RooCategory::Streamer(TBuffer &R__b)
 {
   UInt_t R__s;
@@ -473,6 +474,7 @@ void RooCategory::Streamer(TBuffer &R__b)
     _rangesPointerForIO = nullptr;
   }
 }
+#endif // __EMSCRIPTEN__
 
 
 /// When reading old versions of the class, we get instances of shared properties.

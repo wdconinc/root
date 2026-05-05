@@ -938,6 +938,7 @@ Double_t REveTrans::Invert()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class REveTrans.
 
+#ifndef __EMSCRIPTEN__
 void REveTrans::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -947,6 +948,7 @@ void REveTrans::Streamer(TBuffer &R__b)
       REveTrans::Class()->WriteBuffer(R__b, this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Print in reasonable format.

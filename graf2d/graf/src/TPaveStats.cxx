@@ -545,6 +545,7 @@ void TPaveStats::SavePrimitive(std::ostream &out, Option_t *option)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TPaveStats.
 
+#ifndef __EMSCRIPTEN__
 void TPaveStats::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -572,6 +573,7 @@ void TPaveStats::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TPaveStats::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Replace current attributes by current style.

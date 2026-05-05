@@ -3466,6 +3466,7 @@ void TFormula::SetParNames(const char*name0,const char*name1,const char*name2,co
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TFormula::Streamer(TBuffer &b, const TClass *onfile_class)
 {
    if (b.IsReading()) {
@@ -3481,10 +3482,12 @@ void TFormula::Streamer(TBuffer &b, const TClass *onfile_class)
       b.WriteClassBuffer(TFormula::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TFormula::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -3500,10 +3503,12 @@ void TFormula::Streamer(TBuffer &b)
       b.WriteClassBuffer(TFormula::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// specialized streamer function being able to read old TF1 versions as TF1Old in memory
 
+#ifndef __EMSCRIPTEN__
 void TFormula::Streamer(TBuffer &b, Int_t v, UInt_t R__s, UInt_t R__c, const TClass *onfile_class)
 {
 
@@ -3569,6 +3574,7 @@ void TFormula::Streamer(TBuffer &b, Int_t v, UInt_t R__s, UInt_t R__c, const TCl
    // end of old versions
 
 }
+#endif // __EMSCRIPTEN__
 
 void TFormula::Convert(UInt_t /* fromVersion */)
 {

@@ -1245,6 +1245,7 @@ void RooRealVar::copyCache(const RooAbsArg* source, bool valueOnly, bool setValD
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class RooRealVar.
 
+#ifndef __EMSCRIPTEN__
 void RooRealVar::Streamer(TBuffer &R__b)
 {
   UInt_t R__s;
@@ -1303,6 +1304,7 @@ void RooRealVar::Streamer(TBuffer &R__b)
 
   }
 }
+#endif // __EMSCRIPTEN__
 
 /// Hand out our shared property, create on the fly and register
 /// in shared map if necessary.

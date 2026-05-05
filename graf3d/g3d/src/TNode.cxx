@@ -814,6 +814,7 @@ void TNode::Sizeof3D() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TNode::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -844,6 +845,7 @@ void TNode::Streamer(TBuffer &b)
       b.WriteClassBuffer(TNode::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Update global rotation matrix/translation vector for this node

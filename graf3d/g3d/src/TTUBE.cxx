@@ -314,6 +314,7 @@ void TTUBE::Sizeof3D() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TTUBE.
 
+#ifndef __EMSCRIPTEN__
 void TTUBE::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -336,6 +337,7 @@ void TTUBE::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TTUBE::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Get buffer 3d.

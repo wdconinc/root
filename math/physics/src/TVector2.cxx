@@ -130,6 +130,7 @@ void TVector2::SetMagPhi(Double_t mag, Double_t phi)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TVector2.
 
+#ifndef __EMSCRIPTEN__
 void TVector2::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -150,6 +151,7 @@ void TVector2::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TVector2::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 void TVector2::Print(Option_t*)const
 {

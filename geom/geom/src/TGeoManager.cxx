@@ -3997,6 +3997,7 @@ ULong_t TGeoManager::SizeOf(const TGeoNode * /*node*/, Option_t * /*option*/)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TGeoManager.
 
+#ifndef __EMSCRIPTEN__
 void TGeoManager::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -4009,6 +4010,7 @@ void TGeoManager::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TGeoManager::Class(), this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Execute mouse actions on this manager.

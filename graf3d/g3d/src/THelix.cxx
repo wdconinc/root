@@ -593,6 +593,7 @@ Double_t  THelix::FindClosestPhase(Double_t phi0,  Double_t cosine)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class THelix.
 
+#ifndef __EMSCRIPTEN__
 void THelix::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -621,3 +622,4 @@ void THelix::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(THelix::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

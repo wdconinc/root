@@ -584,6 +584,7 @@ std::list<double>* PiecewiseInterpolation::plotSamplingHint(RooAbsRealLValue& ob
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class PiecewiseInterpolation.
 
+#ifndef __EMSCRIPTEN__
 void PiecewiseInterpolation::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -594,6 +595,7 @@ void PiecewiseInterpolation::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(PiecewiseInterpolation::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 /*

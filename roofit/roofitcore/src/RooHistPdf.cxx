@@ -616,6 +616,7 @@ bool RooHistPdf::importWorkspaceHook(RooWorkspace& ws)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class RooHistPdf.
 
+#ifndef __EMSCRIPTEN__
 void RooHistPdf::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -627,3 +628,4 @@ void RooHistPdf::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(RooHistPdf::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

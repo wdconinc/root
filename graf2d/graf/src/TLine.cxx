@@ -493,6 +493,7 @@ void TLine::SetVertical(Bool_t set /*= kTRUE*/)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TLine.
 
+#ifndef __EMSCRIPTEN__
 void TLine::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -516,6 +517,7 @@ void TLine::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TLine::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 ////////////////////////////////////////////////////////////////////////////////
 /// Return the bounding Box of the Line
 

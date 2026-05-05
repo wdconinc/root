@@ -383,6 +383,7 @@ void TBranchClones::SetBasketSize(Int_t bufsize)
 ////////////////////////////////////////////////////////////////////////////////
 /// Serialize/Deserialize from a buffer.
 
+#ifndef __EMSCRIPTEN__
 void TBranchClones::Streamer(TBuffer& b)
 {
    UInt_t R__s, R__c;
@@ -465,6 +466,7 @@ void TBranchClones::Streamer(TBuffer& b)
       b.SetByteCount(R__c, true);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Refresh the value of fDirectory (i.e. where this branch writes/reads its buffers)

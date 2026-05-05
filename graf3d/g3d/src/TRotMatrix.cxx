@@ -237,6 +237,7 @@ void TRotMatrix::SetReflection()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TRotMatrix.
 
+#ifndef __EMSCRIPTEN__
 void TRotMatrix::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -261,3 +262,4 @@ void TRotMatrix::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TRotMatrix::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__

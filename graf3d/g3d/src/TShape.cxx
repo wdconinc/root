@@ -158,6 +158,7 @@ void TShape::SetPoints(Double_t *) const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TShape.
 
+#ifndef __EMSCRIPTEN__
 void TShape::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -182,6 +183,7 @@ void TShape::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TShape::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Transform points (LocalToMaster)

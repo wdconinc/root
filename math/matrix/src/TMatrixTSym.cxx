@@ -2027,6 +2027,7 @@ TMatrixTSym<Element> &ElementDiv(TMatrixTSym<Element> &target,const TMatrixTSym<
 /// Stream an object of class TMatrixTSym.
 
 template<class Element>
+#ifndef __EMSCRIPTEN__
 void TMatrixTSym<Element>::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -2058,6 +2059,7 @@ void TMatrixTSym<Element>::Streamer(TBuffer &R__b)
       }
    }
 }
+#endif // __EMSCRIPTEN__
 
 #include "TMatrixFSymfwd.h"
 

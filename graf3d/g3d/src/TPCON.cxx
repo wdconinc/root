@@ -259,6 +259,7 @@ void TPCON::Sizeof3D() const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object
 
+#ifndef __EMSCRIPTEN__
 void TPCON::Streamer(TBuffer &b)
 {
    if (b.IsReading()) {
@@ -287,6 +288,7 @@ void TPCON::Streamer(TBuffer &b)
       b.WriteClassBuffer(TPCON::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Get buffer 3d.

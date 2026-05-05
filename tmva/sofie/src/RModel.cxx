@@ -1911,6 +1911,7 @@ void RModel::OutputGenerated(std::string filename, bool append) {
     }
 }
 
+#ifndef __EMSCRIPTEN__
 void RModel::Streamer(TBuffer &R__b) {
     if (R__b.IsReading()) {
         RModel::Class()->ReadBuffer(R__b, this);
@@ -1925,5 +1926,6 @@ void RModel::Streamer(TBuffer &R__b) {
         RModel::Class()->WriteBuffer(R__b, this);
     }
 }
+#endif // __EMSCRIPTEN__
 
 } // namespace SOFIE::Experimental::TMVA

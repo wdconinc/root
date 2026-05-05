@@ -160,6 +160,8 @@ void TGraphNode::SaveAttributes(std::ostream &out)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef __EMSCRIPTEN__
 void TGraphNode::Streamer(TBuffer &/*b*/)
 {
 }
+#endif // __EMSCRIPTEN__

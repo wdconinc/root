@@ -295,6 +295,7 @@ TLorentzVector &TLorentzVector::Transform(const TLorentzRotation & m)
    return *this = m.VectorMultiplication(*this);
 }
 
+#ifndef __EMSCRIPTEN__
 void TLorentzVector::Streamer(TBuffer &R__b)
 {
    // Stream an object of class TLorentzVector.
@@ -318,6 +319,7 @@ void TLorentzVector::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TLorentzVector::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////

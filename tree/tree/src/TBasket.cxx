@@ -949,6 +949,7 @@ void TBasket::SetWriteMode()
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a class object.
 
+#ifndef __EMSCRIPTEN__
 void TBasket::Streamer(TBuffer &b)
 {
    // As in TBranch::GetBasket, this is used as a half-hearted measure to suppress
@@ -1090,6 +1091,7 @@ void TBasket::Streamer(TBuffer &b)
       }
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Update basket header and EntryOffset table.

@@ -541,6 +541,7 @@ void TBranchObject::SetBasketSize(Int_t bufsize)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TBranchObject.
 
+#ifndef __EMSCRIPTEN__
 void TBranchObject::Streamer(TBuffer& R__b)
 {
    if (R__b.IsReading()) {
@@ -584,6 +585,7 @@ void TBranchObject::Streamer(TBuffer& R__b)
       fDirectory = dirsav;
    }
 }
+#endif // __EMSCRIPTEN__
 
 ////////////////////////////////////////////////////////////////////////////////
 /// -- If the branch address is not set,  we set all addresses starting with

@@ -1099,6 +1099,7 @@ void TClassTree::ShowRef()
 /// Stream an object of class TClassTree.
 /// the status of the object is saved and can be replayed in a subsequent session
 
+#ifndef __EMSCRIPTEN__
 void TClassTree::Streamer(TBuffer &R__b)
 {
    Int_t i;
@@ -1163,3 +1164,4 @@ void TClassTree::Streamer(TBuffer &R__b)
       fSourceDir.Streamer(R__b);
    }
 }
+#endif // __EMSCRIPTEN__

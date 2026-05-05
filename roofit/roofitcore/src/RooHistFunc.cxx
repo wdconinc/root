@@ -498,6 +498,7 @@ bool RooHistFunc::areIdentical(const RooDataHist& dh1, const RooDataHist& dh2)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class RooHistFunc.
 
+#ifndef __EMSCRIPTEN__
 void RooHistFunc::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -509,6 +510,7 @@ void RooHistFunc::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(RooHistFunc::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 
 
 ////////////////////////////////////////////////////////////////////////////////

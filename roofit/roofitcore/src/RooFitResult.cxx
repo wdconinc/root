@@ -1272,6 +1272,7 @@ RooPrintable::StyleOption RooFitResult::defaultPrintStyle(Option_t* opt) const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class RooFitResult.
 
+#ifndef __EMSCRIPTEN__
 void RooFitResult::Streamer(TBuffer &R__b)
 {
   if (R__b.IsReading()) {
@@ -1330,4 +1331,5 @@ void RooFitResult::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(RooFitResult::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
 

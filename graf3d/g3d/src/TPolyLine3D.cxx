@@ -693,6 +693,7 @@ void TPolyLine3D::SetPolyLine(Int_t n, Double_t *p, Option_t *option)
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream a 3-D polyline object.
 
+#ifndef __EMSCRIPTEN__
 void TPolyLine3D::Streamer(TBuffer &b)
 {
    UInt_t R__s, R__c;
@@ -735,3 +736,4 @@ void TPolyLine3D::Streamer(TBuffer &b)
       b.SetByteCount(R__c, kTRUE);
    }
 }
+#endif // __EMSCRIPTEN__

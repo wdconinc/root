@@ -431,6 +431,7 @@ void TMarker3DBox::SetPoints(Double_t *points) const
 ////////////////////////////////////////////////////////////////////////////////
 /// Stream an object of class TMarker3DBox.
 
+#ifndef __EMSCRIPTEN__
 void TMarker3DBox::Streamer(TBuffer &R__b)
 {
    if (R__b.IsReading()) {
@@ -461,3 +462,4 @@ void TMarker3DBox::Streamer(TBuffer &R__b)
       R__b.WriteClassBuffer(TMarker3DBox::Class(),this);
    }
 }
+#endif // __EMSCRIPTEN__
