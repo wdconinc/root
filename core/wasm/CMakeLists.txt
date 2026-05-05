@@ -71,6 +71,8 @@ if(ROOT_WASM_BINDINGS)
     "SHELL:-sEXIT_RUNTIME=0"
     # Export the Embind-generated factory plus the C runtime init
     "SHELL:-sEXPORTED_RUNTIME_METHODS=['ccall','cwrap','UTF8ToString']"
+    # Show all linker errors (default limit is 20)
+    "SHELL:-Wl,--error-limit=0"
   )
 
   install(FILES
