@@ -28,9 +28,6 @@ set(CMAKE_SKIP_RPATH TRUE CACHE BOOL "No RPATH on WASM" FORCE)
 set(CMAKE_SKIP_BUILD_RPATH TRUE CACHE BOOL "No build RPATH on WASM" FORCE)
 set(CMAKE_SKIP_INSTALL_RPATH TRUE CACHE BOOL "No install RPATH on WASM" FORCE)
 
-# Enable Emscripten fetch API so that TWebFile can use HTTP range requests.
-add_link_options("SHELL:-sFETCH=1")
-
 # Allow memory to grow so ROOT heaps do not hit the 256 MB default cap.
 add_link_options("SHELL:-sALLOW_MEMORY_GROWTH=1")
 

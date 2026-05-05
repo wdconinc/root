@@ -62,6 +62,11 @@ if(ROOT_WASM_BINDINGS)
   # Embind requires --bind linker flag
   target_link_options(root_wasm_bindings PRIVATE
     "--bind"
+    # Wrap the module in a factory function (createROOT()) so it can be
+    # loaded asynchronously and used from ES modules / Node.js without
+    # polluting the global scope.
+    "SHELL:-sMODULARIZE=1"
+    "SHELL:-sEXPORT_NAME=createROOT"
     "SHELL:-sEXIT_RUNTIME=0"
     # Export the Embind-generated factory plus the C runtime init
     "SHELL:-sEXPORTED_RUNTIME_METHODS=['ccall','cwrap','UTF8ToString']"
