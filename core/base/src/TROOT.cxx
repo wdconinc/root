@@ -160,12 +160,12 @@ FARPROC dlsym(void *library, const char *function_name)
 #include "TVirtualRWMutex.h"
 #include "TVirtualX.h"
 
-#if defined(R__UNIX)
+#if defined(__EMSCRIPTEN__)
+#include "TEmscriptenSystem.h"
+#elif defined(R__UNIX)
 #if defined(R__HAS_COCOA)
 #include "TMacOSXSystem.h"
 #include "TUrl.h"
-#elif defined(__EMSCRIPTEN__)
-#include "TEmscriptenSystem.h"
 #else
 #include "TUnixSystem.h"
 #endif
@@ -2127,11 +2127,11 @@ Int_t TROOT::IgnoreInclude(const char *fname, const char * /*expandedfname*/)
 void TROOT::InitSystem()
 {
    if (gSystem == nullptr) {
-#if defined(R__UNIX)
+#if defined(__EMSCRIPTEN__)
+      gSystem = new TEmscriptenSystem;
+#elif defined(R__UNIX)
 #if defined(R__HAS_COCOA)
       gSystem = new TMacOSXSystem;
-#elif defined(__EMSCRIPTEN__)
-      gSystem = new TEmscriptenSystem;
 #else
       gSystem = new TUnixSystem;
 #endif

@@ -330,6 +330,14 @@
 #   define ANSICPP
 #endif
 
+#ifdef __EMSCRIPTEN__
+/* Emscripten/WebAssembly: POSIX-compatible environment, treat as Unix. */
+#   define R__EMSCRIPTEN
+#   define R__UNIX
+#   define R__BYTESWAP   /* WebAssembly is always little-endian */
+/* Note: wasm32 uses 32-bit pointers, so R__B64 is NOT defined */
+#endif
+
 #ifdef __GNUC__
 #   define R__GNU
 #   define ANSICPP
