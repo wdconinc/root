@@ -216,19 +216,30 @@ async function main() {
    hj.Fill(3);
    hj.Fill(7);
 
-   const json = hj.toJSON();
+   // toJSON() requires TStreamerInfo::Build() which is not yet fully
+   // supported in WASM without the interpreter. Wrap in a test so that
+   // a WASM RuntimeError is caught and reported as a test failure rather
+   // than crashing the runner.
+   let json = null;
+   test('toJSON() does not throw', () => {
+      json = hj.toJSON();
+   });
    test('toJSON() returns a non-empty string', () => {
+      assert(json !== null, 'toJSON() threw — skipping');
       assert(typeof json === 'string' && json.length > 0, `Got: ${json}`);
    });
    test('toJSON() parses as valid JSON', () => {
+      assert(json !== null, 'toJSON() threw — skipping');
       const obj = JSON.parse(json);
       assert(obj !== null && typeof obj === 'object');
    });
    test('toJSON() output contains _typename', () => {
+      assert(json !== null, 'toJSON() threw — skipping');
       const obj = JSON.parse(json);
       assert('_typename' in obj, `No _typename in: ${JSON.stringify(obj).slice(0,200)}`);
    });
    test('toJSON() _typename is TH1F', () => {
+      assert(json !== null, 'toJSON() threw — skipping');
       const obj = JSON.parse(json);
       assert.strictEqual(obj._typename, 'TH1F');
    });

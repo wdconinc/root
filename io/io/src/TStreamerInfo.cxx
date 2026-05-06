@@ -4440,6 +4440,13 @@ Int_t TStreamerInfo::GetDataMemberOffset(TDataMember *dm, TMemberStreamer *&stre
          break;
       }
    }
+#ifdef __EMSCRIPTEN__
+   // In WASM there is no interpreter to populate fRealData via ShowMembers.
+   // Fall back to the PCM-stored compile-time offset.
+   if (offset == kMissing && !(dm->Property() & kIsStatic)) {
+      offset = dm->GetOffset();
+   }
+#endif
    return offset;
 }
 

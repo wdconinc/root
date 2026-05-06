@@ -5940,8 +5940,12 @@ void TClass::LoadClassInfo() const
    if (!fCanLoadClassInfo || TestBit(kLoading))
       return;
 
-   if (!gInterpreter)
+   if (!gInterpreter) {
+      // No interpreter available (e.g., WASM): mark as done so HasInterpreterInfo()
+      // returns false, causing BuildRealData to take the emulated path.
+      fCanLoadClassInfo = kFALSE;
       return;
+   }
 
    bool autoParse = !gInterpreter->IsAutoParsingSuspended();
 
