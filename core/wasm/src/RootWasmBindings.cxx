@@ -180,7 +180,7 @@ EMSCRIPTEN_BINDINGS(TRandom3_bindings)
          return r.Uniform(lo, hi);
       }))
       .function("Poisson", optional_override([](TRandom3 &r, double mean) {
-         return r.Poisson(mean);
+         return static_cast<int>(r.Poisson(mean));  // ULong64_t → int for JS
       }))
       .function("SetSeed", optional_override([](TRandom3 &r, unsigned int seed) {
          r.SetSeed(seed);
