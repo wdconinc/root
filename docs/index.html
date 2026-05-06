@@ -384,14 +384,52 @@ async function drawObject(obj, option = '') {
 // C++ declaration helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Detect C++ style variable declaration: TypeName varName  or  TypeName varName(args)
-// Capture groups: (1) type name, (2) variable name, (3) optional constructor arg string.
-// Returns { typeName, varName, ctorArgs } or null.
+// Detect C++ style variable declaration:
+//   TypeName varName
+//   TypeName varName(args)
+//   TypeName varName = value
+// Capture groups: (1) type name, (2) variable name,
+//   (3) constructor args string (from parens), (4) init value (from =).
+// Returns { typeName, varName, initExpr } or null.
 function parseCppDecl(cmd) {
-  const m = cmd.match(/^([A-Za-z_][A-Za-z0-9_:]*)\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:\((.*)\))?\s*;?\s*$/);
+  const m = cmd.match(
+    /^([A-Za-z_][A-Za-z0-9_:]*)\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:\((.*)\)|=\s*(.*?))?\s*;?\s*$/
+  );
   if (!m) return null;
-  return { typeName: m[1], varName: m[2], ctorArgs: m[3] };
+  // m[3] = args from parens, m[4] = rhs from = assignment; unify as initExpr
+  return { typeName: m[1], varName: m[2], initExpr: m[3] !== undefined ? m[3] : m[4] };
 }
+
+// ROOT scalar typedef → { default JS value, display label }
+// Covers all ROOT type aliases (Rtypes.h) and plain C++ primitives.
+const SCALAR_TYPES = {
+  // plain C++ primitives
+  'double':        { dflt: 0.0,   label: 'double'   },
+  'float':         { dflt: 0.0,   label: 'float'    },
+  'int':           { dflt: 0,     label: 'int'      },
+  'long':          { dflt: 0,     label: 'long'     },
+  'short':         { dflt: 0,     label: 'short'    },
+  'char':          { dflt: 0,     label: 'char'     },
+  'bool':          { dflt: false, label: 'bool'     },
+  // ROOT typedefs from Rtypes.h
+  'Double_t':      { dflt: 0.0,   label: 'Double_t'  },
+  'Double32_t':    { dflt: 0.0,   label: 'Double32_t'},
+  'Float_t':       { dflt: 0.0,   label: 'Float_t'   },
+  'Float16_t':     { dflt: 0.0,   label: 'Float16_t' },
+  'Int_t':         { dflt: 0,     label: 'Int_t'     },
+  'UInt_t':        { dflt: 0,     label: 'UInt_t'    },
+  'Long_t':        { dflt: 0,     label: 'Long_t'    },
+  'Long64_t':      { dflt: 0,     label: 'Long64_t'  },
+  'ULong_t':       { dflt: 0,     label: 'ULong_t'   },
+  'ULong64_t':     { dflt: 0,     label: 'ULong64_t' },
+  'Short_t':       { dflt: 0,     label: 'Short_t'   },
+  'UShort_t':      { dflt: 0,     label: 'UShort_t'  },
+  'Char_t':        { dflt: 0,     label: 'Char_t'    },
+  'UChar_t':       { dflt: 0,     label: 'UChar_t'   },
+  'Bool_t':        { dflt: false, label: 'Bool_t'    },
+  'TString':       { dflt: '',    label: 'TString'   },
+  'string':        { dflt: '',    label: 'string'    },
+};
 
 // Parse a comma-separated constructor argument list of string, number, and boolean literals.
 // Quoted tokens retain their string type; unquoted tokens are coerced to number or boolean.
@@ -449,25 +487,50 @@ async function executeCommand(raw) {
   document.querySelector('.prompt-label').textContent = 'root [' + cmdCount + ']>';
 
   // ── Intercept C++-style variable declarations before JS evaluation ──────────
-  // Only intercept when ROOT_WASM is loaded and the named type is exported, so
-  // valid JS expressions like `new Date()` or `typeof h1` still reach the JS evaluator.
   const decl = parseCppDecl(cmd);
-  if (decl && ROOT_WASM && ROOT_WASM[decl.typeName]) {
-    const { typeName, varName, ctorArgs } = decl;
-    try {
-      const args = parseLiteralArgs(ctorArgs);
-      const obj = new ROOT_WASM[typeName](...args);
-      replScope[varName] = obj;
-      print('(' + typeName + ') ' + varName);
-    } catch(e) {
-      // Distinguish "type has no registered constructor" from bad arguments
-      if (/not constructible|not a constructor/i.test(e.message)) {
-        print('Error: \'' + typeName + '\' has no registered constructor. Check help() for constructible ROOT types.', 'error');
-      } else {
-        print('Error: ' + e.message, 'error');
+  if (decl) {
+    const { typeName, varName, initExpr } = decl;
+
+    // 1. ROOT scalar typedefs (Double_t, Int_t, Bool_t, …) and C++ primitives.
+    //    Create a plain JS variable in replScope with the appropriate default/value.
+    if (SCALAR_TYPES[typeName]) {
+      const { dflt, label } = SCALAR_TYPES[typeName];
+      let value = dflt;
+      if (initExpr != null && initExpr.trim() !== '') {
+        const args = parseLiteralArgs(initExpr);
+        if (args.length > 0) value = args[0];
       }
+      replScope[varName] = value;
+      print('(' + label + ') ' + varName + ' = ' + JSON.stringify(value));
+      return;
     }
-    return;
+
+    // 2. ROOT class types exported by the WASM module.
+    if (ROOT_WASM && ROOT_WASM[typeName]) {
+      try {
+        const args = parseLiteralArgs(initExpr);
+        const obj = new ROOT_WASM[typeName](...args);
+        replScope[varName] = obj;
+        print('(' + typeName + ') ' + varName);
+      } catch(e) {
+        if (/not constructible|not a constructor/i.test(e.message)) {
+          print('Error: \'' + typeName + '\' has no registered constructor. Check help() for constructible ROOT types.', 'error');
+        } else {
+          print('Error: ' + e.message, 'error');
+        }
+      }
+      return;
+    }
+
+    // 3. Type looks like a ROOT/C++ identifier (starts with uppercase or is a
+    //    known ROOT prefix) but isn't available → helpful error instead of
+    //    a confusing JS SyntaxError like "unexpected identifier 'a'".
+    if (/^[A-Z]/.test(typeName) || /^(unsigned|signed|long|short)$/.test(typeName)) {
+      print('Error: \'' + typeName + '\' is not a known type in this REPL.\n' +
+            'Scalar types available: Double_t, Float_t, Int_t, Bool_t, TString, double, float, int, bool, …\n' +
+            'ROOT classes (require WASM): TH1F, TH2F, TRandom3', 'error');
+      return;
+    }
   }
 
   // ── Standard JS evaluation with persistent scope ───────────────────────────
