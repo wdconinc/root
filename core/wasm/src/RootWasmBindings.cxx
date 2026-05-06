@@ -121,7 +121,10 @@ EMSCRIPTEN_BINDINGS(TH1F_bindings)
       ;
 
    class_<TH1F, base<TH1>>("TH1F")
-      .constructor<const char *, const char *, int, double, double>()
+      .constructor(optional_override([](const std::string &name, const std::string &title,
+                                        int nbinsx, double xlow, double xup) {
+         return new TH1F(name.c_str(), title.c_str(), nbinsx, xlow, xup);
+      }))
       ;
 }
 
@@ -142,7 +145,11 @@ EMSCRIPTEN_BINDINGS(TH2F_bindings)
       ;
 
    class_<TH2F, base<TH2>>("TH2F")
-      .constructor<const char *, const char *, int, double, double, int, double, double>()
+      .constructor(optional_override([](const std::string &name, const std::string &title,
+                                        int nbinsx, double xlow, double xup,
+                                        int nbinsy, double ylow, double yup) {
+         return new TH2F(name.c_str(), title.c_str(), nbinsx, xlow, xup, nbinsy, ylow, yup);
+      }))
       ;
 }
 
