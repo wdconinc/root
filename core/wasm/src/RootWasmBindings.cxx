@@ -57,8 +57,8 @@ static std::string toJSON(TObject *obj)
    // we register it here on first use (all static initializers are done by
    // this point, so TStreamerInfo::Class() is fully set up).
    static bool sFactoryInitialized = []() {
-      if (!TVirtualStreamerInfo::fgInfoFactory)
-         TVirtualStreamerInfo::SetFactory(new TStreamerInfo());
+      // fgInfoFactory starts null in WASM (no TCling); set it unconditionally.
+      TVirtualStreamerInfo::SetFactory(new TStreamerInfo());
       return true;
    }();
    (void)sFactoryInitialized;
@@ -223,7 +223,7 @@ EMSCRIPTEN_BINDINGS(TMath_bindings)
 // ─── Global toJSON helper ─────────────────────────────────────────────────────
 EMSCRIPTEN_BINDINGS(root_utils)
 {
-   function("toJSON", optional_override([](val obj) -> std::string {
+   function("toJSON", optional_override([](val /*obj*/) -> std::string {
       // Accept either a TH1* or TH2* wrapped pointer from JS
       // For now, return a placeholder; real dispatch would need RTTI
       return "{}";
