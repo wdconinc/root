@@ -43,12 +43,26 @@
 #include "TNamed.h"
 #include "TAxis.h"
 #include "TBufferJSON.h"
+#include "TStreamerInfo.h"
+#include "TVirtualStreamerInfo.h"
 
 using namespace emscripten;
 
 // ─── Helper: serialise any TObject to a JSON string via TBufferJSON ──────────
 static std::string toJSON(TObject *obj)
 {
+   // In a normal ROOT session TCling::LoadPCM() calls
+   //   TVirtualStreamerInfo::SetFactory(new TStreamerInfo())
+   // to register the concrete factory.  Since WASM builds have no Cling,
+   // we register it here on first use (all static initializers are done by
+   // this point, so TStreamerInfo::Class() is fully set up).
+   static bool sFactoryInitialized = []() {
+      if (!TVirtualStreamerInfo::fgInfoFactory)
+         TVirtualStreamerInfo::SetFactory(new TStreamerInfo());
+      return true;
+   }();
+   (void)sFactoryInitialized;
+
    if (!obj) return "null";
    TString json = TBufferJSON::ToJSON(obj);
    return std::string(json.Data());
