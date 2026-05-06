@@ -562,14 +562,49 @@ async function executeCommand(raw) {
 const input  = document.getElementById('cmd-input');
 const runBtn = document.getElementById('run-btn');
 
-runBtn.addEventListener('click', () => {
-  executeCommand(input.value);
+// Command history (shell-style arrow-up / arrow-down navigation)
+const cmdHistory = [];
+let historyIdx = -1;       // -1 = not navigating; 0 = oldest entry
+let historySaved = '';     // draft text saved when user starts browsing history
+
+function submitCommand() {
+  const cmd = input.value;
+  // Push non-empty, non-duplicate commands into history
+  if (cmd.trim() && cmd !== cmdHistory[cmdHistory.length - 1]) {
+    cmdHistory.push(cmd);
+  }
+  historyIdx = -1;
+  historySaved = '';
+  executeCommand(cmd);
   input.value = '';
-});
+}
+
+runBtn.addEventListener('click', submitCommand);
 input.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
-    executeCommand(input.value);
-    input.value = '';
+    submitCommand();
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();   // prevent cursor jumping to start of input
+    if (cmdHistory.length === 0) return;
+    if (historyIdx === -1) {
+      // Start browsing: save the current draft
+      historySaved = input.value;
+      historyIdx = cmdHistory.length - 1;
+    } else if (historyIdx > 0) {
+      historyIdx--;
+    }
+    input.value = cmdHistory[historyIdx];
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (historyIdx === -1) return;
+    if (historyIdx < cmdHistory.length - 1) {
+      historyIdx++;
+      input.value = cmdHistory[historyIdx];
+    } else {
+      // Back to the draft
+      historyIdx = -1;
+      input.value = historySaved;
+    }
   }
 });
 input.focus();
