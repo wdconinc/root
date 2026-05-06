@@ -557,6 +557,111 @@ async function executeCommand(raw) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Tab completion
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Built-in REPL helpers visible in the `with(__scope__)` evaluation context.
+const REPL_BUILTINS = ['demo','openFile','draw','ls','clear','help','ROOT_WASM','JSROOT'];
+
+// Properties that belong to JS function / object infrastructure, not user APIs.
+const _SKIP_PROPS = new Set([
+  'length','name','arguments','caller','prototype',
+  'apply','bind','call','toString','valueOf','constructor',
+  'hasOwnProperty','isPrototypeOf','propertyIsEnumerable',
+  'toLocaleString',
+]);
+
+// Walk own properties + prototype chain of obj, filtering internal names.
+// Stops at Object.prototype and Function.prototype.
+function _enumProps(obj) {
+  const seen = new Set();
+  const add = p => {
+    if (!p.startsWith('__') && !p.startsWith('$') && !_SKIP_PROPS.has(p)) seen.add(p);
+  };
+  // Own properties first (catches static methods on class constructors)
+  Object.getOwnPropertyNames(obj).forEach(add);
+  // Prototype chain for instance methods
+  let o = Object.getPrototypeOf(obj);
+  while (o && o !== Object.prototype && o !== Function.prototype) {
+    Object.getOwnPropertyNames(o).forEach(add);
+    o = Object.getPrototypeOf(o);
+  }
+  return [...seen].sort();
+}
+
+// Resolve a simple dotted path against a combined namespace
+// (replScope, ROOT_WASM exports, and a few explicit globals).
+function _resolveExpr(expr) {
+  const parts = expr.split('.');
+  const roots = Object.assign({ ROOT_WASM, JSROOT: window.JSROOT }, replScope);
+  let obj = roots[parts[0]];
+  for (let i = 1; i < parts.length; i++) {
+    if (obj == null) return undefined;
+    obj = obj[parts[i]];
+  }
+  return obj;
+}
+
+// Return { base, prefix, completions } for the current input text.
+// 'base' is the portion before the prefix that should not change.
+function getCompletions(text) {
+  // Member access: anything ending in  expr.memberPrefix
+  const dotIdx = text.lastIndexOf('.');
+  if (dotIdx !== -1) {
+    const objPath     = text.slice(0, dotIdx);
+    const memberPfx   = text.slice(dotIdx + 1);
+    const obj = _resolveExpr(objPath);
+    if (obj != null) {
+      const completions = _enumProps(obj).filter(p => p.startsWith(memberPfx));
+      return { base: objPath + '.', prefix: memberPfx, completions };
+    }
+  }
+
+  // Top-level identifier
+  const pfxMatch = text.match(/(\w*)$/);
+  const prefix   = pfxMatch ? pfxMatch[1] : '';
+  const base     = text.slice(0, text.length - prefix.length);
+
+  const all = new Set(REPL_BUILTINS);
+  Object.keys(replScope).forEach(k => all.add(k));
+  if (ROOT_WASM) Object.keys(ROOT_WASM).forEach(k => all.add(k));
+  Object.keys(SCALAR_TYPES).forEach(k => all.add(k));
+
+  const completions = [...all].filter(k => k.startsWith(prefix)).sort();
+  return { base, prefix, completions };
+}
+
+// Apply a Tab completion to the input field.
+function applyCompletion(text) {
+  const { base, prefix, completions } = getCompletions(text);
+  if (completions.length === 0) return;
+
+  if (completions.length === 1) {
+    const completed = completions[0];
+    // Peek at the resolved value to append '(' for functions
+    const obj = _resolveExpr(base.replace(/\.$/, ''));
+    const val = obj != null ? obj[completed] : (replScope[completed] ?? (ROOT_WASM && ROOT_WASM[completed]));
+    input.value = base + completed + (typeof val === 'function' ? '(' : '');
+    return;
+  }
+
+  // Find longest common prefix of all matches
+  let common = completions[0];
+  for (const c of completions) {
+    while (!c.startsWith(common)) common = common.slice(0, -1);
+    if (!common) break;
+  }
+
+  if (common.length > prefix.length) {
+    // Can fill in more characters without ambiguity
+    input.value = base + common;
+  } else {
+    // Show all candidates bash-style (two-column friendly spacing)
+    print(completions.join('   '));
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // UI wiring
 // ─────────────────────────────────────────────────────────────────────────────
 const input  = document.getElementById('cmd-input');
@@ -583,6 +688,9 @@ runBtn.addEventListener('click', submitCommand);
 input.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
     submitCommand();
+  } else if (e.key === 'Tab') {
+    e.preventDefault();
+    applyCompletion(input.value);
   } else if (e.key === 'ArrowUp') {
     e.preventDefault();   // prevent cursor jumping to start of input
     if (cmdHistory.length === 0) return;
