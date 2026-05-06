@@ -106,6 +106,19 @@ TProtoClass::TProtoClass(TClass* cl):
    } depClassDedup(fDepClasses);
 
    if (!cl->GetCollectionProxy()) {
+      // Force computation of fDelta and fProperty for all base classes before PCM
+      // serialization. Both fields are lazy-initialized (INT_MAX and -1 respectively)
+      // and must be populated here so that they are stored with correct values in the
+      // PCM file. Without this, in environments without an interpreter (e.g. WASM),
+      // GetDelta() would find fDelta==INT_MAX and fInfo==nullptr and return wrong values.
+      if (auto bases = cl->GetListOfBases()) {
+         for (auto baseObj : *bases) {
+            auto base = static_cast<TBaseClass *>(baseObj);
+            base->GetDelta();    // forces fDelta computation via gCling (available here)
+            base->Property();    // forces fProperty computation via gCling (available here)
+         }
+      }
+
       // Build the list of RealData before we access it:
       cl->BuildRealData(nullptr, true /*isTransient*/);
       // The data members are ordered as follows:

@@ -13,6 +13,7 @@
 #include "TBuffer.h"
 #include "TClass.h"
 #include "TInterpreter.h"
+#include "TVirtualStreamerInfo.h"
 #include <climits>
 
 #include "TVirtualMutex.h" // For R__LOCKGUARD
@@ -77,10 +78,19 @@ Int_t TBaseClass::GetDelta()
    // meaning "cannot calculate base offset".
    if (fDelta == INT_MAX) {
       R__LOCKGUARD(gInterpreterMutex);
-      if (Property() & kIsVirtualBase)
-         fDelta = -1;
-      else if (fInfo)
-         fDelta = (Int_t)gCling->BaseClassInfo_Offset(fInfo);
+      if (fInfo) {
+         // fInfo is available: use the interpreter to get the offset.
+         if (Property() & kIsVirtualBase)
+            fDelta = -1;
+         else
+            fDelta = (Int_t)gCling->BaseClassInfo_Offset(fInfo);
+      } else if (gInterpreter) {
+         // fInfo is gone but the interpreter is available (schema evolution, etc).
+         // We cannot get the offset; mark as missing so callers skip this base.
+         fDelta = TVirtualStreamerInfo::kMissing;
+      }
+      // If neither fInfo nor gInterpreter is available (e.g. in WASM builds)
+      // fDelta remains INT_MAX.  Callers must handle INT_MAX the same as kMissing.
    }
    return fDelta;
 }

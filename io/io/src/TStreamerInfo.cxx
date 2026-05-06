@@ -57,6 +57,7 @@ element type.
 #include "TSystem.h"
 #include "TObjString.h"
 #include "snprintf.h"
+#include <climits>
 
 #include "TStreamer.h"
 #include "TContainerConverters.h"
@@ -470,7 +471,7 @@ void TStreamerInfo::Build(Bool_t isTransient)
       while ((base = (TBaseClass*)nextb())) {
          TStreamerElement* element = 0;
          Int_t offset = base->GetDelta();
-         if (offset == kMissing) {
+         if (offset == kMissing || offset == INT_MAX) {
             continue;
          }
          if (offset == kNeedObjectForVirtualBaseClass) {
