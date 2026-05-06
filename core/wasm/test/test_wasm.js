@@ -119,7 +119,7 @@ async function main() {
 
    // Scale
    h1.Scale(2);
-   test('GetEntries() doubles after Scale(2)', () => approxEqual(h1.GetEntries(), 12));
+   test('Integral() doubles after Scale(2)', () => approxEqual(h1.Integral(), 15));
 
    // Reset
    h1.Reset();
@@ -170,7 +170,7 @@ async function main() {
 
    const pv = r1.Poisson(5);
    test('Poisson(5) is a non-negative integer', () => {
-      assert(Number.isInteger(pv) && pv >= 0, `Got ${pv}`);
+      assert(Math.trunc(pv) === pv && pv >= 0, `Got ${pv}`);
    });
 
    // SetSeed reproducibility
@@ -195,8 +195,8 @@ async function main() {
 
    // Gaus: peak at mean
    const gausAtMean = ROOT.TMath_Gaus(0, 0, 1);
-   const gausExpected = 1 / Math.sqrt(2 * Math.PI);
-   test('TMath_Gaus(0,0,1) ≈ 1/sqrt(2π)', () => approxEqual(gausAtMean, gausExpected, 1e-10));
+   const gausExpected = 1.0;  // ROOT's TMath::Gaus(x,mean,sigma) without norm returns exp(-0.5*((x-mean)/sigma)^2) = 1 at x=mean
+   test('TMath_Gaus(0,0,1) == 1 (unnormalized peak)', () => approxEqual(gausAtMean, gausExpected, 1e-10));
 
    // ── 7. TNamed via TH1F ──────────────────────────────────────────────────
    console.log('\n[7] TNamed (via TH1F)');

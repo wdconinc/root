@@ -1433,10 +1433,16 @@ void TClass::Init(const char *name, Version_t cversion,
 
    Bool_t isStl = TClassEdit::IsSTLCont(fName);
 
-   if (!gInterpreter)
+   if (!gInterpreter) {
+#ifdef __EMSCRIPTEN__
+      // In WebAssembly, gInterpreter is never initialized (interpreter disabled).
+      // Skip interpreter-dependent initialization; PCM/dictionary info is sufficient.
+#else
       ::Fatal("TClass::Init", "gInterpreter not initialized");
+#endif
+   }
 
-   if (givenInfo) {
+   if (givenInfo && gInterpreter) {
       bool invalid = !gInterpreter->ClassInfo_IsValid(givenInfo);
       bool notloaded = !gInterpreter->ClassInfo_IsLoaded(givenInfo);
       auto property = gInterpreter->ClassInfo_Property(givenInfo);
@@ -1483,7 +1489,7 @@ void TClass::Init(const char *name, Version_t cversion,
          if (proto)
             proto->FillTClass(this);
       }
-      if (!fHasRootPcmInfo && gInterpreter->CheckClassInfo(fName, /* autoload = */ kTRUE)) {
+      if (gInterpreter && !fHasRootPcmInfo && gInterpreter->CheckClassInfo(fName, /* autoload = */ kTRUE)) {
          gInterpreter->SetClassInfo(this, kFALSE, silent);   // sets fClassInfo pointer
          if (fClassInfo) {
             // This should be moved out of GetCheckSum itself however the last time
@@ -3714,7 +3720,9 @@ TList *TClass::GetListOfBases()
          return nullptr;
 
       if (!gInterpreter)
-         Fatal("GetListOfBases", "gInterpreter not initialized");
+         return nullptr;
+
+      Fatal("GetListOfBases", "gInterpreter not initialized");
 
       R__LOCKGUARD(gInterpreterMutex);
       if (!fBase.load()) {
@@ -5930,6 +5938,9 @@ void TClass::LoadClassInfo() const
    // Return if another thread already loaded the info
    // while we were waiting for the lock
    if (!fCanLoadClassInfo || TestBit(kLoading))
+      return;
+
+   if (!gInterpreter)
       return;
 
    bool autoParse = !gInterpreter->IsAutoParsingSuspended();
