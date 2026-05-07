@@ -43,8 +43,6 @@
 #include "TNamed.h"
 #include "TAxis.h"
 #include "TGraph.h"
-#include "TTree.h"
-#include "TBranch.h"
 
 #include <cstdio>
 #include <string>
@@ -423,65 +421,53 @@ EMSCRIPTEN_BINDINGS(TRandom3_bindings)
 }
 
 // ─── WasmTree ─────────────────────────────────────────────────────────────────
-// TTree wrapper with JS-friendly API.  Since SetBranchAddress takes void*, we
-// manage per-branch storage internally and expose index-based access.
+// Lightweight in-memory columnar store with a TTree-compatible JS API.
+// Avoids TTree entirely so that WASM builds do not require ROOTSYS/plugins
+// (TTree::Fill triggers TVirtualStreamerInfo which needs the plugin filesystem).
 class WasmTree {
 public:
    explicit WasmTree(const std::string &name, const std::string &title)
-   {
-      fTree = new TTree(name.c_str(), title.c_str());
-      fTree->SetDirectory(nullptr); // detach from gDirectory (in-memory)
-   }
-
-   ~WasmTree()
-   {
-      delete fTree;
-   }
+      : fName(name), fTitle(title) {}
 
    // Create a double branch.  Returns branch index (0-based).
    int BranchDouble(const std::string &name)
    {
-      fVals.push_back(0.0);
-      int idx = static_cast<int>(fVals.size()) - 1;
-      // Re-point all existing branch addresses because push_back may reallocate.
-      rebindAll();
-      // Create the new branch using the now-stable address.
-      std::string leafSpec = name + "/D";
-      fTree->Branch(name.c_str(), &fVals[idx], leafSpec.c_str());
+      int idx = static_cast<int>(fNames.size());
       fNames.push_back(name);
-      // Rebind after adding the new branch to ensure all addresses are correct.
-      rebindAll();
+      fCurrent.push_back(0.0);
+      fData.push_back({});
       return idx;
    }
 
    void SetBranchValue(int idx, double val)
    {
-      if (idx >= 0 && idx < (int)fVals.size())
-         fVals[idx] = val;
+      if (idx >= 0 && idx < (int)fCurrent.size())
+         fCurrent[idx] = val;
    }
 
    double GetBranchValue(int idx) const
    {
-      if (idx >= 0 && idx < (int)fVals.size())
-         return fVals[idx];
+      if (idx >= 0 && idx < (int)fCurrent.size())
+         return fCurrent[idx];
       return 0.0;
    }
 
+   // Commit current values as one entry; returns 1 on success.
    int Fill()
    {
-      return static_cast<int>(fTree->Fill());
+      for (int i = 0; i < (int)fData.size(); ++i)
+         fData[i].push_back(fCurrent[i]);
+      ++fEntries;
+      return 1;
    }
 
-   Long64_t GetEntries() const
-   {
-      return fTree->GetEntries();
-   }
+   Long64_t GetEntries() const { return fEntries; }
 
-   std::string GetName()  const { return std::string(fTree->GetName()); }
-   std::string GetTitle() const { return std::string(fTree->GetTitle()); }
+   std::string GetName()  const { return fName; }
+   std::string GetTitle() const { return fTitle; }
 
    // Returns JSON array string "[v0, v1, ..., vN-1]" for a named double branch.
-   std::string GetColumnDoubles(const std::string &branchName)
+   std::string GetColumnDoubles(const std::string &branchName) const
    {
       int idx = -1;
       for (int i = 0; i < (int)fNames.size(); ++i) {
@@ -489,37 +475,22 @@ public:
       }
       if (idx < 0) return "[]";
 
-      Long64_t n = fTree->GetEntries();
-      double val = 0.0;
-      TBranch *br = fTree->GetBranch(branchName.c_str());
-      if (!br) return "[]";
-      br->SetAddress(&val);
-
+      const auto &col = fData[idx];
       std::string out = "[";
-      for (Long64_t i = 0; i < n; ++i) {
-         br->GetEntry(i);
+      for (int i = 0; i < (int)col.size(); ++i) {
          if (i) out += ",";
-         out += dbl(val);
+         out += dbl(col[i]);
       }
       out += "]";
-
-      // Restore original address
-      br->SetAddress(&fVals[idx]);
       return out;
    }
 
 private:
-   TTree                   *fTree  = nullptr;
-   std::vector<double>      fVals;
-   std::vector<std::string> fNames;
-
-   void rebindAll()
-   {
-      for (int i = 0; i < (int)fNames.size(); ++i) {
-         TBranch *br = fTree->GetBranch(fNames[i].c_str());
-         if (br) br->SetAddress(&fVals[i]);
-      }
-   }
+   std::string                       fName, fTitle;
+   std::vector<std::string>          fNames;
+   std::vector<double>               fCurrent;   // one slot per branch (current event)
+   std::vector<std::vector<double>>  fData;       // fData[branch][entry]
+   Long64_t                          fEntries = 0;
 };
 
 EMSCRIPTEN_BINDINGS(WasmTree_bindings)
