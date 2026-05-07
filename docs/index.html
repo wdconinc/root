@@ -375,7 +375,7 @@ const REPL = {
       'With ROOT WASM loaded, C++ declarations are also supported:',
       '  TH1F h("h","Title;x;y",100,-5,5)  — create a TH1F named h',
       '  for (Int_t i=0; i<1000; i++) h.Fill(rng.Gaus(0,1))',
-      '  draw(h)                            — draw it in the canvas',
+      '  h.Draw()                           — draw it (or draw(h))',
       '  TH2F h2("h2","2D;x;y",50,-5,5,50,-5,5)',
       '  TRandom3 rng(42)',
       'Variables declared this way are available in subsequent commands.',
@@ -794,6 +794,21 @@ async function tryLoadROOTWasm() {
         document.getElementById('wasm-status').textContent = ver;
         document.getElementById('wasm-status').style.color = 'var(--accent)';
         print('ROOT WASM ' + ver + ' loaded — native C++ objects available!', 'info');
+        // Inject a JS Draw(option) method on every drawable WASM class.
+        // This lets users call h.Draw() or h.Draw("e1") just like in ROOT's REPL.
+        // The method serialises the object via toJSON(), parses with JSROOT, and
+        // renders it in the canvas panel.  It returns the object itself so that
+        // expressions like  h.Fill(x); h.Draw()  chain naturally.
+        ['TH1F', 'TH2F', 'TNamed'].forEach(typeName => {
+          const ctor = ROOT_WASM[typeName];
+          if (ctor && ctor.prototype && !ctor.prototype.Draw) {
+            ctor.prototype.Draw = function(option = '') {
+              const jsrootObj = JSROOT.parse(this.toJSON());
+              drawObject(jsrootObj, option || 'hist');
+              return this;
+            };
+          }
+        });
         // Extend REPL with native commands
         REPL.nativeDemo = function() {
           const h = new ROOT_WASM.TH1F('ndemo', 'Native Gaussian;x;counts', 100, -5, 5);
