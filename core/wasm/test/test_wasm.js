@@ -248,8 +248,8 @@ async function main() {
    test('toJSON() fArray has fNcells elements', () => {
       assert(json !== null, 'toJSON() threw — skipping');
       const obj = JSON.parse(json);
-      assert(obj.fArray && obj.fArray.fArray.length === obj.fNcells,
-             `fArray.length=${obj.fArray && obj.fArray.fArray.length} expected ${obj.fNcells}`);
+      assert(Array.isArray(obj.fArray) && obj.fArray.length === obj.fNcells,
+             `fArray.length=${Array.isArray(obj.fArray) ? obj.fArray.length : 'not-array'} expected ${obj.fNcells}`);
    });
    test('toJSON() fEntries matches GetEntries()', () => {
       assert(json !== null, 'toJSON() threw — skipping');

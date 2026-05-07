@@ -103,7 +103,7 @@ static std::string axisToJSON(const TAxis *ax, const char *name)
    j += ",\"fNbins\":";  j += std::to_string(ax->GetNbins());
    j += ",\"fXmin\":";   j += dbl(ax->GetXmin());
    j += ",\"fXmax\":";   j += dbl(ax->GetXmax());
-   j += ",\"fXbins\":{\"_typename\":\"TArrayD\",\"fN\":0,\"fArray\":[]}";
+   j += ",\"fXbins\":[]";
    j += ",\"fFirst\":0,\"fLast\":0,\"fBits2\":0";
    j += ",\"fTimeDisplay\":false,\"fTimeFormat\":\"\"";
    j += ",\"fLabels\":null,\"fModLabs\":null}";
@@ -162,14 +162,13 @@ static std::string th1ToJSROOTJSON(const TH1 &h, const char *typeName)
    j += ",\"fTsumwx\":";        j += dbl(stats[2]);
    j += ",\"fTsumwx2\":";       j += dbl(stats[3]);
    j += ",\"fMaximum\":-1111,\"fMinimum\":-1111,\"fNormFactor\":0";
-   j += ",\"fContour\":{\"_typename\":\"TArrayD\",\"fN\":0,\"fArray\":[]}";
-   j += ",\"fSumw2\":{\"_typename\":\"TArrayD\",\"fN\":";
-   j += std::to_string(nsumw2); j += ",\"fArray\":"; j += sw2; j += "}";
+   j += ",\"fContour\":[]";
+   j += ",\"fSumw2\":"; j += sw2;
    j += ",\"fOption\":\"\"";
    j += ",\"fFunctions\":{\"_typename\":\"TList\",\"name\":\".\",\"arr\":[],\"opt\":[]}";
    j += ",\"fBufferSize\":0,\"fBuffer\":[],\"fBinStatErrOpt\":0,\"fStatOverflows\":2";
-   j += ",\"fArray\":{\"_typename\":\"TArrayF\",\"fN\":";
-   j += std::to_string(ncells); j += ",\"fArray\":"; j += arr; j += "}";
+   j += ",\"fArray\":"; j += arr;
+   j += "}";
    j += "}";
    return j;
 }
@@ -227,15 +226,14 @@ static std::string th2ToJSROOTJSON(const TH2 &h)
    j += ",\"fTsumwy2\":"; j += dbl(stats[5]);
    j += ",\"fTsumwxy\":"; j += dbl(stats[6]);
    j += ",\"fMaximum\":-1111,\"fMinimum\":-1111,\"fNormFactor\":0";
-   j += ",\"fContour\":{\"_typename\":\"TArrayD\",\"fN\":0,\"fArray\":[]}";
-   j += ",\"fSumw2\":{\"_typename\":\"TArrayD\",\"fN\":";
-   j += std::to_string(nsumw2); j += ",\"fArray\":"; j += sw2; j += "}";
+   j += ",\"fContour\":[]";
+   j += ",\"fSumw2\":"; j += sw2;
    j += ",\"fOption\":\"\"";
    j += ",\"fFunctions\":{\"_typename\":\"TList\",\"name\":\".\",\"arr\":[],\"opt\":[]}";
    j += ",\"fBufferSize\":0,\"fBuffer\":[],\"fBinStatErrOpt\":0,\"fStatOverflows\":2";
    j += ",\"fScalefactor\":1";
-   j += ",\"fArray\":{\"_typename\":\"TArrayF\",\"fN\":";
-   j += std::to_string(ncells); j += ",\"fArray\":"; j += arr; j += "}";
+   j += ",\"fArray\":"; j += arr;
+   j += "}";
    j += "}";
    return j;
 }
