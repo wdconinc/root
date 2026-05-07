@@ -558,14 +558,23 @@ async function executeCommand(raw) {
     // via `with(__scope__)`. Using `with` is intentional here: it avoids injecting
     // arbitrary user-defined variable names as formal parameters (which would throw
     // a SyntaxError for reserved words like `let` or duplicates of built-in names).
-    const fn = new Function(
-      'demo','openFile','draw','ls','clear','help','JSROOT','drawObject','__scope__',
-      'with(__scope__) { return (' + cmd + ') }'
-    );
-    const result = await Promise.resolve(
-      fn(REPL.demo, REPL.openFile, REPL.draw, REPL.ls, REPL.clear, REPL.help,
-         window.JSROOT, drawObject, replScope)
-    );
+    //
+    // Try wrapping in `return (expr)` first so the result is returned to the REPL.
+    // If cmd is a statement (for/while/if/let/const/…) that can't appear in
+    // expression position, new Function() throws a SyntaxError at construction
+    // time — fall back to executing it as a bare statement (no return value).
+    const PARAMS = ['demo','openFile','draw','ls','clear','help','JSROOT','drawObject','__scope__'];
+    const ARGS   = [REPL.demo, REPL.openFile, REPL.draw, REPL.ls, REPL.clear, REPL.help,
+                    window.JSROOT, drawObject, replScope];
+    let fn;
+    try {
+      fn = new Function(...PARAMS, 'with(__scope__) { return (' + cmd + ') }');
+    } catch(syntaxErr) {
+      if (!(syntaxErr instanceof SyntaxError)) throw syntaxErr;
+      // Statement form — no return value
+      fn = new Function(...PARAMS, 'with(__scope__) { ' + cmd + ' }');
+    }
+    const result = await Promise.resolve(fn(...ARGS));
     if (result !== undefined) {
       const out = typeof result === 'string' ? result : JSON.stringify(result, null, 2);
       out.split('\n').forEach(line => print(line));
