@@ -222,6 +222,7 @@
       <div class="output-block info"><code>TRandom3 rng(42)</code></div>
       <div class="output-block info"><code>for (let i = 0; i &lt; 10000; i++) h.Fill(rng.Gaus(0,1))</code></div>
       <div class="output-block info"><code>h.Draw()</code> &nbsp;— or &nbsp;<code>h.Draw("e1")</code> for error bars</div>
+      <div class="output-block info">After <code>openFile("url")</code> TTree keys become variables: &nbsp;<code>events.Draw("px")</code> &nbsp;<code>events.branches()</code></div>
     </div>
     <div id="input-row">
       <span class="prompt-label">root [0]&gt;</span>
@@ -264,6 +265,46 @@ let cmdCount = 0;
 let painter  = null;   // JSROOT painter for the canvas
 let openedFile = null; // JSROOT TFile handle
 const replScope = {};  // persistent variable scope across REPL commands
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TTreeProxy — wraps a TTree from an opened .root file with a Draw() API.
+// Instances are injected into replScope automatically after openFile() so that
+// the user can type  events.Draw("px")  just like in the ROOT C++ prompt.
+// ─────────────────────────────────────────────────────────────────────────────
+class TTreeProxy {
+  constructor(name, file) {
+    this._name = name;
+    this._file = file;
+    this._tree = null;   // lazy-loaded JSROOT TTree object
+  }
+
+  async _load() {
+    if (!this._tree) this._tree = await this._file.readObject(this._name);
+    return this._tree;
+  }
+
+  // Draw a branch expression, e.g.  events.Draw("px")
+  //                                 events.Draw("px>>h(100,-5,5)")
+  //                                 events.Draw("px:py","","col")
+  async Draw(expr = '', option = '') {
+    const tree = await this._load();
+    const div  = document.getElementById('jsroot-canvas');
+    if (painter) { try { painter.cleanup(); } catch(_) {} painter = null; }
+    painter = await JSROOT.draw(div, tree, (expr || '') + (option ? ' ' + option : ''));
+    return this._name + (expr ? ' : ' + expr : '') + ' drawn.';
+  }
+
+  // List branch names of this tree
+  async branches() {
+    const tree = await this._load();
+    const arr = tree?.fBranches?.arr ?? [];
+    if (!arr.length) return '(no branches found)';
+    return arr.map(b => b.fName + (b.fTitle && b.fTitle !== b.fName ? '  /' + b.fTitle : '')).join('\n');
+  }
+
+  toString() { return '[TTree: ' + this._name + ']'; }
+  [Symbol.toPrimitive]() { return '[TTree: ' + this._name + ']'; }
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Terminal helpers
@@ -309,15 +350,28 @@ const REPL = {
     return 'Demo histogram drawn.';
   },
 
-  // Open a remote .root file and browse its top-level keys
+  // Open a remote .root file and browse its top-level keys.
+  // TTree keys are automatically injected into the REPL scope so the user
+  // can type  events.Draw("branch")  directly after openFile().
   async openFile(url) {
     setFileStatus('Opening ' + url + ' …', false);
     try {
       openedFile = await JSROOT.openFile(url);
       const keys = openedFile.fKeys || [];
       const names = keys.map(k => k.fName + ' [' + k.fClassName + ']');
+      // Inject TTree / TNtuple keys as TTreeProxy instances into replScope.
+      const treeNames = [];
+      for (const k of keys) {
+        if (k.fClassName === 'TTree' || k.fClassName === 'TNtuple') {
+          replScope[k.fName] = new TTreeProxy(k.fName, openedFile);
+          treeNames.push(k.fName);
+        }
+      }
       setFileStatus('Opened: ' + url, true);
-      return 'Keys:\n  ' + names.join('\n  ');
+      const treeHint = treeNames.length
+        ? '\nTrees in scope: ' + treeNames.join(', ') + '\n  → e.g.  ' + treeNames[0] + '.Draw("branch")'
+        : '';
+      return 'Keys:\n  ' + names.join('\n  ') + treeHint;
     } catch(e) {
       setFileStatus('Error: ' + e.message, false);
       throw e;
@@ -325,9 +379,10 @@ const REPL = {
   },
 
   // Draw a ROOT object or a key from the opened file.
-  //   draw(h)               — draw a WASM C++ object (TH1F, TH2F, …)
-  //   draw("keyname")       — draw an object from the opened .root file
-  //   draw(h, "colz")       — pass a draw option
+  //   draw(h)                  — draw a WASM C++ object (TH1F, TH2F, …)
+  //   draw("keyname")          — draw an object from the opened .root file
+  //   draw("treename","expr")  — draw a TTree branch: e.g. draw("events","px")
+  //   draw(h, "colz")          — pass a draw option
   async draw(target, option = '') {
     // WASM object: has toJSON() which produces ROOT JSON readable by JSROOT
     if (target && typeof target === 'object' && typeof target.toJSON === 'function') {
@@ -338,6 +393,10 @@ const REPL = {
         ? '  Entries: ' + target.GetEntries() : '';
       return 'Object drawn.' + entries;
     }
+    // TTreeProxy from replScope
+    if (target instanceof TTreeProxy) {
+      return target.Draw(option);
+    }
     // String key from an opened .root file
     if (typeof target === 'string') {
       if (!openedFile) throw new Error('No file open. Call openFile(url) first.');
@@ -346,6 +405,15 @@ const REPL = {
       return 'Drawing ' + target;
     }
     throw new Error('draw() expects a ROOT C++ object or a key name string.');
+  },
+
+  // List branches of a TTree from the opened file.
+  //   branches("events")   — list branches of the "events" tree
+  async branches(name) {
+    if (!openedFile) throw new Error('No file open. Call openFile(url) first.');
+    if (!name) throw new Error('Usage: branches("treename")');
+    const proxy = new TTreeProxy(name, openedFile);
+    return proxy.branches();
   },
 
   // List top-level keys of the opened file
@@ -370,10 +438,19 @@ const REPL = {
       '  demo()                   — draw a Gaussian histogram',
       '  openFile("url")          — open a remote .root file',
       '  ls()                     — list keys in opened file',
+      '  branches("treename")     — list branches of a TTree from the file',
       '  draw(h)                  — draw a ROOT C++ object (TH1F, TH2F, …)',
       '  draw("keyname","opts")   — draw object from file',
       '  clear()                  — clear canvas',
       '  help()                   — this message',
+      '',
+      'After openFile(), TTree keys become variables in scope:',
+      '  openFile("https://…/myfile.root")',
+      '  events                   — [TTree: events] proxy',
+      '  events.branches()        — list branches',
+      '  events.Draw("px")        — histogram branch "px"',
+      '  events.Draw("px>>h(100,-5,5)")  — with explicit binning',
+      '  events.Draw("px:py","","col")   — 2D scatter (col option)',
       '',
       'With ROOT WASM loaded, C++ declarations are also supported:',
       '  TH1F h("h","Title;x;y",100,-5,5)  — create a TH1F named h',
@@ -575,8 +652,8 @@ async function executeCommand(raw) {
     // If cmd is a statement (for/while/if/let/const/…) that can't appear in
     // expression position, new Function() throws a SyntaxError at construction
     // time — fall back to executing it as a bare statement (no return value).
-    const PARAMS = ['demo','openFile','draw','ls','clear','help','JSROOT','drawObject','__scope__'];
-    const ARGS   = [REPL.demo, REPL.openFile, REPL.draw, REPL.ls, REPL.clear, REPL.help,
+    const PARAMS = ['demo','openFile','draw','ls','branches','clear','help','JSROOT','drawObject','__scope__'];
+    const ARGS   = [REPL.demo, REPL.openFile, REPL.draw, REPL.ls, REPL.branches, REPL.clear, REPL.help,
                     window.JSROOT, drawObject, replScope];
     let fn;
     try {
@@ -601,7 +678,7 @@ async function executeCommand(raw) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Built-in REPL helpers visible in the `with(__scope__)` evaluation context.
-const REPL_BUILTINS = ['demo','openFile','draw','ls','clear','help','ROOT_WASM','JSROOT'];
+const REPL_BUILTINS = ['demo','openFile','draw','ls','branches','clear','help','ROOT_WASM','JSROOT'];
 
 // Properties that belong to JS function / object infrastructure, not user APIs.
 const _SKIP_PROPS = new Set([
