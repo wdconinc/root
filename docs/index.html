@@ -785,7 +785,20 @@ const input  = document.getElementById('cmd-input');
 const runBtn = document.getElementById('run-btn');
 
 // Command history (shell-style arrow-up / arrow-down navigation)
-const cmdHistory = [];
+// Persisted in localStorage under the key 'root-repl-history'.
+const HISTORY_KEY = 'root-repl-history';
+const HISTORY_MAX = 500;
+
+function historySave() {
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(cmdHistory.slice(-HISTORY_MAX))); } catch(_) {}
+}
+
+const cmdHistory = (() => {
+  try {
+    const stored = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+    return Array.isArray(stored) ? stored : [];
+  } catch(_) { return []; }
+})();
 let historyIdx = -1;       // -1 = not navigating; 0 = oldest entry
 let historySaved = '';     // draft text saved when user starts browsing history
 
@@ -794,6 +807,7 @@ function submitCommand() {
   // Push non-empty, non-duplicate commands into history
   if (cmd.trim() && cmd !== cmdHistory[cmdHistory.length - 1]) {
     cmdHistory.push(cmd);
+    historySave();
   }
   historyIdx = -1;
   historySaved = '';
