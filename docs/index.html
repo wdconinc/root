@@ -216,9 +216,12 @@
   <div class="panel" style="border-right: none;">
     <div class="panel-title"><span class="dot"></span> ROOT prompt</div>
     <div id="terminal">
-      <div class="output-block info">ROOT WebAssembly REPL — powered by JSROOT + xeus-cpp-lite</div>
-      <div class="output-block info">Type JSROOT or histogram commands below. Histograms will appear in the canvas →</div>
-      <div class="output-block info">Try: <code>demo()</code> or <code>openFile("https://...")</code></div>
+      <div class="output-block info">ROOT WebAssembly REPL — powered by JSROOT + Emscripten</div>
+      <div class="output-block info">Try <code>demo()</code>, <code>help()</code>, or the histogram workflow below (once ROOT WASM loads):</div>
+      <div class="output-block info"><code>TH1F h("h","Title;x;y",100,-5,5)</code></div>
+      <div class="output-block info"><code>TRandom3 rng(42)</code></div>
+      <div class="output-block info"><code>for (let i = 0; i &lt; 10000; i++) h.Fill(rng.Gaus(0,1))</code></div>
+      <div class="output-block info"><code>h.Draw()</code> &nbsp;— or &nbsp;<code>h.Draw("e1")</code> for error bars</div>
     </div>
     <div id="input-row">
       <span class="prompt-label">root [0]&gt;</span>
@@ -802,7 +805,7 @@ async function tryLoadROOTWasm() {
         const ver = ROOT_WASM.GetROOTVersion ? ROOT_WASM.GetROOTVersion() : '?';
         document.getElementById('wasm-status').textContent = ver;
         document.getElementById('wasm-status').style.color = 'var(--accent)';
-        print('ROOT WASM ' + ver + ' loaded — native C++ objects available!', 'info');
+        print('ROOT WASM ' + ver + ' loaded — C++ objects ready. Try h.Draw() after filling a TH1F!', 'info');
         // Inject a JS Draw(option) method on every drawable WASM class.
         // This lets users call h.Draw() or h.Draw("e1") just like in ROOT's REPL.
         // The method serialises the object via toJSON(), parses with JSROOT, and
@@ -818,7 +821,7 @@ async function tryLoadROOTWasm() {
             };
           }
         });
-        // Extend REPL with native commands
+        // nativeDemo kept for backward compat but no longer advertised in the UI
         REPL.nativeDemo = function() {
           const h = new ROOT_WASM.TH1F('ndemo', 'Native Gaussian;x;counts', 100, -5, 5);
           const rng = new ROOT_WASM.TRandom3(42);
@@ -827,7 +830,6 @@ async function tryLoadROOTWasm() {
           drawObject(JSROOT.parse(json), 'hist');
           return 'Native ROOT TH1F drawn. Entries: ' + h.GetEntries();
         };
-        print('Extra command available: nativeDemo() — uses real ROOT C++ TH1F', 'info');
       } catch(e) {
         print('ROOT WASM init error: ' + e.message, 'error');
       }
