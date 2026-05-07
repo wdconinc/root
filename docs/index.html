@@ -384,6 +384,8 @@ const REPL = {
       '  TGraph gr(5)',
       '  for (let i=0; i<5; i++) gr.SetPoint(i, i, i*i)',
       '  gr.Draw()',
+      '  const f = createTF1Gaus("g",1,0,1,-5,5)  — unit Gaussian TF1',
+      '  f.Draw()                           — draw TF1 curve',
       'Variables declared this way are available in subsequent commands.',
       '',
       'You can also drop a local .root file onto the file input below.',
@@ -808,19 +810,19 @@ async function tryLoadROOTWasm() {
         const ver = ROOT_WASM.GetROOTVersion ? ROOT_WASM.GetROOTVersion() : '?';
         document.getElementById('wasm-status').textContent = ver;
         document.getElementById('wasm-status').style.color = 'var(--accent)';
-        print('ROOT WASM ' + ver + ' loaded — C++ objects ready. Try h.Draw() after filling a TH1F, or gr.Draw() after building a TGraph!', 'info');
+        print('ROOT WASM ' + ver + ' loaded — C++ objects ready. Try h.Draw(), gr.Draw() for TGraph, or createTF1Gaus("g",1,0,1,-5,5).Draw()!', 'info');
         // Inject a JS Draw(option) method on every drawable WASM class.
         // This lets users call h.Draw() or h.Draw("e1") just like in ROOT's REPL.
         // The method serialises the object via toJSON(), parses with JSROOT, and
         // renders it in the canvas panel.  It returns the object itself so that
         // expressions like  h.Fill(x); h.Draw()  chain naturally.
-        ['TH1F', 'TH2F', 'TGraph'].forEach(typeName => {
+        ['TH1F', 'TH2F', 'TGraph', 'TF1'].forEach(typeName => {
           const ctor = ROOT_WASM[typeName];
           if (ctor && ctor.prototype && !ctor.prototype.Draw) {
             ctor.prototype.Draw = function(option = '') {
               try {
                 const jsrootObj = JSROOT.parse(this.toJSON());
-                const drawOpt = option || (typeName === 'TH2F' ? 'col' : typeName === 'TGraph' ? 'alp' : 'hist');
+                const drawOpt = option || (typeName === 'TH2F' ? 'col' : typeName === 'TGraph' ? 'alp' : typeName === 'TF1' ? 'l' : 'hist');
                 drawObject(jsrootObj, drawOpt);
               } catch(e) {
                 print('Draw error: ' + e.message, 'error');

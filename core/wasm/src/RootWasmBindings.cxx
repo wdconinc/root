@@ -34,6 +34,7 @@
 
 #include <emscripten/bind.h>
 
+#include "TF1.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TMath.h"
@@ -457,6 +458,133 @@ EMSCRIPTEN_BINDINGS(root_utils)
    function("GetROOTVersion", optional_override([]() -> std::string {
       return std::string(gROOT->GetVersion());
    }));
+}
+
+// ─── Serialise TF1 to JSROOT-compatible JSON ─────────────────────────────────
+static std::string tf1ToJSROOTJSON(TF1 &f, int npx = 200)
+{
+   double xmin = f.GetXmin();
+   double xmax = f.GetXmax();
+   int n = npx;
+
+   std::string save = "[";
+   for (int i = 0; i < n; ++i) {
+      if (i) save += ",";
+      double x = xmin + (xmax - xmin) * i / (n - 1);
+      save += dbl(f.Eval(x));
+   }
+   save += ","; save += dbl(xmin);
+   save += ","; save += dbl(xmax);
+   save += ","; save += dbl(static_cast<double>(n));
+   save += "]";
+
+   std::string j;
+   j.reserve(2048 + n * 20);
+   j += "{\"_typename\":\"TF1\"";
+   j += ",\"fUniqueID\":0,\"fBits\":50331648";
+   j += ",\"fName\":\"";  j += jsonEscapeStr(f.GetName());  j += "\"";
+   j += ",\"fTitle\":\""; j += jsonEscapeStr(f.GetTitle()); j += "\"";
+   j += ",\"fLineColor\":602,\"fLineStyle\":1,\"fLineWidth\":2";
+   j += ",\"fFillColor\":0,\"fFillStyle\":1001";
+   j += ",\"fMarkerColor\":1,\"fMarkerStyle\":1,\"fMarkerSize\":1";
+   j += ",\"fXmin\":"; j += dbl(xmin);
+   j += ",\"fXmax\":"; j += dbl(xmax);
+   j += ",\"fNpar\":";  j += std::to_string(f.GetNpar());
+   j += ",\"fNpx\":200";
+   j += ",\"fSave\":"; j += save;
+   j += ",\"fParErrors\":[],\"fParMin\":[],\"fParMax\":[]";
+   j += ",\"fFunctions\":{\"_typename\":\"TList\",\"name\":\".\",\"arr\":[],\"opt\":[]}";
+   j += "}";
+   return j;
+}
+
+// ─── TF1 ─────────────────────────────────────────────────────────────────────
+// TFormula requires Cling (not available in WASM). Expose pre-compiled lambdas
+// for common analytical shapes via factory functions.
+
+static TF1 *createTF1Gaus(const std::string &name, double norm,
+                           double mean, double sigma,
+                           double xmin, double xmax)
+{
+   return new TF1(name.c_str(),
+                  [norm, mean, sigma](double *x, double * /*p*/) -> double {
+                     double u = (x[0] - mean) / sigma;
+                     return norm * std::exp(-0.5 * u * u);
+                  }, xmin, xmax, 0);
+}
+
+static TF1 *createTF1Expo(const std::string &name, double c0, double c1,
+                           double xmin, double xmax)
+{
+   return new TF1(name.c_str(),
+                  [c0, c1](double *x, double * /*p*/) -> double {
+                     return c0 * std::exp(c1 * x[0]);
+                  }, xmin, xmax, 0);
+}
+
+static TF1 *createTF1Poly(const std::string &name, const std::string &coeffs_json,
+                           double xmin, double xmax)
+{
+   std::vector<double> c;
+   const char *p = coeffs_json.c_str();
+   while (*p && *p != '[') ++p;
+   if (*p == '[') ++p;
+   while (*p) {
+      char *end;
+      double v = std::strtod(p, &end);
+      if (end == p) break;
+      c.push_back(v);
+      p = end;
+      while (*p == ' ' || *p == ',') ++p;
+      if (*p == ']') break;
+   }
+   if (c.size() > 6) c.resize(6);
+
+   return new TF1(name.c_str(),
+                  [c](double *x, double * /*p*/) -> double {
+                     double result = 0.0, xn = 1.0;
+                     for (double ci : c) { result += ci * xn; xn *= x[0]; }
+                     return result;
+                  }, xmin, xmax, 0);
+}
+
+EMSCRIPTEN_BINDINGS(TF1_bindings)
+{
+   function("createTF1Gaus", optional_override([](const std::string &name,
+                                                   double norm, double mean, double sigma,
+                                                   double xmin, double xmax) -> TF1 * {
+      return createTF1Gaus(name, norm, mean, sigma, xmin, xmax);
+   }), allow_raw_pointers());
+
+   function("createTF1Expo", optional_override([](const std::string &name,
+                                                   double c0, double c1,
+                                                   double xmin, double xmax) -> TF1 * {
+      return createTF1Expo(name, c0, c1, xmin, xmax);
+   }), allow_raw_pointers());
+
+   function("createTF1Poly", optional_override([](const std::string &name,
+                                                   const std::string &coeffs,
+                                                   double xmin, double xmax) -> TF1 * {
+      return createTF1Poly(name, coeffs, xmin, xmax);
+   }), allow_raw_pointers());
+
+   class_<TF1, base<TNamed>>("TF1")
+      .function("Eval",         optional_override([](TF1 &f, double x) {
+         return f.Eval(x);
+      }))
+      .function("GetXmin",      optional_override([](TF1 &f) { return f.GetXmin(); }))
+      .function("GetXmax",      optional_override([](TF1 &f) { return f.GetXmax(); }))
+      .function("GetNpar",      optional_override([](TF1 &f) { return f.GetNpar(); }))
+      .function("GetParameter", optional_override([](TF1 &f, int i) {
+         return f.GetParameter(i);
+      }))
+      .function("SetParameter", optional_override([](TF1 &f, int i, double v) {
+         f.SetParameter(i, v);
+      }))
+      .function("toJSON",       optional_override([](TF1 &f) {
+         return tf1ToJSROOTJSON(f);
+      }))
+      ;
 }
 
 #endif // __EMSCRIPTEN__
