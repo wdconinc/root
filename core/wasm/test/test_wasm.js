@@ -257,6 +257,72 @@ async function main() {
       assert.strictEqual(obj.fEntries, hj.GetEntries());
    });
 
+
+   // ── Section N: TGraph ─────────────────────────────────────────────────────
+   console.log('\n── TGraph ──');
+   {
+      let gr, json;
+
+      test('TGraph(5) constructs without error', () => {
+         gr = new ROOT.TGraph(5);
+      });
+
+      test('GetN() returns 5', () => {
+         assert.strictEqual(gr.GetN(), 5);
+      });
+
+      test('SetPoint round-trips GetPointX/Y', () => {
+         gr.SetPoint(2, 3.14, 2.71);
+         approxEqual(gr.GetPointX(2), 3.14, 1e-9);
+         approxEqual(gr.GetPointY(2), 2.71, 1e-9);
+      });
+
+      test('AddPoint increases GetN()', () => {
+         const before = gr.GetN();
+         gr.AddPoint(99, 88);
+         assert.strictEqual(gr.GetN(), before + 1);
+      });
+
+      test('toJSON() returns non-empty string', () => {
+         json = gr.toJSON();
+         assert(typeof json === 'string' && json.length > 0);
+      });
+
+      test('toJSON() parses as valid JSON', () => {
+         const obj = JSON.parse(json);
+         assert(obj !== null && typeof obj === 'object');
+      });
+
+      test('toJSON() _typename is TGraph', () => {
+         const obj = JSON.parse(json);
+         assert.strictEqual(obj._typename, 'TGraph');
+      });
+
+      test('toJSON() fNpoints matches GetN()', () => {
+         const obj = JSON.parse(json);
+         assert.strictEqual(obj.fNpoints, gr.GetN());
+      });
+
+      test('toJSON() fX is plain array of length fNpoints', () => {
+         const obj = JSON.parse(json);
+         assert(Array.isArray(obj.fX) && obj.fX.length === obj.fNpoints,
+                `fX.length=${Array.isArray(obj.fX) ? obj.fX.length : 'not-array'} expected ${obj.fNpoints}`);
+      });
+
+      test('toJSON() fY is plain array of length fNpoints', () => {
+         const obj = JSON.parse(json);
+         assert(Array.isArray(obj.fY) && obj.fY.length === obj.fNpoints,
+                `fY.length=${Array.isArray(obj.fY) ? obj.fY.length : 'not-array'} expected ${obj.fNpoints}`);
+      });
+
+      test('toJSON() point values match SetPoint', () => {
+         const obj = JSON.parse(json);
+         // index 2 was set to (3.14, 2.71) above
+         assert(Math.abs(obj.fX[2] - 3.14) < 1e-9, `fX[2]=${obj.fX[2]}`);
+         assert(Math.abs(obj.fY[2] - 2.71) < 1e-9, `fY[2]=${obj.fY[2]}`);
+      });
+   }
+
    // ── Summary ──────────────────────────────────────────────────────────────
    console.log(`\n${'─'.repeat(50)}`);
    console.log(`Results: ${passed} passed, ${failed} failed`);

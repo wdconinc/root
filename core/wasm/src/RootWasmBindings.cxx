@@ -41,6 +41,7 @@
 #include "TROOT.h"
 #include "TNamed.h"
 #include "TAxis.h"
+#include "TGraph.h"
 
 #include <cstdio>
 #include <string>
@@ -169,7 +170,6 @@ static std::string th1ToJSROOTJSON(const TH1 &h, const char *typeName)
    j += ",\"fBufferSize\":0,\"fBuffer\":[],\"fBinStatErrOpt\":0,\"fStatOverflows\":2";
    j += ",\"fArray\":"; j += arr;
    j += "}";
-   j += "}";
    return j;
 }
 
@@ -234,6 +234,38 @@ static std::string th2ToJSROOTJSON(const TH2 &h)
    j += ",\"fScalefactor\":1";
    j += ",\"fArray\":"; j += arr;
    j += "}";
+   return j;
+}
+
+// ─── Serialise TGraph to JSROOT-compatible JSON ─────────────────────────────────
+static std::string tgraphToJSROOTJSON(const TGraph &g)
+{
+   int n = g.GetN();
+
+   // fX and fY MUST be plain JS arrays, not TArrayD wrappers.
+   std::string xarr = "[", yarr = "[";
+   for (int i = 0; i < n; ++i) {
+      if (i) { xarr += ","; yarr += ","; }
+      xarr += dbl(g.GetPointX(i));
+      yarr += dbl(g.GetPointY(i));
+   }
+   xarr += "]"; yarr += "]";
+
+   std::string j;
+   j.reserve(1024 + n * 40);
+   j += "{\"_typename\":\"TGraph\"";
+   j += ",\"fUniqueID\":0,\"fBits\":1032";
+   j += ",\"fName\":\"";  j += jsonEscapeStr(g.GetName());  j += "\"";
+   j += ",\"fTitle\":\""; j += jsonEscapeStr(g.GetTitle()); j += "\"";
+   j += ",\"fLineColor\":602,\"fLineStyle\":1,\"fLineWidth\":1";
+   j += ",\"fFillColor\":0,\"fFillStyle\":1001";
+   j += ",\"fMarkerColor\":1,\"fMarkerStyle\":20,\"fMarkerSize\":1";
+   j += ",\"fNpoints\":"; j += std::to_string(n);
+   j += ",\"fX\":"; j += xarr;
+   j += ",\"fY\":"; j += yarr;
+   j += ",\"fFunctions\":{\"_typename\":\"TList\",\"name\":\".\",\"arr\":[],\"opt\":[]}";
+   j += ",\"fHistogram\":null";
+   j += ",\"fMinimum\":-1111,\"fMaximum\":-1111";
    j += "}";
    return j;
 }
@@ -338,6 +370,30 @@ EMSCRIPTEN_BINDINGS(TH2F_bindings)
                                         int nbinsx, double xlow, double xup,
                                         int nbinsy, double ylow, double yup) {
          return new TH2F(name.c_str(), title.c_str(), nbinsx, xlow, xup, nbinsy, ylow, yup);
+      }))
+      ;
+}
+
+// ─── TGraph ────────────────────────────────────────────────────────────
+EMSCRIPTEN_BINDINGS(TGraph_bindings)
+{
+   class_<TGraph, base<TNamed>>("TGraph")
+      .constructor(optional_override([](int n) { return new TGraph(n); }))
+      .function("AddPoint", optional_override([](TGraph &g, double x, double y) {
+         g.AddPoint(x, y);
+      }))
+      .function("SetPoint", optional_override([](TGraph &g, int i, double x, double y) {
+         g.SetPoint(i, x, y);
+      }))
+      .function("GetN",      &TGraph::GetN)
+      .function("GetPointX", optional_override([](const TGraph &g, int i) {
+         return g.GetPointX(i);
+      }))
+      .function("GetPointY", optional_override([](const TGraph &g, int i) {
+         return g.GetPointY(i);
+      }))
+      .function("toJSON",    optional_override([](TGraph &g) {
+         return tgraphToJSROOTJSON(g);
       }))
       ;
 }
