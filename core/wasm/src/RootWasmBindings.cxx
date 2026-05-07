@@ -43,6 +43,8 @@
 #include "TNamed.h"
 #include "TAxis.h"
 #include "TGraph.h"
+#include "TTree.h"
+#include "TBranch.h"
 
 #include <cstdio>
 #include <string>
@@ -416,6 +418,139 @@ EMSCRIPTEN_BINDINGS(TRandom3_bindings)
       }))
       .function("SetSeed", optional_override([](TRandom3 &r, unsigned int seed) {
          r.SetSeed(seed);
+      }))
+      ;
+}
+
+// ─── WasmTree ─────────────────────────────────────────────────────────────────
+// TTree wrapper with JS-friendly API.  Since SetBranchAddress takes void*, we
+// manage per-branch storage internally and expose index-based access.
+class WasmTree {
+public:
+   explicit WasmTree(const std::string &name, const std::string &title)
+   {
+      fTree = new TTree(name.c_str(), title.c_str());
+      fTree->SetDirectory(nullptr); // detach from gDirectory (in-memory)
+   }
+
+   ~WasmTree()
+   {
+      delete fTree;
+   }
+
+   // Create a double branch.  Returns branch index (0-based).
+   int BranchDouble(const std::string &name)
+   {
+      fVals.push_back(0.0);
+      int idx = static_cast<int>(fVals.size()) - 1;
+      // Re-point all existing branch addresses because push_back may reallocate.
+      rebindAll();
+      // Create the new branch using the now-stable address.
+      std::string leafSpec = name + "/D";
+      fTree->Branch(name.c_str(), &fVals[idx], leafSpec.c_str());
+      fNames.push_back(name);
+      // Rebind after adding the new branch to ensure all addresses are correct.
+      rebindAll();
+      return idx;
+   }
+
+   void SetBranchValue(int idx, double val)
+   {
+      if (idx >= 0 && idx < (int)fVals.size())
+         fVals[idx] = val;
+   }
+
+   double GetBranchValue(int idx) const
+   {
+      if (idx >= 0 && idx < (int)fVals.size())
+         return fVals[idx];
+      return 0.0;
+   }
+
+   int Fill()
+   {
+      return static_cast<int>(fTree->Fill());
+   }
+
+   Long64_t GetEntries() const
+   {
+      return fTree->GetEntries();
+   }
+
+   std::string GetName()  const { return std::string(fTree->GetName()); }
+   std::string GetTitle() const { return std::string(fTree->GetTitle()); }
+
+   // Returns JSON array string "[v0, v1, ..., vN-1]" for a named double branch.
+   std::string GetColumnDoubles(const std::string &branchName) const
+   {
+      int idx = -1;
+      for (int i = 0; i < (int)fNames.size(); ++i) {
+         if (fNames[i] == branchName) { idx = i; break; }
+      }
+      if (idx < 0) return "[]";
+
+      Long64_t n = fTree->GetEntries();
+      double val = 0.0;
+      TBranch *br = fTree->GetBranch(branchName.c_str());
+      if (!br) return "[]";
+      br->SetAddress(&val);
+
+      std::string out = "[";
+      for (Long64_t i = 0; i < n; ++i) {
+         br->GetEntry(i);
+         if (i) out += ",";
+         out += dbl(val);
+      }
+      out += "]";
+
+      // Restore original address
+      br->SetAddress(&fVals[idx]);
+      return out;
+   }
+
+private:
+   TTree                   *fTree  = nullptr;
+   std::vector<double>      fVals;
+   std::vector<std::string> fNames;
+
+   void rebindAll()
+   {
+      for (int i = 0; i < (int)fNames.size(); ++i) {
+         TBranch *br = fTree->GetBranch(fNames[i].c_str());
+         if (br) br->SetAddress(&fVals[i]);
+      }
+   }
+};
+
+EMSCRIPTEN_BINDINGS(WasmTree_bindings)
+{
+   class_<WasmTree>("TTree")
+      .constructor(optional_override([](const std::string &name, const std::string &title) {
+         return new WasmTree(name, title);
+      }))
+      .function("BranchDouble",     optional_override([](WasmTree &t, const std::string &name) {
+         return t.BranchDouble(name);
+      }))
+      .function("SetBranchValue",   optional_override([](WasmTree &t, int idx, double val) {
+         t.SetBranchValue(idx, val);
+      }))
+      .function("GetBranchValue",   optional_override([](WasmTree &t, int idx) {
+         return t.GetBranchValue(idx);
+      }))
+      .function("Fill",             optional_override([](WasmTree &t) {
+         return t.Fill();
+      }))
+      .function("GetEntries",       optional_override([](WasmTree &t) {
+         return static_cast<double>(t.GetEntries()); // Long64_t → double for JS
+      }))
+      .function("GetName",          optional_override([](WasmTree &t) {
+         return t.GetName();
+      }))
+      .function("GetTitle",         optional_override([](WasmTree &t) {
+         return t.GetTitle();
+      }))
+      .function("GetColumnDoubles", optional_override([](WasmTree &t, const std::string &name) {
+         return t.GetColumnDoubles(name);
       }))
       ;
 }
