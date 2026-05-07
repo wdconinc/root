@@ -481,7 +481,7 @@ public:
    std::string GetTitle() const { return std::string(fTree->GetTitle()); }
 
    // Returns JSON array string "[v0, v1, ..., vN-1]" for a named double branch.
-   std::string GetColumnDoubles(const std::string &branchName) const
+   std::string GetColumnDoubles(const std::string &branchName)
    {
       int idx = -1;
       for (int i = 0; i < (int)fNames.size(); ++i) {
