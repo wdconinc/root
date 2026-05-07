@@ -257,6 +257,85 @@ async function main() {
       assert.strictEqual(obj.fEntries, hj.GetEntries());
    });
 
+   // ── Section 9: TTree ─────────────────────────────────────────────────────
+   console.log('\n── TTree ──');
+   {
+      let t, branchIdx;
+
+      test('TTree("ttest","test tree") constructs without error', () => {
+         t = new ROOT.TTree('ttest', 'test tree');
+      });
+
+      test('GetEntries() is 0 initially', () => {
+         assert.strictEqual(t.GetEntries(), 0);
+      });
+
+      test('GetName() and GetTitle() round-trip', () => {
+         assert.strictEqual(t.GetName(),  'ttest');
+         assert.strictEqual(t.GetTitle(), 'test tree');
+      });
+
+      test('BranchDouble("x") returns 0', () => {
+         branchIdx = t.BranchDouble('x');
+         assert.strictEqual(branchIdx, 0);
+      });
+
+      test('SetBranchValue + Fill increments GetEntries()', () => {
+         t.SetBranchValue(0, 3.14);
+         t.Fill();
+         assert.strictEqual(t.GetEntries(), 1);
+      });
+
+      test('Fill 100 events', () => {
+         for (let i = 0; i < 99; i++) {
+            t.SetBranchValue(0, i * 0.1);
+            t.Fill();
+         }
+         assert.strictEqual(t.GetEntries(), 100);
+      });
+
+      test('GetColumnDoubles("x") returns JSON string', () => {
+         const s = t.GetColumnDoubles('x');
+         assert(typeof s === 'string' && s.length > 0);
+      });
+
+      test('GetColumnDoubles("x") parses as array of length 100', () => {
+         const arr = JSON.parse(t.GetColumnDoubles('x'));
+         assert(Array.isArray(arr) && arr.length === 100,
+                `length=${arr.length}`);
+      });
+
+      test('GetColumnDoubles values match filled data', () => {
+         const arr = JSON.parse(t.GetColumnDoubles('x'));
+         // entry 0 was 3.14, entry 1 was 0.0, entry 2 was 0.1, ...
+         assert(Math.abs(arr[0] - 3.14) < 1e-9, `arr[0]=${arr[0]}`);
+         assert(Math.abs(arr[2] - 0.1)  < 1e-9, `arr[2]=${arr[2]}`);
+         assert(Math.abs(arr[50] - 4.9) < 1e-6, `arr[50]=${arr[50]}`);
+      });
+
+      test('BranchDouble("y") returns 1', () => {
+         const idx2 = t.BranchDouble('y');
+         assert.strictEqual(idx2, 1);
+      });
+
+      test('Two branches fill independently', () => {
+         const t2 = new ROOT.TTree('t2', 'two branches');
+         const xi = t2.BranchDouble('x');
+         const yi = t2.BranchDouble('y');
+         for (let i = 0; i < 10; i++) {
+            t2.SetBranchValue(xi, i);
+            t2.SetBranchValue(yi, i * 2);
+            t2.Fill();
+         }
+         const xs = JSON.parse(t2.GetColumnDoubles('x'));
+         const ys = JSON.parse(t2.GetColumnDoubles('y'));
+         assert.strictEqual(xs.length, 10);
+         assert.strictEqual(ys.length, 10);
+         assert(Math.abs(xs[5] - 5.0)  < 1e-9, `xs[5]=${xs[5]}`);
+         assert(Math.abs(ys[5] - 10.0) < 1e-9, `ys[5]=${ys[5]}`);
+      });
+   }
+
    // ── Summary ──────────────────────────────────────────────────────────────
    console.log(`\n${'─'.repeat(50)}`);
    console.log(`Results: ${passed} passed, ${failed} failed`);

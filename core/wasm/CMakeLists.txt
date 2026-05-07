@@ -35,10 +35,11 @@ if(ROOT_WASM_BINDINGS)
   # Collect the ROOT libraries that are built in the minimal configuration.
   # Order matters for the linker; more-derived before more-base.
   set(ROOT_WASM_LINK_LIBS
-    Hist       # TH1F, TH2F
+    Tree       # TTree, TBranch (must come before Hist/RIO)
+    Hist       # TH1F, TH2F, TGraph, TF1
     MathCore   # TMath, TRandom3
     RIO        # TFile, RRawFile
-    Core       # TROOT, TNamed, TAxis, TBufferJSON
+    Core       # TROOT, TNamed, TAxis
   )
 
   add_executable(root_wasm_bindings

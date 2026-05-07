@@ -381,6 +381,10 @@ const REPL = {
       '  h.Draw()                           — draw it (or draw(h))',
       '  TH2F h2("h2","2D;x;y",50,-5,5,50,-5,5)',
       '  TRandom3 rng(42)',
+      '  TTree t("t","mydata")              — create an in-memory TTree',
+      '  t.BranchDouble("x")               — add a double branch, returns index',
+      '  for (let i=0; i<100; i++) { t.SetBranchValue(0,i*0.1); t.Fill() }',
+      '  JSON.parse(t.GetColumnDoubles("x")).length  — read back 100 values',
       'Variables declared this way are available in subsequent commands.',
       '',
       'You can also drop a local .root file onto the file input below.',
@@ -805,7 +809,7 @@ async function tryLoadROOTWasm() {
         const ver = ROOT_WASM.GetROOTVersion ? ROOT_WASM.GetROOTVersion() : '?';
         document.getElementById('wasm-status').textContent = ver;
         document.getElementById('wasm-status').style.color = 'var(--accent)';
-        print('ROOT WASM ' + ver + ' loaded — C++ objects ready. Try h.Draw() after filling a TH1F!', 'info');
+        print('ROOT WASM ' + ver + ' loaded — C++ objects ready. Try h.Draw() after filling a TH1F, or use TTree for columnar data!', 'info');
         // Inject a JS Draw(option) method on every drawable WASM class.
         // This lets users call h.Draw() or h.Draw("e1") just like in ROOT's REPL.
         // The method serialises the object via toJSON(), parses with JSROOT, and
