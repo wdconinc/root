@@ -126,8 +126,10 @@ def _get_base_classes(cursor):
 
 
 def _get_public_constructors(cursor, class_name: str):
-    """Return list of constructor parameter lists (list of type spellings)."""
-    ctors = []
+    """Return list of unique constructor parameter lists (list of type spellings).
+    Deduplicates by arity — prefers double over int (libclang sometimes misresolves
+    Double_t default-arg constructors to int)."""
+    candidates = []
     for child in cursor.get_children():
         try:
             kind = child.kind
@@ -140,17 +142,54 @@ def _get_public_constructors(cursor, class_name: str):
         if child.spelling.startswith("~"):
             continue
         params = [arg.type.spelling for arg in child.get_arguments()]
-        # Only include if all param types are scalar (no pointers — those need allow_raw_pointers)
+        # Skip pointer params (need allow_raw_pointers)
+        if any("*" in p for p in params):
+            continue
+        # Skip any reference parameters — libclang sometimes misresolves complex types
+        # (TVectorD, TH1, etc.) to "const int &" or similar.
+        if any("&" in p for p in params):
+            continue
+        # Only include if all param types are scalar
         if not all(_is_bindable_type(p) for p in params):
             continue
-        if any("*" in p for p in params):
-            continue  # pointer params need allow_raw_pointers(), skip for now
-        ctors.append(params)
-    return ctors
+        candidates.append(params)
+
+    # Deduplicate by arity — prefer float/double params over int (correct ROOT types)
+    by_arity: dict = {}
+    for params in candidates:
+        arity = len(params)
+        if arity not in by_arity:
+            by_arity[arity] = params
+        else:
+            prev = by_arity[arity]
+            def _float_score(ps):
+                return sum(1 for p in ps if "double" in p or "float" in p
+                           or "Double_t" in p or "Float_t" in p)
+            if _float_score(params) > _float_score(prev):
+                by_arity[arity] = params
+
+    return list(by_arity.values())
 
 
 def _get_public_methods(cursor):
-    """Return list of (method_name, return_spelling, [(param_name, type_spelling)], is_const)."""
+    """Return list of (method_name, return_spelling, [(param_name, type_spelling)], is_const).
+    Overloaded methods are skipped — plain &Class::Method is ambiguous for the compiler."""
+    # First pass: count how many public overloads each method name has
+    overload_count: dict = {}
+    for child in cursor.get_children():
+        try:
+            kind = child.kind
+        except ValueError:
+            continue
+        if kind != clang.CursorKind.CXX_METHOD:
+            continue
+        if child.access_specifier != clang.AccessSpecifier.PUBLIC:
+            continue
+        name = child.spelling
+        if name in _SKIP_METHODS or name.startswith("~"):
+            continue
+        overload_count[name] = overload_count.get(name, 0) + 1
+
     methods = []
     seen = set()
 
@@ -167,6 +206,9 @@ def _get_public_methods(cursor):
         if name in _SKIP_METHODS or name.startswith("~"):
             continue
         if name in seen:
+            continue
+        # Skip overloaded methods — &Class::Method is ambiguous
+        if overload_count.get(name, 1) > 1:
             continue
 
         ret = child.result_type.spelling
@@ -209,6 +251,18 @@ def _emit_class_bindings(class_info: dict, cursor, tu_includes: list) -> str:
     # Parse extra_methods: separate .constructor<...>() entries from .function(...) entries
     extra_ctors = [e for e in extra_methods if ".constructor" in e]
     extra_funcs = [e for e in extra_methods if ".constructor" not in e]
+
+    # If extra_ctors are provided, suppress auto-detected constructors with the same arity
+    # (extra_ctors are authoritative when libclang misresolves param types, e.g. Double_t→int)
+    extra_ctor_arities = set()
+    for ec in extra_ctors:
+        # Extract arity from ".constructor<A, B, C>()" → 3
+        inner = re.search(r'\.constructor<([^>]*)>', ec)
+        if inner:
+            types_str = inner.group(1).strip()
+            arity = len(types_str.split(",")) if types_str else 0
+            extra_ctor_arities.add(arity)
+    ctors = [p for p in ctors if len(p) not in extra_ctor_arities]
 
     # Build set of method names already covered by auto-detection or skip
     auto_method_names = {m[0] for m in methods}
