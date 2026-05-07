@@ -314,7 +314,7 @@ const REPL = {
     setFileStatus('Opening ' + url + ' …', false);
     try {
       openedFile = await JSROOT.openFile(url);
-      const keys = await openedFile.readKeys();
+      const keys = openedFile.fKeys || [];
       const names = keys.map(k => k.fName + ' [' + k.fClassName + ']');
       setFileStatus('Opened: ' + url, true);
       return 'Keys:\n  ' + names.join('\n  ');
@@ -351,7 +351,7 @@ const REPL = {
   // List top-level keys of the opened file
   async ls() {
     if (!openedFile) throw new Error('No file open. Call openFile(url) first.');
-    const keys = await openedFile.readKeys();
+    const keys = openedFile.fKeys || [];
     return keys.map(k => k.fName.padEnd(32) + k.fClassName).join('\n');
   },
 
