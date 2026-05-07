@@ -91,11 +91,14 @@ jobs:
 
       - name: Configure ccache
         run: |
-          ccache --max-size=500M
+          ccache --max-size=2G
           ccache --zero-stats
           # Use compiler content hash (not path/mtime) so ccache hits even
           # when emsdk is reinstalled to a different temp directory.
           ccache --set-config=compiler_check=content
+          # Ignore __DATE__/__TIME__ macros and locale — avoids spurious misses
+          # from files that embed a build timestamp.
+          ccache --set-config=sloppiness=time_macros,locale
 
       - name: Restore CMake configure state
         id: cmake-restore
