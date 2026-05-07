@@ -75,11 +75,16 @@ def _is_bindable_type(spelling: str) -> bool:
     s = spelling.strip()
     if s == "void":
         return True
-    # const char* is supported (Embind converts to/from JS string)
-    if s in ("const char *", "const char*"):
-        return True
-    # Any other raw pointer needs allow_raw_pointers() — skip
+    # Raw pointers (including const char*) require allow_raw_pointers() in
+    # Emscripten 4.x and an optional_override wrapper to convert to std::string.
+    # Auto-generated bindings cannot add those — exclude all raw pointers.
     if "*" in s:
+        return False
+    # Non-const lvalue references (e.g. "double &", "Double_t &") are not
+    # bindable: Embind would try to create a temporary and bind it to a
+    # non-const ref, which is illegal in C++17.  Only const references
+    # (e.g. "const double &") are fine — Embind copies the JS value.
+    if "&" in s and not s.startswith("const "):
         return False
     # Strip const and reference qualifiers, then check scalar types
     s = s.replace("const", "").replace("&", "").strip()

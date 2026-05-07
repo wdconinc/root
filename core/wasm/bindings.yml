@@ -73,6 +73,8 @@ classes:
     skip_methods:
       - GetEX  # returns const Double_t* — needs allow_raw_pointers
       - GetEY  # returns const Double_t* — needs allow_raw_pointers
+      - CalculateScanfFields  # const char* params — Emscripten 4.x stricter about raw ptrs
+      - ComputeRange  # output Double_t& params — non-const refs not bindable
     extra_methods:
       - '.function("SetPointError",  optional_override([](TGraphErrors &g, int i, double ex, double ey){ g.SetPointError(i, ex, ey); }))'
       - '.function("GetErrorX",      optional_override([](const TGraphErrors &g, int i){ return g.GetErrorX(i); }))'
@@ -81,7 +83,12 @@ classes:
   - name: TMultiGraph
     header: TMultiGraph.h
     base: TNamed
-    skip_methods: [Draw, Add]
+    skip_methods:
+      - Draw
+      - Add
+      - LeastSquareLinearFit  # non-const Double_t& output params — not bindable
+      - LeastSquareFit        # Double_t* array param — needs allow_raw_pointers
+      - FitPanel              # invokes GUI; won't work in WASM context
     extra_methods:
       - '.function("AddGraph", optional_override([](TMultiGraph &mg, TGraph *g){ mg.Add(g, "lp"); }), allow_raw_pointers())'
 
