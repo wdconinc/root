@@ -321,12 +321,28 @@ const REPL = {
     }
   },
 
-  // Draw an object from the opened file by key name
-  async draw(keyname, option = '') {
-    if (!openedFile) throw new Error('No file open. Call openFile(url) first.');
-    const obj = await openedFile.readObject(keyname);
-    drawObject(obj, option);
-    return 'Drawing ' + keyname;
+  // Draw a ROOT object or a key from the opened file.
+  //   draw(h)               — draw a WASM C++ object (TH1F, TH2F, …)
+  //   draw("keyname")       — draw an object from the opened .root file
+  //   draw(h, "colz")       — pass a draw option
+  async draw(target, option = '') {
+    // WASM object: has toJSON() which produces ROOT JSON readable by JSROOT
+    if (target && typeof target === 'object' && typeof target.toJSON === 'function') {
+      const json = target.toJSON();
+      const jsrootObj = JSROOT.parse(json);
+      drawObject(jsrootObj, option || 'hist');
+      const entries = typeof target.GetEntries === 'function'
+        ? '  Entries: ' + target.GetEntries() : '';
+      return 'Object drawn.' + entries;
+    }
+    // String key from an opened .root file
+    if (typeof target === 'string') {
+      if (!openedFile) throw new Error('No file open. Call openFile(url) first.');
+      const obj = await openedFile.readObject(target);
+      drawObject(obj, option);
+      return 'Drawing ' + target;
+    }
+    throw new Error('draw() expects a ROOT C++ object or a key name string.');
   },
 
   // List top-level keys of the opened file
@@ -351,12 +367,15 @@ const REPL = {
       '  demo()                   — draw a Gaussian histogram',
       '  openFile("url")          — open a remote .root file',
       '  ls()                     — list keys in opened file',
+      '  draw(h)                  — draw a ROOT C++ object (TH1F, TH2F, …)',
       '  draw("keyname","opts")   — draw object from file',
       '  clear()                  — clear canvas',
       '  help()                   — this message',
       '',
       'With ROOT WASM loaded, C++ declarations are also supported:',
       '  TH1F h("h","Title;x;y",100,-5,5)  — create a TH1F named h',
+      '  for (Int_t i=0; i<1000; i++) h.Fill(rng.Gaus(0,1))',
+      '  draw(h)                            — draw it in the canvas',
       '  TH2F h2("h2","2D;x;y",50,-5,5,50,-5,5)',
       '  TRandom3 rng(42)',
       'Variables declared this way are available in subsequent commands.',
