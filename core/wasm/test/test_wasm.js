@@ -210,16 +210,12 @@ async function main() {
    hn.SetTitle('newtitle');
    test('SetTitle() changes GetTitle()', () => assert.strictEqual(hn.GetTitle(), 'newtitle'));
 
-   // ── 8. TBufferJSON via TH1.toJSON() ─────────────────────────────────────
-   console.log('\n[8] TBufferJSON');
-   const hj = new ROOT.TH1F('hjson', 'JSON test', 10, 0, 10);
+   // ── 8. JSROOT-compatible JSON via TH1.toJSON() ───────────────────────────
+   console.log('\n[8] TH1.toJSON() — manual JSROOT serialiser');
+   const hj = new ROOT.TH1F('hjson', 'JSON test;x;counts', 10, 0, 10);
    hj.Fill(3);
    hj.Fill(7);
 
-   // toJSON() requires TStreamerInfo::Build() which is not yet fully
-   // supported in WASM without the interpreter. Wrap in a test so that
-   // a WASM RuntimeError is caught and reported as a test failure rather
-   // than crashing the runner.
    let json = null;
    test('toJSON() does not throw', () => {
       json = hj.toJSON();
@@ -233,15 +229,32 @@ async function main() {
       const obj = JSON.parse(json);
       assert(obj !== null && typeof obj === 'object');
    });
-   test('toJSON() output contains _typename', () => {
-      assert(json !== null, 'toJSON() threw — skipping');
-      const obj = JSON.parse(json);
-      assert('_typename' in obj, `No _typename in: ${JSON.stringify(obj).slice(0,200)}`);
-   });
    test('toJSON() _typename is TH1F', () => {
       assert(json !== null, 'toJSON() threw — skipping');
       const obj = JSON.parse(json);
       assert.strictEqual(obj._typename, 'TH1F');
+   });
+   test('toJSON() fXaxis.fNbins matches GetNbinsX()', () => {
+      assert(json !== null, 'toJSON() threw — skipping');
+      const obj = JSON.parse(json);
+      assert(obj.fXaxis && obj.fXaxis.fNbins === hj.GetNbinsX(),
+             `fXaxis.fNbins=${obj.fXaxis && obj.fXaxis.fNbins} expected ${hj.GetNbinsX()}`);
+   });
+   test('toJSON() fNcells is GetNbinsX()+2', () => {
+      assert(json !== null, 'toJSON() threw — skipping');
+      const obj = JSON.parse(json);
+      assert.strictEqual(obj.fNcells, hj.GetNbinsX() + 2);
+   });
+   test('toJSON() fArray has fNcells elements', () => {
+      assert(json !== null, 'toJSON() threw — skipping');
+      const obj = JSON.parse(json);
+      assert(obj.fArray && obj.fArray.fArray.length === obj.fNcells,
+             `fArray.length=${obj.fArray && obj.fArray.fArray.length} expected ${obj.fNcells}`);
+   });
+   test('toJSON() fEntries matches GetEntries()', () => {
+      assert(json !== null, 'toJSON() threw — skipping');
+      const obj = JSON.parse(json);
+      assert.strictEqual(obj.fEntries, hj.GetEntries());
    });
 
    // ── Summary ──────────────────────────────────────────────────────────────

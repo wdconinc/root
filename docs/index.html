@@ -815,9 +815,14 @@ async function tryLoadROOTWasm() {
           const ctor = ROOT_WASM[typeName];
           if (ctor && ctor.prototype && !ctor.prototype.Draw) {
             ctor.prototype.Draw = function(option = '') {
-              const jsrootObj = JSROOT.parse(this.toJSON());
-              drawObject(jsrootObj, option || 'hist');
-              return this;
+              try {
+                const jsrootObj = JSROOT.parse(this.toJSON());
+                const drawOpt = option || (typeName === 'TH2F' ? 'col' : 'hist');
+                drawObject(jsrootObj, drawOpt);
+              } catch(e) {
+                print('Draw error: ' + e.message, 'error');
+              }
+              // Return undefined so the REPL does not dump the histogram JSON.
             };
           }
         });
