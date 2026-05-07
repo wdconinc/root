@@ -57,6 +57,8 @@ env:
     -Dbuiltin_freetype=ON
     -Dimt=OFF
     -Dtbb=OFF
+    -Dphysics=ON
+    -Dtree=ON
 
 jobs:
   build-wasm:

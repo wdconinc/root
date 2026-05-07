@@ -1,0 +1,115 @@
+# ROOT WASM Binding Manifest
+#
+# This file lists C++ classes to expose to JavaScript via the auto-generated
+# EMSCRIPTEN_BINDINGS layer (core/wasm/src/RootWasmBindings_generated.cxx).
+#
+# Each entry can specify:
+#   name:         C++ class name (required)
+#   header:       Header file to #include (required)
+#   base:         Explicit Embind base class override (optional; auto-detected otherwise)
+#   skip_methods: List of method names to exclude from auto-binding (optional)
+#   extra_methods: Raw Embind .function(...) strings for custom overrides (optional)
+#
+# Classes that require custom JSON serialisers (TH1F, TH2F, TGraph, TF1, TTree)
+# are intentionally NOT listed here — they are maintained by hand in
+# core/wasm/src/RootWasmBindings.cxx.  List only classes whose public API can
+# be bound directly without bespoke adapters.
+
+# ─── Additional histogram types ────────────────────────────────────────────────
+classes:
+
+  - name: TH1D
+    header: TH1.h
+    base: TH1
+    skip_methods:
+      - Draw          # Draw() with canvas requires special handling
+      - GetBinContent # overloaded — complex signature; use TH1::GetBinContent(int)
+    extra_methods:
+      - '.function("GetBinContent1", optional_override([](const TH1D &h, int bin){ return h.GetBinContent(bin); }))'
+      - '.function("GetBinCenter",   optional_override([](const TH1D &h, int bin){ return h.GetBinCenter(bin); }))'
+      - '.function("GetNbinsX",      optional_override([](const TH1D &h){ return h.GetNbinsX(); }))'
+
+  - name: TH1I
+    header: TH1.h
+    base: TH1
+    skip_methods: [Draw]
+    extra_methods:
+      - '.function("GetBinContent1", optional_override([](const TH1I &h, int bin){ return (double)h.GetBinContent(bin); }))'
+      - '.function("GetNbinsX",      optional_override([](const TH1I &h){ return h.GetNbinsX(); }))'
+
+  - name: TH2D
+    header: TH2.h
+    base: TH2
+    skip_methods: [Draw]
+    extra_methods:
+      - '.function("GetBinContent2", optional_override([](const TH2D &h, int bx, int by){ return h.GetBinContent(bx,by); }))'
+      - '.function("GetNbinsX",      optional_override([](const TH2D &h){ return h.GetNbinsX(); }))'
+      - '.function("GetNbinsY",      optional_override([](const TH2D &h){ return h.GetNbinsY(); }))'
+
+  - name: TProfile
+    header: TProfile.h
+    base: TH1D
+    skip_methods: [Draw]
+    extra_methods:
+      - '.function("GetBinEntries", optional_override([](const TProfile &h, int bin){ return h.GetBinEntries(bin); }))'
+
+# ─── Graph types ───────────────────────────────────────────────────────────────
+
+  - name: TGraphErrors
+    header: TGraphErrors.h
+    base: TGraph
+    extra_methods:
+      - '.function("SetPointError",  optional_override([](TGraphErrors &g, int i, double ex, double ey){ g.SetPointError(i, ex, ey); }))'
+      - '.function("GetErrorX",      optional_override([](const TGraphErrors &g, int i){ return g.GetErrorX(i); }))'
+      - '.function("GetErrorY",      optional_override([](const TGraphErrors &g, int i){ return g.GetErrorY(i); }))'
+
+  - name: TMultiGraph
+    header: TMultiGraph.h
+    base: TNamed
+    skip_methods: [Draw, Add]
+    extra_methods:
+      - '.function("AddGraph", optional_override([](TMultiGraph &mg, TGraph *g){ mg.Add(g, "lp"); }), allow_raw_pointers())'
+
+# ─── Math / physics vectors ────────────────────────────────────────────────────
+
+  - name: TVector3
+    header: TVector3.h
+    # TVector3 inherits TObject — but that base is already registered
+    base: TObject
+    skip_methods:
+      - operator=
+      - operator+=
+      - operator-=
+      - operator*=
+    extra_methods:
+      - '.constructor<double, double, double>()'
+      - '.function("X", &TVector3::X)'
+      - '.function("Y", &TVector3::Y)'
+      - '.function("Z", &TVector3::Z)'
+      - '.function("Mag",   &TVector3::Mag)'
+      - '.function("Phi",   &TVector3::Phi)'
+      - '.function("Theta", &TVector3::Theta)'
+      - '.function("Dot",   &TVector3::Dot)'
+
+  - name: TLorentzVector
+    header: TLorentzVector.h
+    base: TObject
+    skip_methods:
+      - operator=
+      - operator+=
+      - operator-=
+    extra_methods:
+      - '.constructor<double, double, double, double>()'
+      - '.function("X",   &TLorentzVector::X)'
+      - '.function("Y",   &TLorentzVector::Y)'
+      - '.function("Z",   &TLorentzVector::Z)'
+      - '.function("T",   &TLorentzVector::T)'
+      - '.function("E",   &TLorentzVector::E)'
+      - '.function("Px",  &TLorentzVector::Px)'
+      - '.function("Py",  &TLorentzVector::Py)'
+      - '.function("Pz",  &TLorentzVector::Pz)'
+      - '.function("M",   &TLorentzVector::M)'
+      - '.function("M2",  &TLorentzVector::M2)'
+      - '.function("Pt",  &TLorentzVector::Pt)'
+      - '.function("Eta", &TLorentzVector::Eta)'
+      - '.function("Phi", &TLorentzVector::Phi)'

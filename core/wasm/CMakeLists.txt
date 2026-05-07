@@ -31,12 +31,24 @@ ROOT_INSTALL_HEADERS()
 
 option(ROOT_WASM_BINDINGS "Build Emscripten/Embind JS bindings bundle (root.js)" ON)
 
+# ── Auto-generated bindings ───────────────────────────────────────────────────
+# RootWasmBindings_generated.cxx is produced by:
+#   python3 core/wasm/tools/gen_wasm_bindings.py \
+#       --manifest core/wasm/bindings.yml      \
+#       --output   core/wasm/src/RootWasmBindings_generated.cxx
+#
+# The generator uses libclang to parse ROOT headers and emit EMSCRIPTEN_BINDINGS
+# blocks without per-class boilerplate.  To add a new class, add one entry to
+# bindings.yml and re-run the generator, then commit the updated .cxx file.
+# (libclang is a developer tool — it is NOT required at WASM build time.)
+
 if(ROOT_WASM_BINDINGS)
   # Collect the ROOT libraries that are built in the minimal configuration.
   # Order matters for the linker; more-derived before more-base.
   set(ROOT_WASM_LINK_LIBS
     Tree       # TTree, TBranch (must come before Hist/RIO)
     Hist       # TH1F, TH2F, TGraph, TF1
+    Physics    # TVector3, TLorentzVector (math/physics)
     MathCore   # TMath, TRandom3
     RIO        # TFile, RRawFile
     Core       # TROOT, TNamed, TAxis
@@ -44,6 +56,7 @@ if(ROOT_WASM_BINDINGS)
 
   add_executable(root_wasm_bindings
     src/RootWasmBindings.cxx
+    src/RootWasmBindings_generated.cxx
   )
 
   set_target_properties(root_wasm_bindings PROPERTIES
@@ -54,6 +67,7 @@ if(ROOT_WASM_BINDINGS)
 
   target_include_directories(root_wasm_bindings PRIVATE
     ${CMAKE_SOURCE_DIR}/core/wasm/inc
+    ${CMAKE_SOURCE_DIR}/math/physics/inc    # TVector3, TLorentzVector
   )
 
   target_link_libraries(root_wasm_bindings PRIVATE
