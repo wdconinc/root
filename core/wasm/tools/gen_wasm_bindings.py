@@ -72,14 +72,21 @@ def _strip_type(spelling: str) -> str:
 
 def _is_bindable_type(spelling: str) -> bool:
     """Return True if Embind can handle this type without custom wrappers."""
-    bare = _strip_type(spelling)
-    if bare in _SCALAR_TYPES:
-        return True
-    # std::string is supported by Embind natively
-    if bare in ("std::string", "string"):
+    s = spelling.strip()
+    if s == "void":
         return True
     # const char* is supported (Embind converts to/from JS string)
-    if spelling.strip().rstrip() in ("const char *", "const char*", "char *", "char*"):
+    if s in ("const char *", "const char*"):
+        return True
+    # Any other raw pointer needs allow_raw_pointers() — skip
+    if "*" in s:
+        return False
+    # Strip const and reference qualifiers, then check scalar types
+    s = s.replace("const", "").replace("&", "").strip()
+    if s in _SCALAR_TYPES:
+        return True
+    # std::string is supported by Embind natively
+    if s in ("std::string", "string"):
         return True
     return False
 
@@ -214,6 +221,17 @@ def _get_public_methods(cursor):
         ret = child.result_type.spelling
         params = [(arg.spelling or f"arg{i}", arg.type.spelling)
                   for i, arg in enumerate(child.get_arguments())]
+
+        # Cross-check: libclang sometimes returns 0 arg cursors for methods whose
+        # parameter types it cannot resolve (e.g. Double_t* arrays).  If the
+        # function type reports more arguments than get_arguments() returned, the
+        # parameter-type filter would pass vacuously and produce a broken binding.
+        try:
+            declared_arg_count = child.type.get_num_arg_types()
+        except Exception:
+            declared_arg_count = len(params)
+        if declared_arg_count != len(params):
+            continue  # libclang couldn't resolve some param types → skip
 
         if not _is_bindable_type(ret):
             continue

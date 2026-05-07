@@ -49,7 +49,19 @@ classes:
   - name: TProfile
     header: TProfile.h
     base: TH1D
-    skip_methods: [Draw]
+    skip_methods:
+      - Draw
+      - FillN         # takes const Double_t* arrays — needs allow_raw_pointers
+      - GetStats      # void GetStats(Double_t*) — output pointer param
+      - PutStats      # void PutStats(Double_t*) — input pointer param
+      - BuildOptions  # takes Option_t* (char*) non-const pointer
+      - SetBuffer     # takes Option_t* non-const pointer
+      - SetErrorOption # takes Option_t* non-const pointer
+      - LabelsDeflate  # takes Option_t* non-const pointer
+      - LabelsInflate  # takes Option_t* non-const pointer
+      - LabelsOption   # takes Option_t* non-const pointer
+      - Reset          # takes Option_t* non-const pointer
+      - Scale          # takes Option_t* non-const pointer
     extra_methods:
       - '.function("GetBinEntries", optional_override([](const TProfile &h, int bin){ return h.GetBinEntries(bin); }))'
 
@@ -58,6 +70,9 @@ classes:
   - name: TGraphErrors
     header: TGraphErrors.h
     base: TGraph
+    skip_methods:
+      - GetEX  # returns const Double_t* — needs allow_raw_pointers
+      - GetEY  # returns const Double_t* — needs allow_raw_pointers
     extra_methods:
       - '.function("SetPointError",  optional_override([](TGraphErrors &g, int i, double ex, double ey){ g.SetPointError(i, ex, ey); }))'
       - '.function("GetErrorX",      optional_override([](const TGraphErrors &g, int i){ return g.GetErrorX(i); }))'
