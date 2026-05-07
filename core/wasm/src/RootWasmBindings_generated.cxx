@@ -191,7 +191,7 @@ EMSCRIPTEN_BINDINGS(TLorentzVector_gen_bindings)
     .function("Pz",  &TLorentzVector::Pz)
     .function("M",   &TLorentzVector::M)
     .function("M2",  &TLorentzVector::M2)
-    .function("Pt",  &TLorentzVector::Pt)
+    .function("Pt",  select_overload<Double_t() const>(&TLorentzVector::Pt))
     .function("Eta", &TLorentzVector::Eta)
     .function("Phi", &TLorentzVector::Phi)
     ;
