@@ -257,6 +257,68 @@ async function main() {
       assert.strictEqual(obj.fEntries, hj.GetEntries());
    });
 
+   // ── Section: TF1 factories ────────────────────────────────────────────────
+   console.log('\n── TF1 ──');
+   {
+      let f, json;
+
+      test('createTF1Gaus constructs without error', () => {
+         f = ROOT.createTF1Gaus('gtest', 1.0, 0.0, 1.0, -5.0, 5.0);
+         assert(f !== null && f !== undefined);
+      });
+
+      test('TF1 Eval(0) ≈ 1.0 for unit Gaussian', () => {
+         approxEqual(f.Eval(0), 1.0, 1e-9);
+      });
+
+      test('TF1 Eval(100) ≈ 0 for unit Gaussian far in tail', () => {
+         assert(Math.abs(f.Eval(100)) < 1e-100);
+      });
+
+      test('TF1 GetXmin/GetXmax', () => {
+         approxEqual(f.GetXmin(), -5.0, 1e-12);
+         approxEqual(f.GetXmax(),  5.0, 1e-12);
+      });
+
+      test('TF1 toJSON() returns non-empty string', () => {
+         json = f.toJSON();
+         assert(typeof json === 'string' && json.length > 0);
+      });
+
+      test('TF1 toJSON() parses as valid JSON', () => {
+         const obj = JSON.parse(json);
+         assert(obj !== null && typeof obj === 'object');
+      });
+
+      test('TF1 toJSON() _typename is TF1', () => {
+         const obj = JSON.parse(json);
+         assert.strictEqual(obj._typename, 'TF1');
+      });
+
+      test('TF1 toJSON() fSave is array with N+3 elements', () => {
+         const obj = JSON.parse(json);
+         assert(Array.isArray(obj.fSave), 'fSave should be an array');
+         // fSave = [y0..yN-1, xmin, xmax, N]
+         assert(obj.fSave.length >= 103, `fSave.length=${obj.fSave.length}`);
+         // Last element should be the sample count (200)
+         assert.strictEqual(obj.fSave[obj.fSave.length - 1], 200);
+      });
+
+      test('createTF1Expo constructs and evaluates', () => {
+         const e = ROOT.createTF1Expo('etest', 1.0, -0.5, 0.0, 10.0);
+         approxEqual(e.Eval(0), 1.0, 1e-9);
+         approxEqual(e.Eval(2), Math.exp(-1.0), 1e-9);
+      });
+
+      test('createTF1Poly constructs and evaluates', () => {
+         // p(x) = 1 + 2x + 3x^2
+         const p = ROOT.createTF1Poly('ptest', '[1.0, 2.0, 3.0]', -2.0, 2.0);
+         approxEqual(p.Eval(0), 1.0, 1e-12);
+         approxEqual(p.Eval(1), 6.0, 1e-12);  // 1 + 2 + 3
+         approxEqual(p.Eval(2), 17.0, 1e-12); // 1 + 4 + 12
+      });
+   }
+
    // ── Summary ──────────────────────────────────────────────────────────────
    console.log(`\n${'─'.repeat(50)}`);
    console.log(`Results: ${passed} passed, ${failed} failed`);
