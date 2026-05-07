@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROOT in the Browser — WebAssembly Preview</title>
+
+  <!-- Cross-Origin Isolation via service worker (required for SharedArrayBuffer / pthreads WASM) -->
+  <script src="coi-serviceworker.min.js"></script>
+
+  <!-- JSROOT from CDN -->
+  <script src="https://root.cern/js/latest/scripts/JSRoot.core.js"
+          crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --bg:      #0d1117;
+      --surface: #161b22;
+      --border:  #30363d;
+      --accent:  #3fb950;
+      --accent2: #58a6ff;
+      --text:    #c9d1d9;
+      --muted:   #8b949e;
+      --prompt:  #79c0ff;
+      --error:   #f85149;
+      --warn:    #e3b341;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      overflow: hidden;          /* page never grows taller than the viewport */
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── header ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    header img { height: 36px; }
+    header h1  { font-size: 1.25rem; font-weight: 600; color: var(--text); }
+    header .badge {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em;
+      background: #21262d; border: 1px solid var(--border);
+      color: var(--warn); padding: 2px 8px; border-radius: 12px;
+    }
+    nav {
+      margin-left: auto;
+      display: flex; gap: 12px;
+    }
+    nav a {
+      color: var(--muted); text-decoration: none; font-size: 0.85rem;
+    }
+    nav a:hover { color: var(--text); }
+
+    /* ── main layout ── */
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr auto;
+      gap: 0;
+      flex: 1;
+      min-height: 0;             /* allow shrink so terminal doesn't push page down */
+      overflow: hidden;
+    }
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+    }
+
+    /* ── panel base ── */
+    .panel {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .panel-title {
+      background: #21262d;
+      border-bottom: 1px solid var(--border);
+      padding: 8px 16px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .panel-title .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* ── terminal / REPL ── */
+    #terminal {
+      flex: 1;
+      min-height: 0;             /* critical: allows flex child to scroll instead of grow */
+      overflow-y: auto;
+      padding: 12px 16px;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    .output-block { margin-bottom: 4px; }
+    .output-block.cmd   { color: var(--prompt); }
+    .output-block.out   { color: var(--text); }
+    .output-block.error { color: var(--error); }
+    .output-block.info  { color: var(--muted); font-style: italic; }
+
+    #input-row {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;            /* never compress the input bar */
+      border-top: 1px solid var(--border);
+      padding: 8px 16px;
+      gap: 8px;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.85rem;
+    }
+    #input-row .prompt-label { color: var(--prompt); user-select: none; }
+    #cmd-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: inherit;
+      font-size: inherit;
+    }
+    #run-btn {
+      background: var(--accent);
+      color: #0d1117;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #run-btn:hover { opacity: 0.85; }
+
+    /* ── canvas / visualisation ── */
+    #jsroot-canvas {
+      flex: 1;
+      min-height: 300px;
+    }
+
+    /* ── file loader ── */
+    #file-panel {
+      grid-column: 1 / -1;
+      border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.82rem;
+      background: #161b22;
+    }
+    #file-url { 
+      flex: 1; background: #0d1117; border: 1px solid var(--border);
+      border-radius: 4px; color: var(--text); padding: 4px 10px;
+      font-size: 0.82rem; font-family: monospace;
+    }
+    #file-url:focus { outline: none; border-color: var(--accent2); }
+    #open-btn {
+      background: var(--accent2); color: #0d1117;
+      border: none; border-radius: 4px;
+      padding: 5px 14px; font-weight: 600; cursor: pointer;
+      font-size: 0.8rem;
+    }
+    #open-btn:hover { opacity: 0.85; }
+    #file-status { color: var(--muted); font-size: 0.78rem; }
+
+    /* ── status bar ── */
+    footer {
+      background: #21262d;
+      border-top: 1px solid var(--border);
+      padding: 4px 16px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex; gap: 20px;
+    }
+    footer span.ok   { color: var(--accent); }
+    footer span.warn { color: var(--warn); }
+  </style>
+</head>
+<body>
+
+<header>
+  <!-- ROOT logo from upstream CDN -->
+  <img src="https://root.cern/img/logos/ROOT_Logo/logos/linux/CERN-logo-color-96.png"
+       alt="CERN logo" onerror="this.style.display='none'">
+  <h1>ROOT in the Browser</h1>
+  <span class="badge">WebAssembly Preview</span>
+  <nav>
+    <a href="https://github.com/wdconinc/root/tree/wasm-support" target="_blank">Source</a>
+    <a href="https://root.cern/js/" target="_blank">JSROOT docs</a>
+    <a href="https://github.com/compiler-research/xeus-cpp-lite" target="_blank">xeus-cpp-lite</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ── LEFT: REPL/Terminal ── -->
+  <div class="panel" style="border-right: none;">
+    <div class="panel-title"><span class="dot"></span> ROOT prompt</div>
+    <div id="terminal">
+      <div class="output-block info">ROOT WebAssembly REPL — powered by JSROOT + Emscripten</div>
+      <div class="output-block info">Try <code>demo()</code>, <code>help()</code>, or the histogram workflow below (once ROOT WASM loads):</div>
+      <div class="output-block info"><code>TH1F h("h","Title;x;y",100,-5,5)</code></div>
+      <div class="output-block info"><code>TRandom3 rng(42)</code></div>
+      <div class="output-block info"><code>for (let i = 0; i &lt; 10000; i++) h.Fill(rng.Gaus(0,1))</code></div>
+      <div class="output-block info"><code>h.Draw()</code> &nbsp;— or &nbsp;<code>h.Draw("e1")</code> for error bars</div>
+      <div class="output-block info">After <code>openFile("url")</code> TTree keys become variables: &nbsp;<code>events.Draw("px")</code> &nbsp;<code>events.branches()</code></div>
+    </div>
+    <div id="input-row">
+      <span class="prompt-label">root [0]&gt;</span>
+      <input id="cmd-input" type="text" placeholder="Enter a command…"
+             autocomplete="off" spellcheck="false">
+      <button id="run-btn">Run</button>
+    </div>
+  </div>
+
+  <!-- ── RIGHT: JSROOT Canvas ── -->
+  <div class="panel">
+    <div class="panel-title"><span class="dot" style="background:var(--accent2)"></span> Canvas</div>
+    <div id="jsroot-canvas"></div>
+  </div>
+
+  <!-- ── BOTTOM: File opener ── -->
+  <div id="file-panel">
+    <label style="color:var(--muted);white-space:nowrap">Open ROOT file:</label>
+    <input id="file-url" type="text"
+           placeholder="https://example.com/path/to/file.root (or drop a local .root file)">
+    <button id="open-btn">Open</button>
+    <span id="file-status"></span>
+    <label style="color:var(--muted);margin-left:auto;white-space:nowrap">Local file:
+      <input id="local-file" type="file" accept=".root" style="font-size:0.78rem">
+    </label>
+  </div>
+</main>
+
+<footer>
+  <span>JSROOT: <span class="ok" id="jsroot-version">loading…</span></span>
+  <span>WASM ROOT: <span class="warn" id="wasm-status">loading…</span></span>
+  <span>Repo: <a href="https://github.com/wdconinc/root" style="color:var(--accent2)">wdconinc/root</a></span>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────────────────────────────────────
+let cmdCount = 0;
+let painter  = null;   // JSROOT painter for the canvas
+let openedFile = null; // JSROOT TFile handle
+const replScope = {};  // persistent variable scope across REPL commands
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TTreeProxy — wraps a TTree from an opened .root file with a Draw() API.
+// Instances are injected into replScope automatically after openFile() so that
+// the user can type  events.Draw("px")  just like in the ROOT C++ prompt.
+// ─────────────────────────────────────────────────────────────────────────────
+class TTreeProxy {
+  constructor(name, file) {
+    this._name = name;
+    this._file = file;
+    this._tree = null;   // lazy-loaded JSROOT TTree object
+  }
+
+  async _load() {
+    if (!this._tree) this._tree = await this._file.readObject(this._name);
+    return this._tree;
+  }
+
+  // Draw a branch expression, e.g.  events.Draw("px")
+  //                                 events.Draw("px>>h(100,-5,5)")
+  //                                 events.Draw("px:py","","col")
+  async Draw(expr = '', option = '') {
+    const tree = await this._load();
+    const div  = document.getElementById('jsroot-canvas');
+    if (painter) { try { painter.cleanup(); } catch(_) {} painter = null; }
+    painter = await JSROOT.draw(div, tree, (expr || '') + (option ? ' ' + option : ''));
+    return this._name + (expr ? ' : ' + expr : '') + ' drawn.';
+  }
+
+  // List branch names of this tree
+  async branches() {
+    const tree = await this._load();
+    const arr = tree?.fBranches?.arr ?? [];
+    if (!arr.length) return '(no branches found)';
+    return arr.map(b => b.fName + (b.fTitle && b.fTitle !== b.fName ? '  /' + b.fTitle : '')).join('\n');
+  }
+
+  toString() { return '[TTree: ' + this._name + ']'; }
+  [Symbol.toPrimitive]() { return '[TTree: ' + this._name + ']'; }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Terminal helpers
+// ─────────────────────────────────────────────────────────────────────────────
+const terminal = document.getElementById('terminal');
+
+function print(text, cls = 'out') {
+  const d = document.createElement('div');
+  d.className = 'output-block ' + cls;
+  d.textContent = text;
+  terminal.appendChild(d);
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+function printHTML(html, cls = 'out') {
+  const d = document.createElement('div');
+  d.className = 'output-block ' + cls;
+  d.innerHTML = html;
+  terminal.appendChild(d);
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REPL commands — a small built-in interpreter until full WASM ROOT lands
+// ─────────────────────────────────────────────────────────────────────────────
+const REPL = {
+  // Draw a demo Gaussian histogram using JSROOT
+  demo() {
+    const nbins = 100, lo = -5, hi = 5;
+    const th1 = JSROOT.createHistogram('TH1F', nbins);
+    th1.fName  = 'demo';
+    th1.fTitle = 'Gaussian demo; x; counts';
+    th1.fXaxis.fXmin = lo;
+    th1.fXaxis.fXmax = hi;
+    // Fill with a Gaussian via Box-Muller
+    for (let i = 0; i < 10000; i++) {
+      const u1 = Math.random(), u2 = Math.random();
+      const z  = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+      const bin = Math.floor((z - lo) / (hi - lo) * nbins) + 1;
+      if (bin >= 1 && bin <= nbins) th1.fArray[bin]++;
+    }
+    drawObject(th1, 'hist');
+    return 'Demo histogram drawn.';
+  },
+
+  // Open a remote .root file and browse its top-level keys.
+  // TTree keys are automatically injected into the REPL scope so the user
+  // can type  events.Draw("branch")  directly after openFile().
+  async openFile(url) {
+    setFileStatus('Opening ' + url + ' …', false);
+    try {
+      openedFile = await JSROOT.openFile(url);
+      const keys = openedFile.fKeys || [];
+      const names = keys.map(k => k.fName + ' [' + k.fClassName + ']');
+      // Inject TTree / TNtuple keys as TTreeProxy instances into replScope.
+      const treeNames = [];
+      for (const k of keys) {
+        if (k.fClassName === 'TTree' || k.fClassName === 'TNtuple') {
+          replScope[k.fName] = new TTreeProxy(k.fName, openedFile);
+          treeNames.push(k.fName);
+        }
+      }
+      setFileStatus('Opened: ' + url, true);
+      const treeHint = treeNames.length
+        ? '\nTrees in scope: ' + treeNames.join(', ') + '\n  → e.g.  ' + treeNames[0] + '.Draw("branch")'
+        : '';
+      return 'Keys:\n  ' + names.join('\n  ') + treeHint;
+    } catch(e) {
+      setFileStatus('Error: ' + e.message, false);
+      throw e;
+    }
+  },
+
+  // Draw a ROOT object or a key from the opened file.
+  //   draw(h)                  — draw a WASM C++ object (TH1F, TH2F, …)
+  //   draw("keyname")          — draw an object from the opened .root file
+  //   draw("treename","expr")  — draw a TTree branch: e.g. draw("events","px")
+  //   draw(h, "colz")          — pass a draw option
+  async draw(target, option = '') {
+    // WASM object: has toJSON() which produces ROOT JSON readable by JSROOT
+    if (target && typeof target === 'object' && typeof target.toJSON === 'function') {
+      const json = target.toJSON();
+      const jsrootObj = JSROOT.parse(json);
+      drawObject(jsrootObj, option || 'hist');
+      const entries = typeof target.GetEntries === 'function'
+        ? '  Entries: ' + target.GetEntries() : '';
+      return 'Object drawn.' + entries;
+    }
+    // TTreeProxy from replScope
+    if (target instanceof TTreeProxy) {
+      return target.Draw(option);
+    }
+    // String key from an opened .root file
+    if (typeof target === 'string') {
+      if (!openedFile) throw new Error('No file open. Call openFile(url) first.');
+      const obj = await openedFile.readObject(target);
+      drawObject(obj, option);
+      return 'Drawing ' + target;
+    }
+    throw new Error('draw() expects a ROOT C++ object or a key name string.');
+  },
+
+  // List branches of a TTree from the opened file.
+  //   branches("events")   — list branches of the "events" tree
+  async branches(name) {
+    if (!openedFile) throw new Error('No file open. Call openFile(url) first.');
+    if (!name) throw new Error('Usage: branches("treename")');
+    const proxy = new TTreeProxy(name, openedFile);
+    return proxy.branches();
+  },
+
+  // List top-level keys of the opened file
+  async ls() {
+    if (!openedFile) throw new Error('No file open. Call openFile(url) first.');
+    const keys = openedFile.fKeys || [];
+    return keys.map(k => k.fName.padEnd(32) + k.fClassName).join('\n');
+  },
+
+  // Clear the canvas
+  clear() {
+    const div = document.getElementById('jsroot-canvas');
+    if (painter) { try { painter.cleanup(); } catch(_) {} painter = null; }
+    div.innerHTML = '';
+    return 'Canvas cleared.';
+  },
+
+  // Show help
+  help() {
+    return [
+      'Available commands:',
+      '  demo()                   — draw a Gaussian histogram',
+      '  openFile("url")          — open a remote .root file',
+      '  ls()                     — list keys in opened file',
+      '  branches("treename")     — list branches of a TTree from the file',
+      '  draw(h)                  — draw a ROOT C++ object (TH1F, TH2F, …)',
+      '  draw("keyname","opts")   — draw object from file',
+      '  clear()                  — clear canvas',
+      '  help()                   — this message',
+      '',
+      'After openFile(), TTree keys become variables in scope:',
+      '  openFile("https://…/myfile.root")',
+      '  events                   — [TTree: events] proxy',
+      '  events.branches()        — list branches',
+      '  events.Draw("px")        — histogram branch "px"',
+      '  events.Draw("px>>h(100,-5,5)")  — with explicit binning',
+      '  events.Draw("px:py","","col")   — 2D scatter (col option)',
+      '',
+      'With ROOT WASM loaded, C++ declarations are also supported:',
+      '  TH1F h("h","Title;x;y",100,-5,5)  — create a TH1F named h',
+      '  for (Int_t i=0; i<1000; i++) h.Fill(rng.Gaus(0,1))',
+      '  h.Draw()                           — draw it (or draw(h))',
+      '  TH2F h2("h2","2D;x;y",50,-5,5,50,-5,5)',
+      '  TRandom3 rng(42)',
+      '  TGraph gr(5)',
+      '  for (let i=0; i<5; i++) gr.SetPoint(i, i, i*i)',
+      '  gr.Draw()',
+      '  const f = createTF1Gaus("g",1,0,1,-5,5)  — unit Gaussian TF1',
+      '  f.Draw()                           — draw TF1 curve',
+      '  TTree t("t","mydata")              — create an in-memory TTree',
+      '  t.BranchDouble("x")               — add a double branch, returns index',
+      '  for (let i=0; i<100; i++) { t.SetBranchValue(0,i*0.1); t.Fill() }',
+      '  JSON.parse(t.GetColumnDoubles("x")).length  — read back 100 values',
+      'Variables declared this way are available in subsequent commands.',
+      '',
+      'You can also drop a local .root file onto the file input below.',
+    ].join('\n');
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Draw an object in the JSROOT canvas panel
+// ─────────────────────────────────────────────────────────────────────────────
+async function drawObject(obj, option = '') {
+  const div = document.getElementById('jsroot-canvas');
+  if (painter) { try { painter.cleanup(); } catch(_) {} painter = null; }
+  div.innerHTML = '';
+  try {
+    painter = await JSROOT.draw(div, obj, option);
+  } catch(e) {
+    print('Draw error: ' + e.message, 'error');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// C++ declaration helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Detect C++ style variable declaration:
+//   TypeName varName
+//   TypeName varName(args)
+//   TypeName varName = value
+// Capture groups: (1) type name, (2) variable name,
+//   (3) constructor args string (from parens), (4) init value (from =).
+// Returns { typeName, varName, initExpr } or null.
+function parseCppDecl(cmd) {
+  const m = cmd.match(
+    /^([A-Za-z_][A-Za-z0-9_:]*)\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:\((.*)\)|=\s*(.*?))?\s*;?\s*$/
+  );
+  if (!m) return null;
+  // m[3] = args from parens, m[4] = rhs from = assignment; unify as initExpr
+  return { typeName: m[1], varName: m[2], initExpr: m[3] !== undefined ? m[3] : m[4] };
+}
+
+// ROOT scalar typedef → { default JS value, display label }
+// Covers all ROOT type aliases (Rtypes.h) and plain C++ primitives.
+const SCALAR_TYPES = {
+  // plain C++ primitives
+  'double':        { dflt: 0.0,   label: 'double'   },
+  'float':         { dflt: 0.0,   label: 'float'    },
+  'int':           { dflt: 0,     label: 'int'      },
+  'long':          { dflt: 0,     label: 'long'     },
+  'short':         { dflt: 0,     label: 'short'    },
+  'char':          { dflt: 0,     label: 'char'     },
+  'bool':          { dflt: false, label: 'bool'     },
+  // ROOT typedefs from Rtypes.h
+  'Double_t':      { dflt: 0.0,   label: 'Double_t'  },
+  'Double32_t':    { dflt: 0.0,   label: 'Double32_t'},
+  'Float_t':       { dflt: 0.0,   label: 'Float_t'   },
+  'Float16_t':     { dflt: 0.0,   label: 'Float16_t' },
+  'Int_t':         { dflt: 0,     label: 'Int_t'     },
+  'UInt_t':        { dflt: 0,     label: 'UInt_t'    },
+  'Long_t':        { dflt: 0,     label: 'Long_t'    },
+  'Long64_t':      { dflt: 0,     label: 'Long64_t'  },
+  'ULong_t':       { dflt: 0,     label: 'ULong_t'   },
+  'ULong64_t':     { dflt: 0,     label: 'ULong64_t' },
+  'Short_t':       { dflt: 0,     label: 'Short_t'   },
+  'UShort_t':      { dflt: 0,     label: 'UShort_t'  },
+  'Char_t':        { dflt: 0,     label: 'Char_t'    },
+  'UChar_t':       { dflt: 0,     label: 'UChar_t'   },
+  'Bool_t':        { dflt: false, label: 'Bool_t'    },
+  'TString':       { dflt: '',    label: 'TString'   },
+  'string':        { dflt: '',    label: 'string'    },
+};
+
+// Parse a comma-separated constructor argument list of string, number, and boolean literals.
+// Quoted tokens retain their string type; unquoted tokens are coerced to number or boolean.
+// Handles backslash-escaped characters inside quoted strings.
+function parseLiteralArgs(argsStr) {
+  if (argsStr == null || argsStr === '') return [];
+  const args = [];
+  // Each entry: { value: string, quoted: boolean }
+  let current = '', inStr = false, strChar = '', wasQuoted = false;
+  for (let i = 0; i < argsStr.length; i++) {
+    const c = argsStr[i];
+    if (inStr) {
+      if (c === '\\' && i + 1 < argsStr.length) {
+        // consume escaped character literally
+        current += argsStr[++i];
+      } else if (c === strChar) {
+        inStr = false;
+      } else {
+        current += c;
+      }
+    } else if (c === '"' || c === "'") {
+      inStr = true; strChar = c; wasQuoted = true;
+    } else if (c === ',') {
+      args.push({ value: current, quoted: wasQuoted });
+      current = ''; wasQuoted = false;
+    } else {
+      current += c;
+    }
+  }
+  // push last token — only push non-quoted empty tokens when they come from quoted context
+  if (argsStr.length > 0 && (current.length > 0 || wasQuoted)) {
+    args.push({ value: current, quoted: wasQuoted });
+  }
+  return args.map(({ value, quoted }) => {
+    if (quoted) return value;               // keep string type for quoted literals
+    const t = value.trim();
+    if (t === 'true')  return true;
+    if (t === 'false') return false;
+    const n = Number(t);
+    return isNaN(n) ? t : n;
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Execute a command typed in the REPL
+// ─────────────────────────────────────────────────────────────────────────────
+async function executeCommand(raw) {
+  const cmd = raw.trim();
+  if (!cmd) return;
+
+  print('root [' + cmdCount + ']> ' + cmd, 'cmd');
+  cmdCount++;
+
+  // Update prompt label
+  document.querySelector('.prompt-label').textContent = 'root [' + cmdCount + ']>';
+
+  // ── Intercept C++-style variable declarations before JS evaluation ──────────
+  const decl = parseCppDecl(cmd);
+  if (decl) {
+    const { typeName, varName, initExpr } = decl;
+
+    // 1. ROOT scalar typedefs (Double_t, Int_t, Bool_t, …) and C++ primitives.
+    //    Create a plain JS variable in replScope with the appropriate default/value.
+    if (SCALAR_TYPES[typeName]) {
+      const { dflt, label } = SCALAR_TYPES[typeName];
+      let value = dflt;
+      if (initExpr != null && initExpr.trim() !== '') {
+        const args = parseLiteralArgs(initExpr);
+        if (args.length > 0) value = args[0];
+      }
+      replScope[varName] = value;
+      print('(' + label + ') ' + varName + ' = ' + JSON.stringify(value));
+      return;
+    }
+
+    // 2. ROOT class types exported by the WASM module.
+    if (ROOT_WASM && ROOT_WASM[typeName]) {
+      try {
+        const args = parseLiteralArgs(initExpr);
+        const obj = new ROOT_WASM[typeName](...args);
+        replScope[varName] = obj;
+        print('(' + typeName + ') ' + varName);
+      } catch(e) {
+        if (/not constructible|not a constructor/i.test(e.message)) {
+          print('Error: \'' + typeName + '\' has no registered constructor. Check help() for constructible ROOT types.', 'error');
+        } else {
+          print('Error: ' + e.message, 'error');
+        }
+      }
+      return;
+    }
+
+    // 3. Type looks like a ROOT/C++ identifier (starts with uppercase or is a
+    //    known ROOT prefix) but isn't available → helpful error instead of
+    //    a confusing JS SyntaxError like "unexpected identifier 'a'".
+    if (/^[A-Z]/.test(typeName) || /^(unsigned|signed|long|short)$/.test(typeName)) {
+      print('Error: \'' + typeName + '\' is not a known type in this REPL.\n' +
+            'Scalar types available: Double_t, Float_t, Int_t, Bool_t, TString, double, float, int, bool, …\n' +
+            'ROOT classes (require WASM): TH1F, TH2F, TGraph, TRandom3', 'error');
+      return;
+    }
+  }
+
+  // ── Standard JS evaluation with persistent scope ───────────────────────────
+  try {
+    // Expose built-in helpers as formal parameters and merge the session scope
+    // via `with(__scope__)`. Using `with` is intentional here: it avoids injecting
+    // arbitrary user-defined variable names as formal parameters (which would throw
+    // a SyntaxError for reserved words like `let` or duplicates of built-in names).
+    //
+    // Try wrapping in `return (expr)` first so the result is returned to the REPL.
+    // If cmd is a statement (for/while/if/let/const/…) that can't appear in
+    // expression position, new Function() throws a SyntaxError at construction
+    // time — fall back to executing it as a bare statement (no return value).
+    const PARAMS = ['demo','openFile','draw','ls','branches','clear','help','JSROOT','drawObject','__scope__'];
+    const ARGS   = [REPL.demo, REPL.openFile, REPL.draw, REPL.ls, REPL.branches, REPL.clear, REPL.help,
+                    window.JSROOT, drawObject, replScope];
+    let fn;
+    try {
+      fn = new Function(...PARAMS, 'with(__scope__) { return (' + cmd + ') }');
+    } catch(syntaxErr) {
+      if (!(syntaxErr instanceof SyntaxError)) throw syntaxErr;
+      // Statement form — no return value
+      fn = new Function(...PARAMS, 'with(__scope__) { ' + cmd + ' }');
+    }
+    const result = await Promise.resolve(fn(...ARGS));
+    if (result !== undefined) {
+      const out = typeof result === 'string' ? result : JSON.stringify(result, null, 2);
+      out.split('\n').forEach(line => print(line));
+    }
+  } catch(e) {
+    print('Error: ' + e.message, 'error');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Tab completion
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Built-in REPL helpers visible in the `with(__scope__)` evaluation context.
+const REPL_BUILTINS = ['demo','openFile','draw','ls','branches','clear','help','ROOT_WASM','JSROOT'];
+
+// Properties that belong to JS function / object infrastructure, not user APIs.
+const _SKIP_PROPS = new Set([
+  'length','name','arguments','caller','prototype',
+  'apply','bind','call','toString','valueOf','constructor',
+  'hasOwnProperty','isPrototypeOf','propertyIsEnumerable',
+  'toLocaleString',
+]);
+
+// Walk own properties + prototype chain of obj, filtering internal names.
+// Stops at Object.prototype and Function.prototype.
+function _enumProps(obj) {
+  const seen = new Set();
+  const add = p => {
+    if (!p.startsWith('__') && !p.startsWith('$') && !_SKIP_PROPS.has(p)) seen.add(p);
+  };
+  // Own properties first (catches static methods on class constructors)
+  Object.getOwnPropertyNames(obj).forEach(add);
+  // Prototype chain for instance methods
+  let o = Object.getPrototypeOf(obj);
+  while (o && o !== Object.prototype && o !== Function.prototype) {
+    Object.getOwnPropertyNames(o).forEach(add);
+    o = Object.getPrototypeOf(o);
+  }
+  return [...seen].sort();
+}
+
+// Resolve a simple dotted path against a combined namespace
+// (replScope, ROOT_WASM exports, and a few explicit globals).
+function _resolveExpr(expr) {
+  const parts = expr.split('.');
+  const roots = Object.assign({ ROOT_WASM, JSROOT: window.JSROOT }, replScope);
+  let obj = roots[parts[0]];
+  for (let i = 1; i < parts.length; i++) {
+    if (obj == null) return undefined;
+    obj = obj[parts[i]];
+  }
+  return obj;
+}
+
+// Return { base, prefix, completions } for the current input text.
+// 'base' is the portion before the prefix that should not change.
+function getCompletions(text) {
+  // Member access: anything ending in  expr.memberPrefix
+  const dotIdx = text.lastIndexOf('.');
+  if (dotIdx !== -1) {
+    const objPath     = text.slice(0, dotIdx);
+    const memberPfx   = text.slice(dotIdx + 1);
+    const obj = _resolveExpr(objPath);
+    if (obj != null) {
+      const completions = _enumProps(obj).filter(p => p.startsWith(memberPfx));
+      return { base: objPath + '.', prefix: memberPfx, completions };
+    }
+  }
+
+  // Top-level identifier
+  const pfxMatch = text.match(/(\w*)$/);
+  const prefix   = pfxMatch ? pfxMatch[1] : '';
+  const base     = text.slice(0, text.length - prefix.length);
+
+  const all = new Set(REPL_BUILTINS);
+  Object.keys(replScope).forEach(k => all.add(k));
+  if (ROOT_WASM) Object.keys(ROOT_WASM).forEach(k => all.add(k));
+  Object.keys(SCALAR_TYPES).forEach(k => all.add(k));
+
+  const completions = [...all].filter(k => k.startsWith(prefix)).sort();
+  return { base, prefix, completions };
+}
+
+// Apply a Tab completion to the input field.
+function applyCompletion(text) {
+  const { base, prefix, completions } = getCompletions(text);
+  if (completions.length === 0) return;
+
+  if (completions.length === 1) {
+    const completed = completions[0];
+    // Peek at the resolved value to append '(' for functions
+    const obj = _resolveExpr(base.replace(/\.$/, ''));
+    const val = obj != null ? obj[completed] : (replScope[completed] ?? (ROOT_WASM && ROOT_WASM[completed]));
+    input.value = base + completed + (typeof val === 'function' ? '(' : '');
+    return;
+  }
+
+  // Find longest common prefix of all matches
+  let common = completions[0];
+  for (const c of completions) {
+    while (!c.startsWith(common)) common = common.slice(0, -1);
+    if (!common) break;
+  }
+
+  if (common.length > prefix.length) {
+    // Can fill in more characters without ambiguity
+    input.value = base + common;
+  } else {
+    // Show all candidates bash-style (two-column friendly spacing)
+    print(completions.join('   '));
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// UI wiring
+// ─────────────────────────────────────────────────────────────────────────────
+const input  = document.getElementById('cmd-input');
+const runBtn = document.getElementById('run-btn');
+
+// Command history (shell-style arrow-up / arrow-down navigation)
+// Persisted in localStorage under the key 'root-repl-history'.
+const HISTORY_KEY = 'root-repl-history';
+const HISTORY_MAX = 500;
+
+function historySave() {
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(cmdHistory.slice(-HISTORY_MAX))); } catch(_) {}
+}
+
+const cmdHistory = (() => {
+  try {
+    const stored = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+    return Array.isArray(stored) ? stored : [];
+  } catch(_) { return []; }
+})();
+let historyIdx = -1;       // -1 = not navigating; 0 = oldest entry
+let historySaved = '';     // draft text saved when user starts browsing history
+
+function submitCommand() {
+  const cmd = input.value;
+  // Push non-empty, non-duplicate commands into history
+  if (cmd.trim() && cmd !== cmdHistory[cmdHistory.length - 1]) {
+    cmdHistory.push(cmd);
+    historySave();
+  }
+  historyIdx = -1;
+  historySaved = '';
+  executeCommand(cmd);
+  input.value = '';
+}
+
+runBtn.addEventListener('click', submitCommand);
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    submitCommand();
+  } else if (e.key === 'Tab') {
+    e.preventDefault();
+    applyCompletion(input.value);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();   // prevent cursor jumping to start of input
+    if (cmdHistory.length === 0) return;
+    if (historyIdx === -1) {
+      // Start browsing: save the current draft
+      historySaved = input.value;
+      historyIdx = cmdHistory.length - 1;
+    } else if (historyIdx > 0) {
+      historyIdx--;
+    }
+    input.value = cmdHistory[historyIdx];
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (historyIdx === -1) return;
+    if (historyIdx < cmdHistory.length - 1) {
+      historyIdx++;
+      input.value = cmdHistory[historyIdx];
+    } else {
+      // Back to the draft
+      historyIdx = -1;
+      input.value = historySaved;
+    }
+  }
+});
+input.focus();
+
+// File opener
+document.getElementById('open-btn').addEventListener('click', () => {
+  const url = document.getElementById('file-url').value.trim();
+  if (url) executeCommand('openFile("' + url.replace(/"/g, '\\"') + '")');
+});
+
+// Local file via FileReader → Emscripten MEMFS bridge (future WASM hook)
+document.getElementById('local-file').addEventListener('change', async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  setFileStatus('Reading local file ' + file.name + ' …', false);
+  try {
+    // For now, feed to JSROOT directly via URL.createObjectURL
+    const url = URL.createObjectURL(file);
+    await executeCommand('openFile("' + url + '")');
+  } catch(err) {
+    setFileStatus('Error: ' + err.message, false);
+  }
+});
+
+function setFileStatus(msg, ok) {
+  const el = document.getElementById('file-status');
+  el.textContent = msg;
+  el.style.color = ok ? 'var(--accent)' : 'var(--warn)';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// JSROOT initialisation
+// ─────────────────────────────────────────────────────────────────────────────
+function initJSROOT() {
+  const ver = JSROOT.version || (JSROOT.settings && JSROOT.settings.Version) || 'unknown';
+  document.getElementById('jsroot-version').textContent = ver;
+  print('JSROOT ' + ver + ' loaded.', 'info');
+  print('Type help() for available commands.', 'info');
+  tryLoadROOTWasm();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ROOT WASM module (root.js / root.wasm) — optional, progressive enhancement
+// ─────────────────────────────────────────────────────────────────────────────
+let ROOT_WASM = null;
+
+async function tryLoadROOTWasm() {
+  // Look for root.js next to this page (deployed by CI alongside index.html)
+  const wasmUrl = new URL('root.js', window.location.href).href;
+  try {
+    const resp = await fetch(wasmUrl, { method: 'HEAD' });
+    if (!resp.ok) throw new Error('not found');
+    // Dynamically import the Emscripten module
+    const script = document.createElement('script');
+    script.src = wasmUrl;
+    script.onload = async () => {
+      try {
+        ROOT_WASM = await createROOT();
+        const ver = ROOT_WASM.GetROOTVersion ? ROOT_WASM.GetROOTVersion() : '?';
+        document.getElementById('wasm-status').textContent = ver;
+        document.getElementById('wasm-status').style.color = 'var(--accent)';
+        print('ROOT WASM ' + ver + ' loaded — C++ objects ready. Try h.Draw(), gr.Draw() for TGraph, createTF1Gaus("g",1,0,1,-5,5).Draw(), or TTree for columnar data!', 'info');
+        // Inject a JS Draw(option) method on every drawable WASM class.
+        // This lets users call h.Draw() or h.Draw("e1") just like in ROOT's REPL.
+        // The method serialises the object via toJSON(), parses with JSROOT, and
+        // renders it in the canvas panel.  It returns the object itself so that
+        // expressions like  h.Fill(x); h.Draw()  chain naturally.
+        ['TH1F', 'TH2F', 'TGraph', 'TF1'].forEach(typeName => {
+          const ctor = ROOT_WASM[typeName];
+          if (ctor && ctor.prototype && !ctor.prototype.Draw) {
+            ctor.prototype.Draw = function(option = '') {
+              try {
+                const jsrootObj = JSROOT.parse(this.toJSON());
+                const drawOpt = option || (typeName === 'TH2F' ? 'col' : typeName === 'TGraph' ? 'alp' : typeName === 'TF1' ? 'l' : 'hist');
+                drawObject(jsrootObj, drawOpt);
+              } catch(e) {
+                print('Draw error: ' + e.message, 'error');
+              }
+              // Return undefined so the REPL does not dump the histogram JSON.
+            };
+          }
+        });
+        // nativeDemo kept for backward compat but no longer advertised in the UI
+        REPL.nativeDemo = function() {
+          const h = new ROOT_WASM.TH1F('ndemo', 'Native Gaussian;x;counts', 100, -5, 5);
+          const rng = new ROOT_WASM.TRandom3(42);
+          for (let i = 0; i < 10000; i++) h.Fill(rng.Gaus(0, 1));
+          const json = h.toJSON();
+          drawObject(JSROOT.parse(json), 'hist');
+          return 'Native ROOT TH1F drawn. Entries: ' + h.GetEntries();
+        };
+      } catch(e) {
+        print('ROOT WASM init error: ' + e.message, 'error');
+      }
+    };
+    script.onerror = () => print('ROOT WASM bundle found but failed to load.', 'error');
+    document.head.appendChild(script);
+  } catch(_) {
+    // root.js not deployed yet — JSROOT-only mode, nothing to do
+    document.getElementById('wasm-status').textContent = 'not yet deployed (JSROOT-only mode)';
+  }
+}
+
+if (typeof JSROOT !== 'undefined') {
+  initJSROOT();
+} else {
+  // JSROOT loads asynchronously via its own bootstrap
+  window.addEventListener('load', () => {
+    if (typeof JSROOT !== 'undefined') initJSROOT();
+    else print('Warning: JSROOT failed to load. Visualisation unavailable.', 'error');
+  });
+}
+</script>
+</body>
+</html>
