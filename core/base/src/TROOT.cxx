@@ -3240,7 +3240,14 @@ const TString &TROOT::GetSharedLibDir()
          continue;
 
       fs::path p(path);
-      if (p.filename() == _R_QUOTEVAL_(LIB_CORE_NAME)) {
+      const fs::path coreName = _R_QUOTEVAL_(LIB_CORE_NAME);
+      const std::string filename = p.filename().string();
+      const std::string coreFilename = coreName.filename().string();
+      const bool matchesCore = filename == coreFilename ||
+                               (filename.size() > coreFilename.size() &&
+                                filename.compare(0, coreFilename.size(), coreFilename) == 0 &&
+                                filename[coreFilename.size()] == '.');
+      if (matchesCore) {
          rootlibdir = p.parent_path().c_str();
          break;
       }
@@ -3299,7 +3306,14 @@ const TString &TROOT::GetSharedLibDir()
          }
 
          fs::path p{wpath};
-         if (p.filename() == _R_QUOTEVAL_(LIB_CORE_NAME)) {
+         const fs::path coreName = _R_QUOTEVAL_(LIB_CORE_NAME);
+         const std::wstring filename = p.filename().wstring();
+         const std::wstring coreFilename = coreName.filename().wstring();
+         const bool matchesCore = filename == coreFilename ||
+                                  (filename.size() > coreFilename.size() &&
+                                   filename.compare(0, coreFilename.size(), coreFilename) == 0 &&
+                                   filename[coreFilename.size()] == L'.');
+         if (matchesCore) {
 
             // Convert UTF-16 to UTF-8 explicitly
             const std::wstring wdir = p.parent_path().wstring();
@@ -3323,7 +3337,14 @@ const TString &TROOT::GetSharedLibDir()
          return 0;
 
       fs::path p = info->dlpi_name;
-      if (p.filename() == _R_QUOTEVAL_(LIB_CORE_NAME)) {
+      const fs::path coreName = _R_QUOTEVAL_(LIB_CORE_NAME);
+      const std::string filename = p.filename().string();
+      const std::string coreFilename = coreName.filename().string();
+      const bool matchesCore = filename == coreFilename ||
+                               (filename.size() > coreFilename.size() &&
+                                filename.compare(0, coreFilename.size(), coreFilename) == 0 &&
+                                filename[coreFilename.size()] == '.');
+      if (matchesCore) {
          std::error_code ec;
 
          // Resolve symlinks: critical for environments like CMSSW, where the
