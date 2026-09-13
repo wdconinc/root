@@ -3681,6 +3681,11 @@ gOptNoIncludePaths("noIncludePaths",
                   llvm::cl::desc("Do not store include paths but rely on the env variable ROOT_INCLUDE_PATH."),
                   llvm::cl::cat(gRootclingOptions));
 static llvm::cl::opt<std::string>
+static llvm::cl::opt<std::string>
+gOptTarget("target", llvm::cl::Hidden,
+            llvm::cl::desc("Specify a target triple."),
+            llvm::cl::cat(gRootclingOptions),
+            llvm::cl::init("-"));
 gOptISysRoot("isysroot", llvm::cl::Prefix, llvm::cl::Hidden,
             llvm::cl::desc("Specify an isysroot."),
             llvm::cl::cat(gRootclingOptions),
@@ -4042,6 +4047,14 @@ int RootClingMain(int argc,
       }
       clingArgs.push_back(gOptISysRoot.ArgStr.str());
       clingArgs.push_back(gOptISysRoot.ValueStr.str());
+   if (gOptTarget != "-") {
+      if (gOptTarget.empty()) {
+         ROOT::TMetaUtils::Error("", "-target specified without a value.\n");
+         return 1;
+      }
+      clingArgs.push_back("-target");
+      clingArgs.push_back(gOptTarget.getValue());
+   }
    }
 
    // Check if we have a multi dict request but no target library

@@ -297,7 +297,7 @@ endfunction(ROOT_REPLACE_BUILD_INTERFACE)
 function(ROOT_GENERATE_DICTIONARY dictionary)
   # Dictionary generation requires the rootcling tool which depends on Cling/LLVM.
   # Skip it entirely for WASM cross-compilation builds where we omit the interpreter.
-  if(EMSCRIPTEN)
+  if(EMSCRIPTEN AND CMAKE_PROJECT_NAME STREQUAL "ROOT")
     return()
   endif()
 
@@ -679,6 +679,14 @@ function(ROOT_GENERATE_DICTIONARY dictionary)
       else()
         set(command rootcling)
       endif()
+    endif()
+  endif()
+
+  # Append cross-compilation flags for Emscripten
+  if(EMSCRIPTEN AND NOT ARG_STAGE1)
+    list(APPEND ARG_OPTIONS -target wasm32-unknown-emscripten)
+    if(CMAKE_SYSROOT)
+      list(APPEND ARG_OPTIONS -isysroot "${CMAKE_SYSROOT}")
     endif()
   endif()
 
