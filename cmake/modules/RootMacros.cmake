@@ -297,7 +297,7 @@ endfunction(ROOT_REPLACE_BUILD_INTERFACE)
 function(ROOT_GENERATE_DICTIONARY dictionary)
   # Dictionary generation requires the rootcling tool which depends on Cling/LLVM.
   # Skip it entirely for WASM cross-compilation builds where we omit the interpreter.
-  if(EMSCRIPTEN)
+  if(EMSCRIPTEN AND CMAKE_PROJECT_NAME STREQUAL "ROOT")
     return()
   endif()
 
@@ -682,6 +682,15 @@ function(ROOT_GENERATE_DICTIONARY dictionary)
     endif()
   endif()
 
+  # Append cross-compilation flags for Emscripten
+  if(EMSCRIPTEN AND NOT ARG_STAGE1)
+    list(APPEND ARG_OPTIONS -target wasm32-unknown-emscripten)
+    # We assume CMAKE_SYSROOT is set appropriately by the Emscripten toolchain
+    if(CMAKE_SYSROOT)
+      list(APPEND ARG_OPTIONS -isysroot "${CMAKE_SYSROOT}")
+    endif()
+  endif()
+
   #---build the path exclusion switches----------------------
   set(excludepathsargs "")
   foreach(excludepath ${excludepaths})
@@ -960,7 +969,11 @@ function(ROOT_LINKER_LIBRARY library)
   CMAKE_PARSE_ARGUMENTS(ARG "DLLEXPORT;CMAKENOEXPORT;TEST;NOINSTALL" "TYPE" "LIBRARIES;DEPENDENCIES;BUILTINS"  ${ARGN})
   ROOT_GET_SOURCES(lib_srcs src ${ARG_UNPARSED_ARGUMENTS})
   if(NOT ARG_TYPE)
-    set(ARG_TYPE SHARED)
+    if(EMSCRIPTEN OR NOT BUILD_SHARED_LIBS)
+      set(ARG_TYPE STATIC)
+    else()
+      set(ARG_TYPE SHARED)
+    endif()
   endif()
   if(ARG_TEST) # we are building a test, so add EXCLUDE_FROM_ALL
     set(_all EXCLUDE_FROM_ALL)
