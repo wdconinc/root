@@ -5,6 +5,7 @@ on:
     branches:
       - 'master'
       - 'wasm-support'
+      - 'wasm-system-abi'
       - 'wasm-*'
     paths-ignore:
       - 'doc/**'
