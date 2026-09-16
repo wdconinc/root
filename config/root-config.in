@@ -304,6 +304,13 @@ win32)
    #forceglibs=$rootuglibs
    #forceevelibs=$rootuevelibs
    ;;
+wasm32)
+   auxcflags="-pthread"
+   auxlibs="-pthread"
+   forcelibs=$rootulibs
+   forceglibs=$rootuglibs
+   forceevelibs=$rootuevelibs
+   ;;
 win32gcc | win64gcc)
    # Windows (32 or 64) with cygwin gcc
    auxcflags="-std=gnu++14"
