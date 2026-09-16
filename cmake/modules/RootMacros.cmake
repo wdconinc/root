@@ -297,7 +297,7 @@ endfunction(ROOT_REPLACE_BUILD_INTERFACE)
 function(ROOT_GENERATE_DICTIONARY dictionary)
   # Dictionary generation requires the rootcling tool which depends on Cling/LLVM.
   # Skip it entirely for WASM cross-compilation builds where we omit the interpreter.
-  if(EMSCRIPTEN AND CMAKE_PROJECT_NAME STREQUAL "ROOT")
+  if(EMSCRIPTEN)
     return()
   endif()
 
