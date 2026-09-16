@@ -13,7 +13,7 @@
 if (CHROME_EXECUTABLE OR FIREFOX_EXECUTABLE)
   ROOT_ADD_TEST(test-webgui-ping
                 RUN_SERIAL
-                COPY_TO_BUILDDIR ${CMAKE_SOURCE_DIR}/tutorials/visualisation/webgui/ping/ping.cxx ${CMAKE_SOURCE_DIR}/tutorials/visualisation/webgui/ping/ping.html
+                COPY_TO_BUILDDIR ${PROJECT_SOURCE_DIR}/tutorials/visualisation/webgui/ping/ping.cxx ${PROJECT_SOURCE_DIR}/tutorials/visualisation/webgui/ping/ping.html
                 COMMAND root.exe -b -q ping.cxx
                 PASSREGEX "PING-PONG TEST COMPLETED"
                 TIMEOUT 300)

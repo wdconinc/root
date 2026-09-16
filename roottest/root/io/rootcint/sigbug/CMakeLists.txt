@@ -15,7 +15,7 @@ ROOT_GENERATE_DICTIONARY(${dictname}
                          OPTIONS -DUNIX -DLINUX -D__UNIX__ -D__LINUX__ -DDATAREP_LITTLE_IEEE -DDATAREP_LITTLE_ENDIAN -DDEFECT_NO_IOSTREAM_NAMESPACES -DDEFECT_NO_JZEXT -DDEFECT_NO_INTHEX -DDEFECT_NO_INTHOLLERITH -DDEFECT_NO_READONLY -DDEFECT_NO_DIRECT_FIXED -DDEFECT_NO_STRUCTURE -DUSE_ROOT)
 
 add_test(NAME ${GENERATE_DICTIONARY_TEST}
-           COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}
+           COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR}
                                     ${build_config}
                                     --target ${dictname}${fast}
                                     -- ${always-make})

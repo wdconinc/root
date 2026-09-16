@@ -16,14 +16,14 @@ if (CMAKE_SYSTEM_NAME MATCHES FreeBSD)
 endif()
 
 generateHeader(root
-  ${CMAKE_SOURCE_DIR}/core/base/src/root-argparse.py
-  ${CMAKE_BINARY_DIR}/ginclude/rootCommandLineOptionsHelp.h
+  ${PROJECT_SOURCE_DIR}/core/base/src/root-argparse.py
+  ${PROJECT_BINARY_DIR}/ginclude/rootCommandLineOptionsHelp.h
 )
 
 target_include_directories(root PRIVATE
-  ${CMAKE_SOURCE_DIR}/core/foundation/inc
-  ${CMAKE_SOURCE_DIR}/core/base/inc
-  ${CMAKE_SOURCE_DIR}/core/clib/inc    # for snprintf.h
-  ${CMAKE_SOURCE_DIR}/core/meta/inc    # for TGenericClassInfo.h
-  ${CMAKE_BINARY_DIR}/ginclude         # for RConfigure.h and rootCommandLineOptionsHelp.h
+  ${PROJECT_SOURCE_DIR}/core/foundation/inc
+  ${PROJECT_SOURCE_DIR}/core/base/inc
+  ${PROJECT_SOURCE_DIR}/core/clib/inc    # for snprintf.h
+  ${PROJECT_SOURCE_DIR}/core/meta/inc    # for TGenericClassInfo.h
+  ${PROJECT_BINARY_DIR}/ginclude         # for RConfigure.h and rootCommandLineOptionsHelp.h
 )

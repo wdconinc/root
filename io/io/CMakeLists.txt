@@ -68,7 +68,7 @@ ROOT_LINKER_LIBRARY(RIO
     Thread
 )
 
-target_include_directories(RIO PRIVATE ${CMAKE_SOURCE_DIR}/core/clib/res)
+target_include_directories(RIO PRIVATE ${PROJECT_SOURCE_DIR}/core/clib/res)
 target_link_libraries(RIO PUBLIC ${ROOT_ATOMIC_LIBS})
 target_link_libraries(RIO PRIVATE nlohmann_json::nlohmann_json)
 
@@ -79,7 +79,7 @@ endif()
 
 # keep include directory for ROOT/RSha256.hxx private
 set_source_files_properties(src/RConcurrentHashColl.cxx
-  PROPERTIES COMPILE_FLAGS -I${CMAKE_SOURCE_DIR}/core/foundation/res)
+  PROPERTIES COMPILE_FLAGS -I${PROJECT_SOURCE_DIR}/core/foundation/res)
 
 ROOT_GENERATE_DICTIONARY(G__RIO
   ROOT/RConcurrentHashColl.hxx

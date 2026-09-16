@@ -143,6 +143,6 @@ ROOT_STANDARD_LIBRARY_PACKAGE(ROOTEve
 
 target_link_libraries(ROOTEve PUBLIC nlohmann_json::nlohmann_json)
 # this is required for glew
-target_include_directories(ROOTEve PRIVATE ${CMAKE_SOURCE_DIR}/graf3d/eve7)
+target_include_directories(ROOTEve PRIVATE ${PROJECT_SOURCE_DIR}/graf3d/eve7)
 
 ROOT_ADD_TEST_SUBDIRECTORY(test)

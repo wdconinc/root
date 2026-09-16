@@ -81,8 +81,8 @@ set(RUNTIMES_x86_64-unknown-linux-gnu_OPENMP_LIBDIR_SUFFIX "/x86_64-unknown-linu
 set(RUNTIMES_ve-unknown-linux-gnu_OPENMP_LIBDIR_SUFFIX "/ve-unknown-linux-gnu" CACHE STRING "")
 
 # Specify OPENMP_LLVM_TOOLS_DIR for test
-set(RUNTIMES_x86_64-unknown-linux-gnu_OPENMP_LLVM_TOOLS_DIR "${CMAKE_BINARY_DIR}/bin" CACHE STRING "")
-set(RUNTIMES_ve-unknown-linux-gnu_OPENMP_LLVM_TOOLS_DIR "${CMAKE_BINARY_DIR}/bin" CACHE STRING "")
+set(RUNTIMES_x86_64-unknown-linux-gnu_OPENMP_LLVM_TOOLS_DIR "${PROJECT_BINARY_DIR}/bin" CACHE STRING "")
+set(RUNTIMES_ve-unknown-linux-gnu_OPENMP_LLVM_TOOLS_DIR "${PROJECT_BINARY_DIR}/bin" CACHE STRING "")
 
 # VE doesn't support libomptarget.  Disable it for x86_64 also.
 set(RUNTIMES_x86_64-unknown-linux-gnu_OPENMP_ENABLE_LIBOMPTARGET FALSE CACHE BOOL "")
@@ -96,7 +96,7 @@ set(RUNTIMES_ve-unknown-linux-gnu_COMPILER_RT_TEST_COMPILER_CFLAGS "--target=ve-
 set(RUNTIMES_ve-unknown-linux-gnu_LIBCXXABI_TEST_COMPILER_CFLAGS "--target=ve-unknown-linux-gnu" CACHE BOOL "")
 set(RUNTIMES_ve-unknown-linux-gnu_LIBCXX_TEST_COMPILER_CFLAGS "--target=ve-unknown-linux-gnu" CACHE BOOL "")
 set(RUNTIMES_ve-unknown-linux-gnu_LIBUNWIND_TEST_COMPILER_CFLAGS "--target=ve-unknown-linux-gnu" CACHE BOOL "")
-set(RUNTIMES_ve-unknown-linux-gnu_OPENMP_TEST_OPENMP_FLAGS "--target=ve-unknown-linux-gnu -fopenmp -pthread -lrt -ldl -Wl,-rpath,${CMAKE_BINARY_DIR}/lib/ve-unknown-linux-gnu" CACHE BOOL "")
+set(RUNTIMES_ve-unknown-linux-gnu_OPENMP_TEST_OPENMP_FLAGS "--target=ve-unknown-linux-gnu -fopenmp -pthread -lrt -ldl -Wl,-rpath,${PROJECT_BINARY_DIR}/lib/ve-unknown-linux-gnu" CACHE BOOL "")
 
 # setup toolchain
 set(LLVM_INSTALL_TOOLCHAIN_ONLY ON CACHE BOOL "")

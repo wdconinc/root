@@ -9,8 +9,8 @@
 set(ROOT_ZLIB_VERSION 1.3.2)
 set(ROOT_ZLIB_HASH "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16")
 
-set(ROOT_ZLIB_PREFIX ${CMAKE_BINARY_DIR}/builtins/ZLIB-prefix PARENT_SCOPE)
-set(ROOT_ZLIB_PREFIX ${CMAKE_BINARY_DIR}/builtins/ZLIB-prefix)
+set(ROOT_ZLIB_PREFIX ${PROJECT_BINARY_DIR}/builtins/ZLIB-prefix PARENT_SCOPE)
+set(ROOT_ZLIB_PREFIX ${PROJECT_BINARY_DIR}/builtins/ZLIB-prefix)
 
 # Here we need two cases because the library has two different names on Linux/macOS and Windows
 if(MSVC)

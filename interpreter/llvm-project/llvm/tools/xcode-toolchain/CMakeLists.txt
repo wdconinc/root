@@ -94,7 +94,7 @@ add_custom_command(OUTPUT ${LLVMToolchainDir}/Info.plist
                   )
 
 add_custom_target(build-xcode-toolchain
-                  COMMAND "${CMAKE_COMMAND}" --build ${CMAKE_BINARY_DIR} --target all)
+                  COMMAND "${CMAKE_COMMAND}" --build ${PROJECT_BINARY_DIR} --target all)
 add_llvm_install_targets(install-xcode-toolchain
                          DEPENDS ${LLVMToolchainDir}/Info.plist build-xcode-toolchain
                          PREFIX ${LLVMToolchainDir}/usr/)

@@ -269,23 +269,23 @@ endif()
 
 ROOT_INSTALL_HEADERS(${BASE_HEADER_DIRS})
 
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/man)
+file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/man)
 
 if(NOT MSVC)
 #---addRootC++CmdMan-------------------------------------------------------------------------
-generateManual(rootMan ${CMAKE_CURRENT_SOURCE_DIR}/src/root-argparse.py ${CMAKE_BINARY_DIR}/man/root.1)
-generateManual(haddMan ${CMAKE_SOURCE_DIR}/main/src/hadd-argparse.py ${CMAKE_BINARY_DIR}/man/hadd.1)
-generateManual(rootclingMan ${CMAKE_SOURCE_DIR}/core/dictgen/src/rootcling-argparse.py ${CMAKE_BINARY_DIR}/man/rootcling.1)
+generateManual(rootMan ${CMAKE_CURRENT_SOURCE_DIR}/src/root-argparse.py ${PROJECT_BINARY_DIR}/man/root.1)
+generateManual(haddMan ${PROJECT_SOURCE_DIR}/main/src/hadd-argparse.py ${PROJECT_BINARY_DIR}/man/hadd.1)
+generateManual(rootclingMan ${PROJECT_SOURCE_DIR}/core/dictgen/src/rootcling-argparse.py ${PROJECT_BINARY_DIR}/man/rootcling.1)
 
 #---addRootPyCmdMan---------------------------------------------------------------------------
-#generateManual(rootcpMan ${CMAKE_SOURCE_DIR}/main/python/rootcp.py ${CMAKE_BINARY_DIR}/man/rootcp.1)
-#generateManual(rootdrawtreeMan ${CMAKE_SOURCE_DIR}/main/python/rootdrawtree.py ${CMAKE_BINARY_DIR}/man/rootdrawtree.1)
-#generateManual(rooteventselectorMan ${CMAKE_SOURCE_DIR}/main/python/rooteventselector.py ${CMAKE_BINARY_DIR}/man/rooteventselector.1)
-#generateManual(rootmkdirMan ${CMAKE_SOURCE_DIR}/main/python/rootmkdir.py ${CMAKE_BINARY_DIR}/man/rootmkdir.1)
-#generateManual(rootmvMan ${CMAKE_SOURCE_DIR}/main/python/rootmv.py ${CMAKE_BINARY_DIR}/man/rootmv.1)
-#generateManual(rootprintMan ${CMAKE_SOURCE_DIR}/main/python/rootprint.py ${CMAKE_BINARY_DIR}/man/rootprint.1)
-#generateManual(rootrmMan ${CMAKE_SOURCE_DIR}/main/python/rootrm.py ${CMAKE_BINARY_DIR}/man/rootrm.1)
-#generateManual(rootslimtreeMan ${CMAKE_SOURCE_DIR}/main/python/rootslimtree.py ${CMAKE_BINARY_DIR}/man/rootslimtree.1)
+#generateManual(rootcpMan ${PROJECT_SOURCE_DIR}/main/python/rootcp.py ${PROJECT_BINARY_DIR}/man/rootcp.1)
+#generateManual(rootdrawtreeMan ${PROJECT_SOURCE_DIR}/main/python/rootdrawtree.py ${PROJECT_BINARY_DIR}/man/rootdrawtree.1)
+#generateManual(rooteventselectorMan ${PROJECT_SOURCE_DIR}/main/python/rooteventselector.py ${PROJECT_BINARY_DIR}/man/rooteventselector.1)
+#generateManual(rootmkdirMan ${PROJECT_SOURCE_DIR}/main/python/rootmkdir.py ${PROJECT_BINARY_DIR}/man/rootmkdir.1)
+#generateManual(rootmvMan ${PROJECT_SOURCE_DIR}/main/python/rootmv.py ${PROJECT_BINARY_DIR}/man/rootmv.1)
+#generateManual(rootprintMan ${PROJECT_SOURCE_DIR}/main/python/rootprint.py ${PROJECT_BINARY_DIR}/man/rootprint.1)
+#generateManual(rootrmMan ${PROJECT_SOURCE_DIR}/main/python/rootrm.py ${PROJECT_BINARY_DIR}/man/rootrm.1)
+#generateManual(rootslimtreeMan ${PROJECT_SOURCE_DIR}/main/python/rootslimtree.py ${PROJECT_BINARY_DIR}/man/rootslimtree.1)
 endif()
 
 ROOT_ADD_TEST_SUBDIRECTORY(test)

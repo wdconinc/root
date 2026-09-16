@@ -94,7 +94,7 @@ function(builtin_default_target compiler_rt_path)
                                       -DLLVM_RUNTIME_OUTPUT_INTDIR=${LLVM_TOOLS_BINARY_DIR}
                                       -DLLVM_DEFAULT_TARGET_TRIPLE=${LLVM_TARGET_TRIPLE}
                                       -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=${LLVM_ENABLE_PER_TARGET_RUNTIME_DIR}
-                                      -DLLVM_CMAKE_DIR=${CMAKE_BINARY_DIR}
+                                      -DLLVM_CMAKE_DIR=${PROJECT_BINARY_DIR}
                                       -DCMAKE_C_COMPILER_WORKS=ON
                                       -DCMAKE_ASM_COMPILER_WORKS=ON
                                       ${COMMON_CMAKE_ARGS}
@@ -134,7 +134,7 @@ function(builtin_register_target compiler_rt_path name)
                            CMAKE_ARGS -DLLVM_LIBRARY_OUTPUT_INTDIR=${LLVM_LIBRARY_DIR}
                                       -DLLVM_RUNTIME_OUTPUT_INTDIR=${LLVM_TOOLS_BINARY_DIR}
                                       -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=ON
-                                      -DLLVM_CMAKE_DIR=${CMAKE_BINARY_DIR}
+                                      -DLLVM_CMAKE_DIR=${PROJECT_BINARY_DIR}
                                       -DCMAKE_C_COMPILER_WORKS=ON
                                       -DCMAKE_ASM_COMPILER_WORKS=ON
                                       -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON
@@ -506,7 +506,7 @@ if(build_runtimes)
   if("openmp" IN_LIST LLVM_ENABLE_RUNTIMES)
     if (${LLVM_TOOL_FLANG_BUILD})
       message(STATUS "Configuring build of omp_lib.mod and omp_lib_kinds.mod via flang")
-      set(LIBOMP_FORTRAN_MODULES_COMPILER "${CMAKE_BINARY_DIR}/bin/flang")
+      set(LIBOMP_FORTRAN_MODULES_COMPILER "${PROJECT_BINARY_DIR}/bin/flang")
       set(LIBOMP_MODULES_INSTALL_PATH "${CMAKE_INSTALL_INCLUDEDIR}/flang")
       # TODO: This is a workaround until flang becomes a first-class project
       # in llvm/CMakeList.txt.  Until then, this line ensures that flang is

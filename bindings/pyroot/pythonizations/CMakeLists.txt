@@ -25,7 +25,7 @@ set(cpp_sources
 set(ROOT_headers_dir inc)
 
 # Copy headers inside build_dir/include/ROOT
-file(COPY ${ROOT_headers_dir}/ DESTINATION ${CMAKE_BINARY_DIR}/include/ROOT)
+file(COPY ${ROOT_headers_dir}/ DESTINATION ${PROJECT_BINARY_DIR}/include/ROOT)
 
 set(libname ROOTPythonizations)
 

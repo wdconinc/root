@@ -119,14 +119,14 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   # however only GNU version of ar and ranlib (2.27) have this option.
   # RHEL DTS7 is also affected by this, which uses GNU binutils 2.28
   execute_process(COMMAND ${CMAKE_AR} rD t.a
-                  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                  WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
                   RESULT_VARIABLE AR_RESULT
                   OUTPUT_QUIET
                   ERROR_QUIET
                   )
   if(${AR_RESULT} EQUAL 0)
     execute_process(COMMAND ${CMAKE_RANLIB} -D t.a
-                    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                    WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
                     RESULT_VARIABLE RANLIB_RESULT
                     OUTPUT_QUIET
                     ERROR_QUIET
@@ -142,7 +142,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       set(CMAKE_CXX_ARCHIVE_APPEND "<CMAKE_AR> Dq  <TARGET> <LINK_FLAGS> <OBJECTS>")
       set(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -D <TARGET>" CACHE STRING "ranlib command")
     endif()
-    file(REMOVE ${CMAKE_BINARY_DIR}/t.a)
+    file(REMOVE ${PROJECT_BINARY_DIR}/t.a)
   endif()
 endif()
 

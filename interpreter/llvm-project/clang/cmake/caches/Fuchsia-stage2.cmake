@@ -187,7 +187,7 @@ foreach(target aarch64-unknown-linux-gnu;armv7-unknown-linux-gnueabihf;i386-unkn
     set(RUNTIMES_${target}_SANITIZER_CXX_ABI_INTREE ON CACHE BOOL "")
     set(RUNTIMES_${target}_SANITIZER_TEST_CXX "libc++" CACHE STRING "")
     set(RUNTIMES_${target}_SANITIZER_TEST_CXX_INTREE ON CACHE BOOL "")
-    set(RUNTIMES_${target}_LLVM_TOOLS_DIR "${CMAKE_BINARY_DIR}/bin" CACHE BOOL "")
+    set(RUNTIMES_${target}_LLVM_TOOLS_DIR "${PROJECT_BINARY_DIR}/bin" CACHE BOOL "")
     set(RUNTIMES_${target}_LLVM_ENABLE_RUNTIMES "compiler-rt;libcxx;libcxxabi;libunwind" CACHE STRING "")
 
     # Enable FatLTO for Linux and baremetal runtimes

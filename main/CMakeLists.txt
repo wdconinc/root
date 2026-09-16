@@ -36,7 +36,7 @@ if(MSVC)
   endif()
   set_property(TARGET root.exe APPEND_STRING PROPERTY LINK_FLAGS ${root_exports})
   add_custom_command(TARGET root.exe POST_BUILD
-                     COMMAND mt -manifest ${ROOT_MANIFEST} -outputresource:${CMAKE_BINARY_DIR}/bin/root.exe)
+                     COMMAND mt -manifest ${ROOT_MANIFEST} -outputresource:${PROJECT_BINARY_DIR}/bin/root.exe)
 endif()
 
 if(MSVC)
@@ -55,8 +55,8 @@ ROOT_EXECUTABLE(rootreadspeed src/readspeed.cxx LIBRARIES RIO Tree TreePlayer Re
 
 #---CreateHaddCommandLineOptions------------------------------------------------------------------
 generateHeader(hadd
-  ${CMAKE_SOURCE_DIR}/main/src/hadd-argparse.py
-  ${CMAKE_BINARY_DIR}/ginclude/haddCommandLineOptionsHelp.h
+  ${PROJECT_SOURCE_DIR}/main/src/hadd-argparse.py
+  ${PROJECT_BINARY_DIR}/ginclude/haddCommandLineOptionsHelp.h
 )
 
 if(fortran AND CMAKE_Fortran_COMPILER)
@@ -89,9 +89,9 @@ foreach(rawUtilName ${utils})
   else()
     set(python python)
   endif()
-  configure_file(${rawUtilName} ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/${utilName} @ONLY)
+  configure_file(${rawUtilName} ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/${utilName} @ONLY)
 
-  install(FILES ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/${utilName}
+  install(FILES ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/${utilName}
                                DESTINATION ${CMAKE_INSTALL_BINDIR}
                                RENAME ${utilName}
                                PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
@@ -127,9 +127,9 @@ foreach(exe_name IN LISTS rootcling_exe_names)
   add_dependencies(${exe_name} complexDict)
 
   target_include_directories(${exe_name} PRIVATE
-          ${CMAKE_SOURCE_DIR}/core/metacling/res
-          ${CMAKE_SOURCE_DIR}/core/dictgen/res
-          ${CMAKE_SOURCE_DIR}/io/rootpcm/res)
+          ${PROJECT_SOURCE_DIR}/core/metacling/res
+          ${PROJECT_SOURCE_DIR}/core/dictgen/res
+          ${PROJECT_SOURCE_DIR}/io/rootpcm/res)
   set_property(TARGET ${exe_name} PROPERTY ENABLE_EXPORTS 1)
   if(WIN32)
     set_target_properties(${exe_name} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS 1)

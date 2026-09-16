@@ -1,0 +1,12 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=url
+command=/opt/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/wdconinc/git/root/build-wasm/builtins/LZ4-prefix/src/BUILTIN_LZ4-stamp/download-BUILTIN_LZ4.cmake;COMMAND;/opt/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/wdconinc/git/root/build-wasm/builtins/LZ4-prefix/src/BUILTIN_LZ4-stamp/verify-BUILTIN_LZ4.cmake;COMMAND;/opt/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/wdconinc/git/root/build-wasm/builtins/LZ4-prefix/src/BUILTIN_LZ4-stamp/extract-BUILTIN_LZ4.cmake
+source_dir=/home/wdconinc/git/root/build-wasm/builtins/LZ4-prefix/src/BUILTIN_LZ4
+work_dir=/home/wdconinc/git/root/build-wasm/builtins/LZ4-prefix/src
+url(s)=https://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources/lz4-1.10.0.tar.gz
+hash=SHA256=537512904744b35e232912055ccf8ec66d768639ff3abe5788d90d792ec5f48b
+      no_extract=
+

@@ -6,7 +6,7 @@ include(LLVMDistributionSupport)
 
 # Clear out any pre-existing compile_commands file before processing. This
 # allows for generating a clean compile_commands on each configure.
-file(REMOVE ${CMAKE_BINARY_DIR}/tablegen_compile_commands.yml)
+file(REMOVE ${PROJECT_BINARY_DIR}/tablegen_compile_commands.yml)
 
 function(tablegen project ofn)
   cmake_parse_arguments(ARG "" "" "DEPENDS;EXTRA_INCLUDES" ${ARGN})
@@ -24,16 +24,16 @@ function(tablegen project ofn)
   # Use depfile instead of globbing arbitrary *.td(s) for Ninja.
   if(CMAKE_GENERATOR MATCHES "Ninja")
     # Make output path relative to build.ninja, assuming located on
-    # ${CMAKE_BINARY_DIR}.
+    # ${PROJECT_BINARY_DIR}.
     # CMake emits build targets as relative paths but Ninja doesn't identify
     # absolute path (in *.d) as relative path (in build.ninja)
-    # Note that tblgen is executed on ${CMAKE_BINARY_DIR} as working directory.
+    # Note that tblgen is executed on ${PROJECT_BINARY_DIR} as working directory.
     file(RELATIVE_PATH ofn_rel
-      ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${ofn})
+      ${PROJECT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${ofn})
     set(additional_cmdline
       -o ${ofn_rel}
       -d ${ofn_rel}.d
-      WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+      WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
       DEPFILE ${CMAKE_CURRENT_BINARY_DIR}/${ofn}.d
       )
     set(local_tds)
@@ -112,7 +112,7 @@ function(tablegen project ofn)
 
   # Append this file and its includes to the compile commands file.
   # This file is used by the TableGen LSP Language Server (tblgen-lsp-server).
-  file(APPEND ${CMAKE_BINARY_DIR}/tablegen_compile_commands.yml
+  file(APPEND ${PROJECT_BINARY_DIR}/tablegen_compile_commands.yml
       "--- !FileInfo:\n"
       "  filepath: \"${LLVM_TARGET_DEFINITIONS_ABSOLUTE}\"\n"
       "  includes: \"${CMAKE_CURRENT_SOURCE_DIR};${tblgen_includes}\"\n"

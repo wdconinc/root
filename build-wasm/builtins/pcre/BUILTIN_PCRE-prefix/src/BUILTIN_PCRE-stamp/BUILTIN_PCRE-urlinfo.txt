@@ -1,0 +1,12 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=url
+command=/opt/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/wdconinc/git/root/build-wasm/builtins/pcre/BUILTIN_PCRE-prefix/src/BUILTIN_PCRE-stamp/download-BUILTIN_PCRE.cmake;COMMAND;/opt/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/wdconinc/git/root/build-wasm/builtins/pcre/BUILTIN_PCRE-prefix/src/BUILTIN_PCRE-stamp/verify-BUILTIN_PCRE.cmake;COMMAND;/opt/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/wdconinc/git/root/build-wasm/builtins/pcre/BUILTIN_PCRE-prefix/src/BUILTIN_PCRE-stamp/extract-BUILTIN_PCRE.cmake
+source_dir=/home/wdconinc/git/root/build-wasm/builtins/pcre/BUILTIN_PCRE-prefix/src/BUILTIN_PCRE
+work_dir=/home/wdconinc/git/root/build-wasm/builtins/pcre/BUILTIN_PCRE-prefix/src
+url(s)=https://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources/pcre2-10.47.tar.bz2
+hash=SHA256=47fe8c99461250d42f89e6e8fdaeba9da057855d06eb7fc08d9ca03fd08d7bc7
+      no_extract=
+

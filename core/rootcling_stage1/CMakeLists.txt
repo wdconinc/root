@@ -35,12 +35,12 @@ ROOT_EXECUTABLE(rootcling_stage1 src/rootcling_stage1.cxx
                               $<TARGET_OBJECTS:Foundation_Stage1>
                               LIBRARIES ${CLING_LIBRARIES} ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} ${ROOT_ATOMIC_LIBS}
                               NOINSTALL)
-target_compile_options(rootcling_stage1 PRIVATE -DCMAKE_BINARY_DIR="${CMAKE_BINARY_DIR}")
+target_compile_options(rootcling_stage1 PRIVATE -DCMAKE_BINARY_DIR="${PROJECT_BINARY_DIR}")
 
 target_include_directories(rootcling_stage1 PRIVATE
-   ${CMAKE_SOURCE_DIR}/core/foundation/inc    # for RConfig.hxx
-   ${CMAKE_SOURCE_DIR}/core/dictgen/res # for rootcling_impl.h
-   ${CMAKE_BINARY_DIR}/ginclude         # for RConfigure.h
+   ${PROJECT_SOURCE_DIR}/core/foundation/inc    # for RConfig.hxx
+   ${PROJECT_SOURCE_DIR}/core/dictgen/res # for rootcling_impl.h
+   ${PROJECT_BINARY_DIR}/ginclude         # for RConfigure.h
 )
 if (CMAKE_SYSTEM_NAME MATCHES FreeBSD)
   target_link_libraries(rootcling_stage1 util procstat)

@@ -9,7 +9,7 @@
 set(FREETYPE_VERSION 2.14.3)
 set(FREETYPE_HASH "e61b31ab26358b946e767ed7eb7f4bb2e507da1cfefeb7a8861ace7fd5c899a1")
 
-set(FREETYPE_PREFIX ${CMAKE_BINARY_DIR}/builtins/FREETYPE-prefix)
+set(FREETYPE_PREFIX ${PROJECT_BINARY_DIR}/builtins/FREETYPE-prefix)
 
 # The CMake of FreeType will call the static library differently if the CMAKE_BUILD_TYPE is Debug, by adding a
 # "d" to the name of the file. This is unusual if compared to the behaviour of other ROOT builtins, where the name

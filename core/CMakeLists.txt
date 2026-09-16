@@ -10,19 +10,19 @@
 
 include(SetROOTVersion)
 
-set_source_files_properties(${CMAKE_BINARY_DIR}/ginclude/RConfigure.h
+set_source_files_properties(${PROJECT_BINARY_DIR}/ginclude/RConfigure.h
   PROPERTIES GENERATED TRUE)
 
-add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/include/RConfigure.h
+add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/include/RConfigure.h
   COMMAND
     ${CMAKE_COMMAND} -E copy_if_different
-    ${CMAKE_BINARY_DIR}/ginclude/RConfigure.h
-    ${CMAKE_BINARY_DIR}/include/RConfigure.h
+    ${PROJECT_BINARY_DIR}/ginclude/RConfigure.h
+    ${PROJECT_BINARY_DIR}/include/RConfigure.h
   DEPENDS
-    ${CMAKE_BINARY_DIR}/ginclude/RConfigure.h
+    ${PROJECT_BINARY_DIR}/ginclude/RConfigure.h
 )
 
-add_custom_target(rconfigure ALL DEPENDS ${CMAKE_BINARY_DIR}/include/RConfigure.h)
+add_custom_target(rconfigure ALL DEPENDS ${PROJECT_BINARY_DIR}/include/RConfigure.h)
 
 ROOT_LINKER_LIBRARY(Core)
 
@@ -35,8 +35,8 @@ elseif(NOT WIN32)
 endif()
 
 generateHeader(Core
-  ${CMAKE_SOURCE_DIR}/core/base/src/root-argparse.py
-  ${CMAKE_BINARY_DIR}/ginclude/TApplicationCommandLineOptionsHelp.h
+  ${PROJECT_SOURCE_DIR}/core/base/src/root-argparse.py
+  ${PROJECT_BINARY_DIR}/ginclude/TApplicationCommandLineOptionsHelp.h
 )
 
 add_dependencies(Core CLING rconfigure)
@@ -53,7 +53,7 @@ if (CMAKE_SYSTEM_NAME MATCHES FreeBSD)
 endif()
 
 target_include_directories(Core PUBLIC
-   $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/ginclude>
+   $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/ginclude>
 )
 
 # This is used by rootcling_stage1 and dictgen.

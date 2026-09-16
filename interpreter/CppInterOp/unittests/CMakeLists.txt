@@ -88,7 +88,7 @@ function(add_cppinterop_unittest name)
 
   set_tests_properties(cppinterop-${name} PROPERTIES
                         TIMEOUT "${TIMEOUT_VALUE}"
-                        ENVIRONMENT "CPLUS_INCLUDE_PATH=${CMAKE_BINARY_DIR}/etc")
+                        ENVIRONMENT "CPLUS_INCLUDE_PATH=${PROJECT_BINARY_DIR}/etc")
   # Auto-generate the dispatch version if shared libs are built by recursively calling
   # add_cppinterop_unittest with the necessary compile definitions
   # FIXME: Enable for WASM builds
@@ -96,7 +96,7 @@ function(add_cppinterop_unittest name)
     add_cppinterop_unittest(${name}Dispatch ${ARG_UNPARSED_ARGUMENTS} DispatchTest.cpp)
     target_compile_definitions(${name}Dispatch PRIVATE
       ENABLE_DISPATCH_TESTS
-      CPPINTEROP_LIB_PATH="${CMAKE_BINARY_DIR}/lib/libclangCppInterOp${CMAKE_SHARED_LIBRARY_SUFFIX}"
+      CPPINTEROP_LIB_PATH="${PROJECT_BINARY_DIR}/lib/libclangCppInterOp${CMAKE_SHARED_LIBRARY_SUFFIX}"
     )
   endif()
 endfunction()

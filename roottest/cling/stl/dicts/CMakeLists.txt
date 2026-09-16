@@ -10,7 +10,7 @@ ROOTTEST_LINKER_LIBRARY(stldictTest TEST MyClass1.cpp MyClass2.cpp MyClass3.cpp
 # the future, add "MyDict1${fast} MyDict2${fast} MyDict3${fast}" to the list
 # of targets. Doing so right now would build the dictionaries twice.
 ROOT_ADD_TEST(roottest-cling-stl-dicts-build 
-              COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} ${build_config} --target stldictTest${fast} -- ${always-make})
+              COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} ${build_config} --target stldictTest${fast} -- ${always-make})
 if(GeneratorNeedsBuildSerialization)
     if(GeneratorNeedsResourecLock)
         set_property(TEST roottest-cling-stl-dicts-build APPEND PROPERTY RESOURCE_LOCK CMAKE_BUILD)

@@ -1,0 +1,1 @@
+cmd='/opt/local/bin/cmake;-GUnix Makefiles;-C<TMP_DIR>/BUILTIN_PCRE-cache-$<CONFIG>.cmake;-S;<SOURCE_DIR><SOURCE_SUBDIR>;-B;<BINARY_DIR>'

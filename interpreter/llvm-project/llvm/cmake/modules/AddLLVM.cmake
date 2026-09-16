@@ -858,7 +858,7 @@ function(add_llvm_install_targets target)
                     COMMAND "${CMAKE_COMMAND}"
                             ${component_option}
                             ${prefix_option}
-                            -P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+                            -P "${PROJECT_BINARY_DIR}/cmake_install.cmake"
                     USES_TERMINAL)
   set_target_properties(${target} PROPERTIES FOLDER "${subproject_title}/Installation")
   add_custom_target(${target}-stripped
@@ -867,7 +867,7 @@ function(add_llvm_install_targets target)
                             ${component_option}
                             ${prefix_option}
                             -DCMAKE_INSTALL_DO_STRIP=1
-                            -P "${CMAKE_BINARY_DIR}/cmake_install.cmake"
+                            -P "${PROJECT_BINARY_DIR}/cmake_install.cmake"
                     USES_TERMINAL)
   set_target_properties(${target}-stripped PROPERTIES FOLDER "${subproject_title}/Installation")
   if(target_dependencies)

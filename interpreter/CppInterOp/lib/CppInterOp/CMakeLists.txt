@@ -151,7 +151,7 @@ if(EMSCRIPTEN)
   if (CPPINTEROP_ENABLE_TESTING)
     # When compiling Emscripten tests the CppInterOp library it links to is expected to be in the same folder as the compiled Javascript
     add_custom_command(TARGET clangCppInterOp POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:clangCppInterOp> ${CMAKE_BINARY_DIR}/unittests/CppInterOp/
+      COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:clangCppInterOp> ${PROJECT_BINARY_DIR}/unittests/CppInterOp/
     )
   endif(CPPINTEROP_ENABLE_TESTING)
 endif(EMSCRIPTEN)

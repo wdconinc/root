@@ -9,7 +9,7 @@
 set(ROOT_LIBJPEG_VERSION 3.1.3)
 set(ROOT_LIBJPEG_HASH "3a13a5ba767dc8264bc40b185e41368a80d5d5f945944d1dbaa4b2fb0099f4e5")
 
-set(ROOT_LIBJPEG_PREFIX ${CMAKE_BINARY_DIR}/builtins/LIBJPEG-prefix)
+set(ROOT_LIBJPEG_PREFIX ${PROJECT_BINARY_DIR}/builtins/LIBJPEG-prefix)
 
 # Here we need two cases because the library has two different names on Linux/macOS and Windows
 if(MSVC)

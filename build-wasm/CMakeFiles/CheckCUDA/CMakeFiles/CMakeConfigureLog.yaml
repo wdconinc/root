@@ -1,0 +1,367 @@
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineSystem.cmake:12 (find_program)"
+      - "CMakeLists.txt:13 (project)"
+    mode: "program"
+    variable: "CMAKE_UNAME"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "uname"
+    candidate_directories:
+      - "/opt/local/bin/"
+      - "/opt/local/sbin/"
+      - "/opt/local/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/sbin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/"
+      - "/cvmfs/geant4.cern.ch/bin/"
+      - "/cvmfs/geant4.cern.ch/sbin/"
+      - "/cvmfs/geant4.cern.ch/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+    searched_directories:
+      - "/opt/local/bin/uname"
+      - "/opt/local/sbin/uname"
+      - "/opt/local/uname"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/uname"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/sbin/uname"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/uname"
+      - "/cvmfs/geant4.cern.ch/bin/uname"
+      - "/cvmfs/geant4.cern.ch/sbin/uname"
+      - "/cvmfs/geant4.cern.ch/uname"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/uname"
+      - "/home/wdconinc/.opencode/bin/uname"
+      - "/home/wdconinc/.local/bin/uname"
+      - "/home/wdconinc/.kimi-code/bin/uname"
+      - "/home/wdconinc/.fly/bin/uname"
+      - "/opt/local/bin/uname"
+      - "/opt/local/bin/linux-x86_64/uname"
+      - "/opt/local/sbin/uname"
+      - "/home/wdconinc/git/spack/bin/uname"
+      - "/home/wdconinc/go/bin/uname"
+      - "/usr/local/go/bin/uname"
+      - "/home/wdconinc/.cargo/bin/uname"
+      - "/home/wdconinc/bin/uname"
+      - "/home/wdconinc/.elan/bin/uname"
+      - "/usr/local/sbin/uname"
+      - "/usr/local/bin/uname"
+      - "/usr/sbin/uname"
+    found: "/usr/bin/uname"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/emscripten/cmake/Modules/Platform/Emscripten.cmake:355 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineSystem.cmake:152 (include)"
+      - "CMakeLists.txt:13 (project)"
+    mode: "program"
+    variable: "NODE_JS_EXECUTABLE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "nodejs"
+      - "node"
+    candidate_directories:
+      - "/opt/local/bin/"
+      - "/opt/local/sbin/"
+      - "/opt/local/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/sbin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/"
+      - "/cvmfs/geant4.cern.ch/bin/"
+      - "/cvmfs/geant4.cern.ch/sbin/"
+      - "/cvmfs/geant4.cern.ch/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    searched_directories:
+      - "/opt/local/bin/nodejs"
+      - "/opt/local/sbin/nodejs"
+      - "/opt/local/nodejs"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/nodejs"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/sbin/nodejs"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/nodejs"
+      - "/cvmfs/geant4.cern.ch/bin/nodejs"
+      - "/cvmfs/geant4.cern.ch/sbin/nodejs"
+      - "/cvmfs/geant4.cern.ch/nodejs"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/nodejs"
+      - "/home/wdconinc/.opencode/bin/nodejs"
+      - "/home/wdconinc/.local/bin/nodejs"
+      - "/home/wdconinc/.kimi-code/bin/nodejs"
+      - "/home/wdconinc/.fly/bin/nodejs"
+      - "/opt/local/bin/nodejs"
+      - "/opt/local/bin/linux-x86_64/nodejs"
+      - "/opt/local/sbin/nodejs"
+      - "/home/wdconinc/git/spack/bin/nodejs"
+      - "/home/wdconinc/go/bin/nodejs"
+      - "/usr/local/go/bin/nodejs"
+      - "/home/wdconinc/.cargo/bin/nodejs"
+      - "/home/wdconinc/bin/nodejs"
+      - "/home/wdconinc/.elan/bin/nodejs"
+      - "/usr/local/sbin/nodejs"
+      - "/usr/local/bin/nodejs"
+      - "/usr/sbin/nodejs"
+    found: "/usr/bin/nodejs"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineSystem.cmake:213 (message)"
+      - "CMakeLists.txt:13 (project)"
+    message: |
+      The target system is: Emscripten - 1 - x86
+      The host system is: Linux - 7.0.0-30-generic - x86_64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCompiler.cmake:54 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCUDACompiler.cmake:39 (_cmake_find_compiler)"
+      - "CMakeLists.txt:13 (project)"
+    mode: "program"
+    variable: "CMAKE_CUDA_COMPILER"
+    description: "CUDA compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "nvcc"
+    candidate_directories:
+      - "/usr/share/emscripten/"
+    searched_directories:
+      - "/usr/share/emscripten/nvcc"
+    found: false
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:1341 (message)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCUDACompiler.cmake:99 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:13 (project)"
+    message: |
+      Checking whether the CUDA compiler is NVIDIA using "" did not match "nvcc: [^
+      ]+ Cuda compiler driver":
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:1341 (message)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCUDACompiler.cmake:99 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:13 (project)"
+    message: |
+      Checking whether the CUDA compiler is Clang using "" did not match "(clang version)":
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CMakeCUDAFindToolkit.cmake:15 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCUDACompiler.cmake:109 (cmake_cuda_find_toolkit)"
+      - "CMakeLists.txt:13 (project)"
+    mode: "program"
+    variable: "_CUDA_NVCC_EXECUTABLE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "nvcc"
+      - "nvcc.exe"
+    found: false
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+...

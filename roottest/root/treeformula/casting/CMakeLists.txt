@@ -1,5 +1,5 @@
 ROOTTEST_ADD_TEST(write
-                  COMMAND ${CMAKE_BINARY_DIR}/roottest/root/io/event/TestIoEvent 20 1 9 1 600 Event.root
+                  COMMAND ${PROJECT_BINARY_DIR}/roottest/root/io/event/TestIoEvent 20 1 9 1 600 Event.root
                   FIXTURES_REQUIRED root-io-event-TestIoEvent-fixture
                   FIXTURES_SETUP root-treeformula-casting-write-fixture)
 

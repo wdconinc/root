@@ -14,7 +14,7 @@ set_property(TARGET ROOT-8096 APPEND PROPERTY INCLUDE_DIRECTORIES ${CMAKE_CURREN
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES dict.cxx dict_rdict.pcm libROOT-8096.rootmap)
 
 add_test(NAME roottest-cling-dict-ROOT-8096-build
-         COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}
+         COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR}
                                   ${build_config}
                                   --target  ROOT-8096${fast}
                                   -- ${always-make})

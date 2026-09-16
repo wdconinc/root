@@ -14,7 +14,7 @@ ROOTTEST_ADD_TEST(unevenFriend
                   OUTREF unevenFriend.ref)
 
 ROOTTEST_ADD_TEST(file
-                  COMMAND ${CMAKE_BINARY_DIR}/roottest/root/io/event/TestIoEvent 10 1 9 1
+                  COMMAND ${PROJECT_BINARY_DIR}/roottest/root/io/event/TestIoEvent 10 1 9 1
                   COPY_TO_BUILDDIR MC_uds_reco-1.root MC_uds_reco-2.root
                   FIXTURES_REQUIRED root-io-event-TestIoEvent-fixture
                   FIXTURES_SETUP root-tree-friend-file-fixture)

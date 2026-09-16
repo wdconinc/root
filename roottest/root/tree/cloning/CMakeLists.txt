@@ -2,10 +2,10 @@
 # FIXME: it will be nice to move roottest-treeformula-event to CMake and add it as dependency
 # To fix runtime_cxxmodules, we need to use already build artefacts.
 
-set(test_bin_dir "${CMAKE_BINARY_DIR}/test")
+set(test_bin_dir "${PROJECT_BINARY_DIR}/test")
 
 ROOTTEST_ADD_TEST(hsimple-create
-                  MACRO ${CMAKE_SOURCE_DIR}/tutorials/hsimple.C
+                  MACRO ${PROJECT_SOURCE_DIR}/tutorials/hsimple.C
                   PASSRC 255
                   FIXTURES_SETUP root-tree-cloning-hsimple-fixture)
 

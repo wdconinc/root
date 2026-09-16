@@ -11,7 +11,7 @@ ROOTTEST_ADD_TEST(AliasString
                   FIXTURES_REQUIRED root-treeformula-string-MakeProxy-fixture)
 
 ROOTTEST_ADD_TEST(cernbuild
-                  MACRO ${CMAKE_SOURCE_DIR}/tutorials/io/tree/tree500_cernbuild.C
+                  MACRO ${PROJECT_SOURCE_DIR}/tutorials/io/tree/tree500_cernbuild.C
                   MACROARG 1,0
                   PASSRC 255
                   FIXTURES_SETUP root-treeformula-string-cernbuild-fixture)

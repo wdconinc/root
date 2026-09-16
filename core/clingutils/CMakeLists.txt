@@ -33,12 +33,12 @@ add_dependencies(ClingUtils CLING)
 
 target_include_directories(ClingUtils PRIVATE 
    ${CLING_INCLUDE_DIRS}
-   ${CMAKE_SOURCE_DIR}/core/foundation/res
-   ${CMAKE_SOURCE_DIR}/core/foundation/inc
-   ${CMAKE_SOURCE_DIR}/core/base/inc
-   ${CMAKE_SOURCE_DIR}/core/clib/inc
-   ${CMAKE_SOURCE_DIR}/core/meta/inc
-   ${CMAKE_BINARY_DIR}/ginclude)
+   ${PROJECT_SOURCE_DIR}/core/foundation/res
+   ${PROJECT_SOURCE_DIR}/core/foundation/inc
+   ${PROJECT_SOURCE_DIR}/core/base/inc
+   ${PROJECT_SOURCE_DIR}/core/clib/inc
+   ${PROJECT_SOURCE_DIR}/core/meta/inc
+   ${PROJECT_BINARY_DIR}/ginclude)
 
 # Register the llvm include directories after clangs. This instructs the compiler to resolve
 # headers from our builtin clang. That's an issue when we are building with bultin_llvm=Off
@@ -81,7 +81,7 @@ endforeach()
 
 set(CLANG_RESOURCE_DIR_STEM)
 if (builtin_clang)
-  set(CLANG_RESOURCE_DIR_STEM ${CMAKE_BINARY_DIR}/interpreter/llvm-project/llvm/${CMAKE_CFG_INTDIR}/lib${LLVM_LIBDIR_SUFFIX}/clang)
+  set(CLANG_RESOURCE_DIR_STEM ${PROJECT_BINARY_DIR}/interpreter/llvm-project/llvm/${CMAKE_CFG_INTDIR}/lib${LLVM_LIBDIR_SUFFIX}/clang)
   set(CLANG_RESOURCE_DIR_VERSION ${LLVM_VERSION_MAJOR})
 else ()
   set(CLANG_RESOURCE_DIR_STEM ${CLANG_INSTALL_PREFIX}/lib${LLVM_LIBDIR_SUFFIX}/clang)
@@ -106,12 +106,12 @@ endif()
 set(CLANG_RESOURCE_DIR ${CLANG_RESOURCE_DIR_STEM}/${CLANG_RESOURCE_DIR_VERSION}/include)
 
 #---Deal with clang resource here----------------------------------------------
-install(DIRECTORY ${CMAKE_BINARY_DIR}/etc/cling/lib/clang/${CLANG_RESOURCE_DIR_VERSION}/include/
+install(DIRECTORY ${PROJECT_BINARY_DIR}/etc/cling/lib/clang/${CLANG_RESOURCE_DIR_VERSION}/include/
         DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/cling/lib/clang/${CLANG_RESOURCE_DIR_VERSION}/include USE_SOURCE_PERMISSIONS)
 
 
 #---Install a bunch of files to /etc/cling------------------------------------
-set(clinginclude ${CMAKE_SOURCE_DIR}/interpreter/cling/include)
+set(clinginclude ${PROJECT_SOURCE_DIR}/interpreter/cling/include)
 
 set(custom_modulemaps)
 if (runtime_cxxmodules)
@@ -134,9 +134,9 @@ if (runtime_cxxmodules)
         COMMENT "Generating wrapped std modulemap for macOS SDK"
       )
       add_custom_target(generate_std_modulemap DEPENDS ${GENERATED_MODULEMAP})
-      list(APPEND copy_commands COMMAND ${CMAKE_COMMAND} -E copy ${GENERATED_MODULEMAP} ${CMAKE_BINARY_DIR}/etc/cling/std_darwin.modulemap)
+      list(APPEND copy_commands COMMAND ${CMAKE_COMMAND} -E copy ${GENERATED_MODULEMAP} ${PROJECT_BINARY_DIR}/etc/cling/std_darwin.modulemap)
       list(APPEND files_to_copy ${GENERATED_MODULEMAP})
-      install(FILES ${CMAKE_BINARY_DIR}/etc/cling/std_darwin.modulemap DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/cling)
+      install(FILES ${PROJECT_BINARY_DIR}/etc/cling/std_darwin.modulemap DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/cling)
     endif()
   endif()
 
@@ -176,28 +176,28 @@ foreach(file ${custom_modulemaps}
     # We do not want our modulemap to be considered part of the PCH.
     set_property(GLOBAL APPEND PROPERTY CLINGETCPCH etc/cling/${dest_file})
   endif()
-  list(APPEND copy_commands COMMAND ${CMAKE_COMMAND} -E copy ${clinginclude}/cling/${file} ${CMAKE_BINARY_DIR}/etc/cling/${dest_file})
+  list(APPEND copy_commands COMMAND ${CMAKE_COMMAND} -E copy ${clinginclude}/cling/${file} ${PROJECT_BINARY_DIR}/etc/cling/${dest_file})
   list(APPEND files_to_copy ${clinginclude}/cling/${file})
-  install(FILES ${CMAKE_BINARY_DIR}/etc/cling/${dest_file} DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/cling/${path})
+  install(FILES ${PROJECT_BINARY_DIR}/etc/cling/${dest_file} DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/cling/${path})
 endforeach()
 
-set(stamp_file ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LLVMRES.stamp)
+set(stamp_file ${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LLVMRES.stamp)
 if(MSVC)
   add_custom_command(OUTPUT ${stamp_file}
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/etc/cling/lib/clang/${CLANG_RESOURCE_DIR_VERSION}/include
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/etc/cling/lib/clang/${CLANG_RESOURCE_DIR_VERSION}/include
         ${copy_commands}
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CLANG_RESOURCE_DIR}
-        ${CMAKE_BINARY_DIR}/etc/cling/lib/clang/${CLANG_RESOURCE_DIR_VERSION}/include		
+        ${PROJECT_BINARY_DIR}/etc/cling/lib/clang/${CLANG_RESOURCE_DIR_VERSION}/include		
         COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file}
         DEPENDS ${files_to_copy}
         COMMENT "Copying LLVM resource and header files")
 else()
   add_custom_command(OUTPUT ${stamp_file}
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/etc/cling/lib/clang/${CLANG_RESOURCE_DIR_VERSION}/include
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/etc/cling/lib/clang/${CLANG_RESOURCE_DIR_VERSION}/include
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CLANG_RESOURCE_DIR}
-        ${CMAKE_BINARY_DIR}/etc/cling/lib/clang/${CLANG_RESOURCE_DIR_VERSION}/include
+        ${PROJECT_BINARY_DIR}/etc/cling/lib/clang/${CLANG_RESOURCE_DIR_VERSION}/include
         ${copy_commands}
         COMMAND ${CMAKE_COMMAND} -E touch ${stamp_file}
         DEPENDS ${files_to_copy}

@@ -46,7 +46,7 @@ ROOT_LINKER_LIBRARY(FTGL
 
 target_include_directories(FTGL PRIVATE
       ${OPENGL_INCLUDE_DIR}
-      ${CMAKE_SOURCE_DIR}/graf3d/gl/inc
+      ${PROJECT_SOURCE_DIR}/graf3d/gl/inc
 )
 
 if(builtin_freetype)

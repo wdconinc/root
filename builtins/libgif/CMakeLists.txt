@@ -11,7 +11,7 @@ set(ROOT_LIBGIF_HASH "302b2758bbdb8b5c63eafad21b15a53bb7aef7e5d4d278fce170c16036
 # The sources come w/o CMakeList.txt as of version 5.2.2. We add ours, it's very simple.
 set(ROOT_LIBGIF_PATCH_FILE ${CMAKE_CURRENT_SOURCE_DIR}/libgif_add_cmakelists.patch)
 
-set(ROOT_LIBGIF_PREFIX ${CMAKE_BINARY_DIR}/builtins/LIBGIF-prefix)
+set(ROOT_LIBGIF_PREFIX ${PROJECT_BINARY_DIR}/builtins/LIBGIF-prefix)
 
 set(ROOT_LIBGIF_LIBRARY ${ROOT_LIBGIF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}gif-static${CMAKE_STATIC_LIBRARY_SUFFIX})
 

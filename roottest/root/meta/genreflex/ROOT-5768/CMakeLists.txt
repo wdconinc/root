@@ -25,7 +25,7 @@ if(NOT MSVC OR win_broken_tests)
   # target_include_directories(PyCoolLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/CoralBase)
 
   ROOTTEST_ADD_TEST(PyCoolLib-build
-                    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} ${build_config} --target PyCoolLib${fast} -- ${always-make}
+                    COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} ${build_config} --target PyCoolLib${fast} -- ${always-make}
                     FIXTURES_REQUIRED PyCool-reflex-dict)
   if(GeneratorNeedsBuildSerialization)
     if(GeneratorNeedsResourecLock)

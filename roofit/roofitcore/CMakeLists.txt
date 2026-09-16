@@ -498,7 +498,7 @@ target_include_directories(RooFitCore PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_S
 # RooFit, we are not interested in them, and want to avoid a dependency of the
 # RooFitCore library on the Smatrix dictionary library. Therefore, we just add
 # the include path.
-target_include_directories(RooFitCore PRIVATE $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/math/smatrix/inc>)
+target_include_directories(RooFitCore PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/math/smatrix/inc>)
 
 # For recent clang, this can facilitate auto-vectorisation.
 # In RooFit, the errno side effect is not needed, anyway:

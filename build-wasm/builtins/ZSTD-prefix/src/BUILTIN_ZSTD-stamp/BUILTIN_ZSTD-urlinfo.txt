@@ -1,0 +1,12 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=url
+command=/opt/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/wdconinc/git/root/build-wasm/builtins/ZSTD-prefix/src/BUILTIN_ZSTD-stamp/download-BUILTIN_ZSTD.cmake;COMMAND;/opt/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/wdconinc/git/root/build-wasm/builtins/ZSTD-prefix/src/BUILTIN_ZSTD-stamp/verify-BUILTIN_ZSTD.cmake;COMMAND;/opt/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/wdconinc/git/root/build-wasm/builtins/ZSTD-prefix/src/BUILTIN_ZSTD-stamp/extract-BUILTIN_ZSTD.cmake
+source_dir=/home/wdconinc/git/root/build-wasm/builtins/ZSTD-prefix/src/BUILTIN_ZSTD
+work_dir=/home/wdconinc/git/root/build-wasm/builtins/ZSTD-prefix/src
+url(s)=https://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources/zstd-1.5.7.tar.gz
+hash=SHA256=37d7284556b20954e56e1ca85b80226768902e2edabd3b649e9e72c0c9012ee3
+      no_extract=
+

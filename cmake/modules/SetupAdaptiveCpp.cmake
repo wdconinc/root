@@ -19,14 +19,14 @@ else()
   )
 endif()
 
-set(LLVM_BINARY_DIR ${CMAKE_BINARY_DIR}/interpreter/llvm-project/llvm)
+set(LLVM_BINARY_DIR ${PROJECT_BINARY_DIR}/interpreter/llvm-project/llvm)
 set(CLANG_EXECUTABLE_PATH ${LLVM_BINARY_DIR}/bin/clang${CMAKE_EXECUTABLE_SUFFIX})
 
 set(ACPP_CLANG
     ${CLANG_EXECUTABLE_PATH}
     CACHE STRING "Clang compiler executable used for compilation." FORCE)
 
-set(ADAPTIVE_CPP_BINARY_DIR ${CMAKE_BINARY_DIR})
+set(ADAPTIVE_CPP_BINARY_DIR ${PROJECT_BINARY_DIR})
 message(STATUS "AdaptiveCpp will be built in: ${ADAPTIVE_CPP_BINARY_DIR}")
 
 set(ADAPTIVECPP_INSTALL_CMAKE_DIR

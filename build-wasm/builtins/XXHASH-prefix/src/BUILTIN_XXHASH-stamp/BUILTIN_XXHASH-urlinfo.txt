@@ -1,0 +1,12 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=url
+command=/opt/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/wdconinc/git/root/build-wasm/builtins/XXHASH-prefix/src/BUILTIN_XXHASH-stamp/download-BUILTIN_XXHASH.cmake;COMMAND;/opt/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/wdconinc/git/root/build-wasm/builtins/XXHASH-prefix/src/BUILTIN_XXHASH-stamp/verify-BUILTIN_XXHASH.cmake;COMMAND;/opt/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/wdconinc/git/root/build-wasm/builtins/XXHASH-prefix/src/BUILTIN_XXHASH-stamp/extract-BUILTIN_XXHASH.cmake
+source_dir=/home/wdconinc/git/root/build-wasm/builtins/XXHASH-prefix/src/BUILTIN_XXHASH
+work_dir=/home/wdconinc/git/root/build-wasm/builtins/XXHASH-prefix/src
+url(s)=https://lcgpackages.web.cern.ch/lcgpackages/tarFiles/sources/xxHash-0.8.3.tar.gz
+hash=SHA256=aae608dfe8213dfd05d909a57718ef82f30722c392344583d3f39050c7f29a80
+      no_extract=
+

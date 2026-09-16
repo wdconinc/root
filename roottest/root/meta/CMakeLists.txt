@@ -67,7 +67,7 @@ ROOTTEST_ADD_TEST(runMemberComments
 ROOTTEST_ADD_TEST(namespaceconflict
                   MACRO execnamespaceconflict.C+)
 
-ROOTTEST_COMPILE_MACRO(${CMAKE_SOURCE_DIR}/roottest/root/io/event/Event.cxx
+ROOTTEST_COMPILE_MACRO(${PROJECT_SOURCE_DIR}/roottest/root/io/event/Event.cxx
                        FIXTURES_SETUP root-meta-Event-fixture)
 
 ROOTTEST_ADD_TEST(runautoload

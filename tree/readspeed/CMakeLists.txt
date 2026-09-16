@@ -15,10 +15,10 @@ ROOT_OBJECT_LIBRARY(ReadSpeed
 )
 
 target_include_directories(ReadSpeed PRIVATE
-  ${CMAKE_SOURCE_DIR}/io/io/inc
-  ${CMAKE_SOURCE_DIR}/tree/tree/inc
-  ${CMAKE_SOURCE_DIR}/tree/treeplayer/inc
-  ${CMAKE_SOURCE_DIR}/core/imt/inc
+  ${PROJECT_SOURCE_DIR}/io/io/inc
+  ${PROJECT_SOURCE_DIR}/tree/tree/inc
+  ${PROJECT_SOURCE_DIR}/tree/treeplayer/inc
+  ${PROJECT_SOURCE_DIR}/core/imt/inc
 )
 
 ROOT_ADD_TEST_SUBDIRECTORY(test)

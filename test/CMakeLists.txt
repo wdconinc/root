@@ -259,7 +259,7 @@ if(WIN32)
   set(cleantmpfiles POSTCMD cmd /c del AutoDict_*)
 endif()
 ROOT_ADD_TEST(test-stressinterpreter COMMAND stressInterpreter
-              WORKING_DIR ${CMAKE_BINARY_DIR}
+              WORKING_DIR ${PROJECT_BINARY_DIR}
               PRECMD ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/stressInterpreter.cxx
                                               $<TARGET_FILE_DIR:stressInterpreter>/stressInterpreter.cxx
               ${cleantmpfiles}

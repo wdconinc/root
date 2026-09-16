@@ -1,0 +1,2500 @@
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineSystem.cmake:12 (find_program)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "program"
+    variable: "CMAKE_UNAME"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "uname"
+    candidate_directories:
+      - "/opt/local/bin/"
+      - "/opt/local/sbin/"
+      - "/opt/local/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/sbin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/"
+      - "/cvmfs/geant4.cern.ch/bin/"
+      - "/cvmfs/geant4.cern.ch/sbin/"
+      - "/cvmfs/geant4.cern.ch/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+    searched_directories:
+      - "/opt/local/bin/uname"
+      - "/opt/local/sbin/uname"
+      - "/opt/local/uname"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/uname"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/sbin/uname"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/uname"
+      - "/cvmfs/geant4.cern.ch/bin/uname"
+      - "/cvmfs/geant4.cern.ch/sbin/uname"
+      - "/cvmfs/geant4.cern.ch/uname"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/uname"
+      - "/home/wdconinc/.opencode/bin/uname"
+      - "/home/wdconinc/.local/bin/uname"
+      - "/home/wdconinc/.kimi-code/bin/uname"
+      - "/home/wdconinc/.fly/bin/uname"
+      - "/opt/local/bin/uname"
+      - "/opt/local/bin/linux-x86_64/uname"
+      - "/opt/local/sbin/uname"
+      - "/home/wdconinc/git/spack/bin/uname"
+      - "/home/wdconinc/go/bin/uname"
+      - "/usr/local/go/bin/uname"
+      - "/home/wdconinc/.cargo/bin/uname"
+      - "/home/wdconinc/bin/uname"
+      - "/home/wdconinc/.elan/bin/uname"
+      - "/usr/local/sbin/uname"
+      - "/usr/local/bin/uname"
+      - "/usr/sbin/uname"
+    found: "/usr/bin/uname"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineSystem.cmake:213 (message)"
+      - "CMakeLists.txt:52 (project)"
+    message: |
+      The target system is: Emscripten - 1 - x86
+      The host system is: Linux - 7.0.0-30-generic - x86_64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeUnixFindMake.cmake:5 (find_program)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "program"
+    variable: "CMAKE_MAKE_PROGRAM"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "gmake"
+      - "make"
+      - "smake"
+    candidate_directories:
+      - "/opt/local/bin/"
+      - "/opt/local/sbin/"
+      - "/opt/local/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/sbin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/"
+      - "/cvmfs/geant4.cern.ch/bin/"
+      - "/cvmfs/geant4.cern.ch/sbin/"
+      - "/cvmfs/geant4.cern.ch/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    found: "/opt/local/bin/gmake"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "program"
+    variable: "CMAKE_STRIP"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-strip"
+      - "strip"
+    candidate_directories:
+      - "/usr/share/emscripten/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    searched_directories:
+      - "/usr/share/emscripten/llvm-strip"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/llvm-strip"
+      - "/home/wdconinc/.opencode/bin/llvm-strip"
+      - "/home/wdconinc/.local/bin/llvm-strip"
+      - "/home/wdconinc/.kimi-code/bin/llvm-strip"
+      - "/home/wdconinc/.fly/bin/llvm-strip"
+      - "/opt/local/bin/llvm-strip"
+      - "/opt/local/bin/linux-x86_64/llvm-strip"
+      - "/opt/local/sbin/llvm-strip"
+      - "/home/wdconinc/git/spack/bin/llvm-strip"
+      - "/home/wdconinc/go/bin/llvm-strip"
+      - "/usr/local/go/bin/llvm-strip"
+      - "/home/wdconinc/.cargo/bin/llvm-strip"
+      - "/home/wdconinc/bin/llvm-strip"
+      - "/home/wdconinc/.elan/bin/llvm-strip"
+      - "/usr/local/sbin/llvm-strip"
+      - "/usr/local/bin/llvm-strip"
+      - "/usr/sbin/llvm-strip"
+    found: "/usr/bin/llvm-strip"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ld.lld"
+      - "ld"
+    candidate_directories:
+      - "/usr/share/emscripten/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    searched_directories:
+      - "/usr/share/emscripten/ld.lld"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/ld.lld"
+      - "/home/wdconinc/.opencode/bin/ld.lld"
+      - "/home/wdconinc/.local/bin/ld.lld"
+      - "/home/wdconinc/.kimi-code/bin/ld.lld"
+      - "/home/wdconinc/.fly/bin/ld.lld"
+      - "/opt/local/bin/ld.lld"
+      - "/opt/local/bin/linux-x86_64/ld.lld"
+      - "/opt/local/sbin/ld.lld"
+      - "/home/wdconinc/git/spack/bin/ld.lld"
+      - "/home/wdconinc/go/bin/ld.lld"
+      - "/usr/local/go/bin/ld.lld"
+      - "/home/wdconinc/.cargo/bin/ld.lld"
+      - "/home/wdconinc/bin/ld.lld"
+      - "/home/wdconinc/.elan/bin/ld.lld"
+      - "/usr/local/sbin/ld.lld"
+      - "/usr/local/bin/ld.lld"
+      - "/usr/sbin/ld.lld"
+      - "/usr/bin/ld.lld"
+      - "/sbin/ld.lld"
+      - "/bin/ld.lld"
+      - "/usr/games/ld.lld"
+      - "/usr/local/games/ld.lld"
+      - "/snap/bin/ld.lld"
+      - "/bin/ld.lld"
+      - "/sbin/ld.lld"
+      - "/usr/share/emscripten/ld"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/ld"
+      - "/home/wdconinc/.opencode/bin/ld"
+      - "/home/wdconinc/.local/bin/ld"
+      - "/home/wdconinc/.kimi-code/bin/ld"
+      - "/home/wdconinc/.fly/bin/ld"
+      - "/opt/local/bin/ld"
+      - "/opt/local/bin/linux-x86_64/ld"
+      - "/opt/local/sbin/ld"
+      - "/home/wdconinc/git/spack/bin/ld"
+      - "/home/wdconinc/go/bin/ld"
+      - "/usr/local/go/bin/ld"
+      - "/home/wdconinc/.cargo/bin/ld"
+      - "/home/wdconinc/bin/ld"
+      - "/home/wdconinc/.elan/bin/ld"
+      - "/usr/local/sbin/ld"
+      - "/usr/local/bin/ld"
+      - "/usr/sbin/ld"
+    found: "/usr/bin/ld"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJDUMP"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-objdump"
+      - "objdump"
+    candidate_directories:
+      - "/usr/share/emscripten/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    searched_directories:
+      - "/usr/share/emscripten/llvm-objdump"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/llvm-objdump"
+      - "/home/wdconinc/.opencode/bin/llvm-objdump"
+      - "/home/wdconinc/.local/bin/llvm-objdump"
+      - "/home/wdconinc/.kimi-code/bin/llvm-objdump"
+      - "/home/wdconinc/.fly/bin/llvm-objdump"
+      - "/opt/local/bin/llvm-objdump"
+      - "/opt/local/bin/linux-x86_64/llvm-objdump"
+      - "/opt/local/sbin/llvm-objdump"
+      - "/home/wdconinc/git/spack/bin/llvm-objdump"
+      - "/home/wdconinc/go/bin/llvm-objdump"
+      - "/usr/local/go/bin/llvm-objdump"
+      - "/home/wdconinc/.cargo/bin/llvm-objdump"
+      - "/home/wdconinc/bin/llvm-objdump"
+      - "/home/wdconinc/.elan/bin/llvm-objdump"
+      - "/usr/local/sbin/llvm-objdump"
+      - "/usr/local/bin/llvm-objdump"
+      - "/usr/sbin/llvm-objdump"
+    found: "/usr/bin/llvm-objdump"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJCOPY"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-objcopy"
+      - "objcopy"
+    candidate_directories:
+      - "/usr/share/emscripten/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    searched_directories:
+      - "/usr/share/emscripten/llvm-objcopy"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/llvm-objcopy"
+      - "/home/wdconinc/.opencode/bin/llvm-objcopy"
+      - "/home/wdconinc/.local/bin/llvm-objcopy"
+      - "/home/wdconinc/.kimi-code/bin/llvm-objcopy"
+      - "/home/wdconinc/.fly/bin/llvm-objcopy"
+      - "/opt/local/bin/llvm-objcopy"
+      - "/opt/local/bin/linux-x86_64/llvm-objcopy"
+      - "/opt/local/sbin/llvm-objcopy"
+      - "/home/wdconinc/git/spack/bin/llvm-objcopy"
+      - "/home/wdconinc/go/bin/llvm-objcopy"
+      - "/usr/local/go/bin/llvm-objcopy"
+      - "/home/wdconinc/.cargo/bin/llvm-objcopy"
+      - "/home/wdconinc/bin/llvm-objcopy"
+      - "/home/wdconinc/.elan/bin/llvm-objcopy"
+      - "/usr/local/sbin/llvm-objcopy"
+      - "/usr/local/bin/llvm-objcopy"
+      - "/usr/sbin/llvm-objcopy"
+    found: "/usr/bin/llvm-objcopy"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "program"
+    variable: "CMAKE_READELF"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-readelf"
+      - "readelf"
+    candidate_directories:
+      - "/usr/share/emscripten/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    searched_directories:
+      - "/usr/share/emscripten/llvm-readelf"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/llvm-readelf"
+      - "/home/wdconinc/.opencode/bin/llvm-readelf"
+      - "/home/wdconinc/.local/bin/llvm-readelf"
+      - "/home/wdconinc/.kimi-code/bin/llvm-readelf"
+      - "/home/wdconinc/.fly/bin/llvm-readelf"
+      - "/opt/local/bin/llvm-readelf"
+      - "/opt/local/bin/linux-x86_64/llvm-readelf"
+      - "/opt/local/sbin/llvm-readelf"
+      - "/home/wdconinc/git/spack/bin/llvm-readelf"
+      - "/home/wdconinc/go/bin/llvm-readelf"
+      - "/usr/local/go/bin/llvm-readelf"
+      - "/home/wdconinc/.cargo/bin/llvm-readelf"
+      - "/home/wdconinc/bin/llvm-readelf"
+      - "/home/wdconinc/.elan/bin/llvm-readelf"
+      - "/usr/local/sbin/llvm-readelf"
+      - "/usr/local/bin/llvm-readelf"
+      - "/usr/sbin/llvm-readelf"
+    found: "/usr/bin/llvm-readelf"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "program"
+    variable: "CMAKE_DLLTOOL"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-dlltool"
+      - "dlltool"
+    candidate_directories:
+      - "/usr/share/emscripten/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    searched_directories:
+      - "/usr/share/emscripten/llvm-dlltool"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/llvm-dlltool"
+      - "/home/wdconinc/.opencode/bin/llvm-dlltool"
+      - "/home/wdconinc/.local/bin/llvm-dlltool"
+      - "/home/wdconinc/.kimi-code/bin/llvm-dlltool"
+      - "/home/wdconinc/.fly/bin/llvm-dlltool"
+      - "/opt/local/bin/llvm-dlltool"
+      - "/opt/local/bin/linux-x86_64/llvm-dlltool"
+      - "/opt/local/sbin/llvm-dlltool"
+      - "/home/wdconinc/git/spack/bin/llvm-dlltool"
+      - "/home/wdconinc/go/bin/llvm-dlltool"
+      - "/usr/local/go/bin/llvm-dlltool"
+      - "/home/wdconinc/.cargo/bin/llvm-dlltool"
+      - "/home/wdconinc/bin/llvm-dlltool"
+      - "/home/wdconinc/.elan/bin/llvm-dlltool"
+      - "/usr/local/sbin/llvm-dlltool"
+      - "/usr/local/bin/llvm-dlltool"
+      - "/usr/sbin/llvm-dlltool"
+    found: "/usr/bin/llvm-dlltool"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "program"
+    variable: "CMAKE_ADDR2LINE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-addr2line"
+      - "addr2line"
+    candidate_directories:
+      - "/usr/share/emscripten/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    searched_directories:
+      - "/usr/share/emscripten/llvm-addr2line"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/llvm-addr2line"
+      - "/home/wdconinc/.opencode/bin/llvm-addr2line"
+      - "/home/wdconinc/.local/bin/llvm-addr2line"
+      - "/home/wdconinc/.kimi-code/bin/llvm-addr2line"
+      - "/home/wdconinc/.fly/bin/llvm-addr2line"
+      - "/opt/local/bin/llvm-addr2line"
+      - "/opt/local/bin/linux-x86_64/llvm-addr2line"
+      - "/opt/local/sbin/llvm-addr2line"
+      - "/home/wdconinc/git/spack/bin/llvm-addr2line"
+      - "/home/wdconinc/go/bin/llvm-addr2line"
+      - "/usr/local/go/bin/llvm-addr2line"
+      - "/home/wdconinc/.cargo/bin/llvm-addr2line"
+      - "/home/wdconinc/bin/llvm-addr2line"
+      - "/home/wdconinc/.elan/bin/llvm-addr2line"
+      - "/usr/local/sbin/llvm-addr2line"
+      - "/usr/local/bin/llvm-addr2line"
+      - "/usr/sbin/llvm-addr2line"
+    found: "/usr/bin/llvm-addr2line"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "program"
+    variable: "CMAKE_TAPI"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "tapi"
+    candidate_directories:
+      - "/usr/share/emscripten/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    searched_directories:
+      - "/usr/share/emscripten/tapi"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/tapi"
+      - "/home/wdconinc/.opencode/bin/tapi"
+      - "/home/wdconinc/.local/bin/tapi"
+      - "/home/wdconinc/.kimi-code/bin/tapi"
+      - "/home/wdconinc/.fly/bin/tapi"
+      - "/opt/local/bin/tapi"
+      - "/opt/local/bin/linux-x86_64/tapi"
+      - "/opt/local/sbin/tapi"
+      - "/home/wdconinc/git/spack/bin/tapi"
+      - "/home/wdconinc/go/bin/tapi"
+      - "/usr/local/go/bin/tapi"
+      - "/home/wdconinc/.cargo/bin/tapi"
+      - "/home/wdconinc/bin/tapi"
+      - "/home/wdconinc/.elan/bin/tapi"
+      - "/usr/local/sbin/tapi"
+      - "/usr/local/bin/tapi"
+      - "/usr/sbin/tapi"
+      - "/usr/bin/tapi"
+      - "/sbin/tapi"
+      - "/bin/tapi"
+      - "/usr/games/tapi"
+      - "/usr/local/games/tapi"
+      - "/snap/bin/tapi"
+      - "/bin/tapi"
+      - "/sbin/tapi"
+    found: false
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Compiler/Clang-FindBinUtils.cmake:50 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:201 (include)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_CLANG_SCAN_DEPS"
+    description: "`clang-scan-deps` dependency scanner"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "clang-scan-deps-19.1"
+      - "clang-scan-deps-19"
+      - "clang-scan-deps19"
+      - "clang-scan-deps"
+      - "clang-scan-deps-19.1"
+      - "clang-scan-deps-19"
+      - "clang-scan-deps19"
+      - "clang-scan-deps"
+    candidate_directories:
+      - "/usr/share/emscripten/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    searched_directories:
+      - "/usr/share/emscripten/clang-scan-deps-19.1"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/.opencode/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/.local/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/.kimi-code/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/.fly/bin/clang-scan-deps-19.1"
+      - "/opt/local/bin/clang-scan-deps-19.1"
+      - "/opt/local/bin/linux-x86_64/clang-scan-deps-19.1"
+      - "/opt/local/sbin/clang-scan-deps-19.1"
+      - "/home/wdconinc/git/spack/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/go/bin/clang-scan-deps-19.1"
+      - "/usr/local/go/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/.cargo/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/.elan/bin/clang-scan-deps-19.1"
+      - "/usr/local/sbin/clang-scan-deps-19.1"
+      - "/usr/local/bin/clang-scan-deps-19.1"
+      - "/usr/sbin/clang-scan-deps-19.1"
+      - "/usr/bin/clang-scan-deps-19.1"
+      - "/sbin/clang-scan-deps-19.1"
+      - "/bin/clang-scan-deps-19.1"
+      - "/usr/games/clang-scan-deps-19.1"
+      - "/usr/local/games/clang-scan-deps-19.1"
+      - "/snap/bin/clang-scan-deps-19.1"
+      - "/bin/clang-scan-deps-19.1"
+      - "/sbin/clang-scan-deps-19.1"
+      - "/usr/share/emscripten/clang-scan-deps-19"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/clang-scan-deps-19"
+      - "/home/wdconinc/.opencode/bin/clang-scan-deps-19"
+      - "/home/wdconinc/.local/bin/clang-scan-deps-19"
+      - "/home/wdconinc/.kimi-code/bin/clang-scan-deps-19"
+      - "/home/wdconinc/.fly/bin/clang-scan-deps-19"
+      - "/opt/local/bin/clang-scan-deps-19"
+      - "/opt/local/bin/linux-x86_64/clang-scan-deps-19"
+      - "/opt/local/sbin/clang-scan-deps-19"
+      - "/home/wdconinc/git/spack/bin/clang-scan-deps-19"
+      - "/home/wdconinc/go/bin/clang-scan-deps-19"
+      - "/usr/local/go/bin/clang-scan-deps-19"
+      - "/home/wdconinc/.cargo/bin/clang-scan-deps-19"
+      - "/home/wdconinc/bin/clang-scan-deps-19"
+      - "/home/wdconinc/.elan/bin/clang-scan-deps-19"
+      - "/usr/local/sbin/clang-scan-deps-19"
+      - "/usr/local/bin/clang-scan-deps-19"
+      - "/usr/sbin/clang-scan-deps-19"
+    found: "/usr/bin/clang-scan-deps-19"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Compiler/Clang-FindBinUtils.cmake:50 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeDetermineCXXCompiler.cmake:207 (include)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS"
+    description: "`clang-scan-deps` dependency scanner"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "clang-scan-deps-19.1"
+      - "clang-scan-deps-19"
+      - "clang-scan-deps19"
+      - "clang-scan-deps"
+      - "clang-scan-deps-19.1"
+      - "clang-scan-deps-19"
+      - "clang-scan-deps19"
+      - "clang-scan-deps"
+    candidate_directories:
+      - "/usr/share/emscripten/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    searched_directories:
+      - "/usr/share/emscripten/clang-scan-deps-19.1"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/.opencode/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/.local/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/.kimi-code/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/.fly/bin/clang-scan-deps-19.1"
+      - "/opt/local/bin/clang-scan-deps-19.1"
+      - "/opt/local/bin/linux-x86_64/clang-scan-deps-19.1"
+      - "/opt/local/sbin/clang-scan-deps-19.1"
+      - "/home/wdconinc/git/spack/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/go/bin/clang-scan-deps-19.1"
+      - "/usr/local/go/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/.cargo/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/bin/clang-scan-deps-19.1"
+      - "/home/wdconinc/.elan/bin/clang-scan-deps-19.1"
+      - "/usr/local/sbin/clang-scan-deps-19.1"
+      - "/usr/local/bin/clang-scan-deps-19.1"
+      - "/usr/sbin/clang-scan-deps-19.1"
+      - "/usr/bin/clang-scan-deps-19.1"
+      - "/sbin/clang-scan-deps-19.1"
+      - "/bin/clang-scan-deps-19.1"
+      - "/usr/games/clang-scan-deps-19.1"
+      - "/usr/local/games/clang-scan-deps-19.1"
+      - "/snap/bin/clang-scan-deps-19.1"
+      - "/bin/clang-scan-deps-19.1"
+      - "/sbin/clang-scan-deps-19.1"
+      - "/usr/share/emscripten/clang-scan-deps-19"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/clang-scan-deps-19"
+      - "/home/wdconinc/.opencode/bin/clang-scan-deps-19"
+      - "/home/wdconinc/.local/bin/clang-scan-deps-19"
+      - "/home/wdconinc/.kimi-code/bin/clang-scan-deps-19"
+      - "/home/wdconinc/.fly/bin/clang-scan-deps-19"
+      - "/opt/local/bin/clang-scan-deps-19"
+      - "/opt/local/bin/linux-x86_64/clang-scan-deps-19"
+      - "/opt/local/sbin/clang-scan-deps-19"
+      - "/home/wdconinc/git/spack/bin/clang-scan-deps-19"
+      - "/home/wdconinc/go/bin/clang-scan-deps-19"
+      - "/usr/local/go/bin/clang-scan-deps-19"
+      - "/home/wdconinc/.cargo/bin/clang-scan-deps-19"
+      - "/home/wdconinc/bin/clang-scan-deps-19"
+      - "/home/wdconinc/.elan/bin/clang-scan-deps-19"
+      - "/usr/local/sbin/clang-scan-deps-19"
+      - "/usr/local/bin/clang-scan-deps-19"
+      - "/usr/sbin/clang-scan-deps-19"
+    found: "/usr/bin/clang-scan-deps-19"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Platform/Emscripten.cmake:6 (find_file)"
+      - "/opt/local/share/cmake-4.4/Modules/CMakeSystemSpecificInformation.cmake:32 (include)"
+      - "CMakeLists.txt:52 (project)"
+    mode: "file"
+    variable: "_EMSCRIPTEN_PLATFORM_MODULE"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "Platform/Emscripten.cmake"
+    candidate_directories:
+      - "/usr/share/emscripten/cmake/Modules/"
+    found: "/usr/share/emscripten/cmake/Modules/Platform/Emscripten.cmake"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CheckLanguage.cmake:164 (message)"
+      - "cmake/modules/CheckCompiler.cmake:58 (check_language)"
+      - "CMakeLists.txt:122 (include)"
+    checks:
+      - "Looking for a CUDA compiler"
+    message: |
+      Looking for a CUDA compiler failed with the following output:
+      CMake Error at /opt/local/share/cmake-4.4/Modules/Internal/CMakeCUDAFindToolkit.cmake:104 (message):
+        Failed to find nvcc.
+      
+        Compiler requires the CUDA toolkit.  Please set the CUDAToolkit_ROOT
+        variable.
+      Call Stack (most recent call first):
+        /opt/local/share/cmake-4.4/Modules/CMakeDetermineCUDACompiler.cmake:109 (cmake_cuda_find_toolkit)
+        CMakeLists.txt:13 (project)
+      
+      
+      -- Configuring incomplete, errors occurred!
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckCSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "/opt/local/share/cmake-4.4/Modules/FindThreads.cmake:160 (check_c_source_compiles)"
+      - "/opt/local/share/cmake-4.4/Modules/FindThreads.cmake:226 (_threads_check_libc)"
+      - "cmake/modules/CheckCompiler.cmake:212 (find_package)"
+      - "CMakeLists.txt:122 (include)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-mmsJC3"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-mmsJC3"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-mmsJC3'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_b921a/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_b921a.dir/build.make CMakeFiles/cmTC_b921a.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-mmsJC3'
+        Building C object CMakeFiles/cmTC_b921a.dir/src.c.o
+        /usr/share/emscripten/emcc -DCMAKE_HAVE_LIBC_PTHREAD   -MD -MT CMakeFiles/cmTC_b921a.dir/src.c.o -MF CMakeFiles/cmTC_b921a.dir/src.c.o.d -o CMakeFiles/cmTC_b921a.dir/src.c.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-mmsJC3/src.c
+        Linking C executable cmTC_b921a.js
+        /opt/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b921a.dir/link.txt --verbose=1
+        /usr/share/emscripten/emcc @CMakeFiles/cmTC_b921a.dir/objects1.rsp -o cmTC_b921a.js
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-mmsJC3'
+        
+      exitCode: 0
+  -
+    kind: "find-v1"
+    backtrace:
+      - "cmake/modules/RootMacros.cmake:2965 (find_program)"
+      - "CMakeLists.txt:124 (include)"
+    mode: "program"
+    variable: "ROOT_GMAKE_PROGRAM"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "gmake"
+    candidate_directories:
+      - "/opt/local/bin/"
+      - "/opt/local/sbin/"
+      - "/opt/local/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/sbin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/"
+      - "/cvmfs/geant4.cern.ch/bin/"
+      - "/cvmfs/geant4.cern.ch/sbin/"
+      - "/cvmfs/geant4.cern.ch/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    found: "/opt/local/bin/gmake"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/share/emscripten/cache/sysroot"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "cmake/modules/SearchInstalledSoftware.cmake:136 (_find_package)"
+      - "cmake/modules/SearchInstalledSoftware.cmake:188 (find_package)"
+      - "CMakeLists.txt:134 (include)"
+    name: "nlohmann_json"
+    configs:
+      -
+        filename: "nlohmann_json.cps"
+        kind: "cps"
+      -
+        filename: "nlohmann_jsonConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "nlohmann_json-config.cmake"
+        kind: "cmake"
+    version_request:
+      version: "3.9"
+      version_complete: "3.9"
+      exact: false
+    settings:
+      required: "optional"
+      quiet: true
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "nlohmann_json"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "ONLY"
+    candidates:
+      -
+        path: "/usr/share/emscripten/cache/sysroot/nlohmann_jsonConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/nlohmann_json-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/lib/wasm32-emscripten/cps/nlohmann_json.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/lib/cps/nlohmann_json.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/share/cps/nlohmann_json.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/nlohmann_jsonConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/nlohmann_json-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/lib/wasm32-emscripten/cps/nlohmann_json.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/lib/cps/nlohmann_json.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/share/cps/nlohmann_json.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/nlohmann_jsonConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/nlohmann_json-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/lib/wasm32-emscripten/cps/nlohmann_json.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/lib/cps/nlohmann_json.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "/usr/share/emscripten/cache/sysroot/share/cps/nlohmann_json.cps"
+        mode: "cps"
+        reason: "no_exist"
+    found: null
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/share/emscripten/cache/sysroot"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+      CMAKE_MODULE_PATH:
+        - "/home/wdconinc/git/root/cmake/modules"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/FindPython/Support.cmake:2232 (find_program)"
+      - "/opt/local/share/cmake-4.4/Modules/FindPython3.cmake:699 (include)"
+      - "cmake/modules/SearchInstalledSoftware.cmake:136 (_find_package)"
+      - "cmake/modules/SearchInstalledSoftware.cmake:404 (find_package)"
+      - "CMakeLists.txt:134 (include)"
+    mode: "program"
+    variable: "_Python3_EXECUTABLE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: false
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "python3.15mu"
+      - "python3.15m"
+      - "python3.15u"
+      - "python3.15"
+      - "python3.15dmu"
+      - "python3.15dm"
+      - "python3.15du"
+      - "python3.15d"
+      - "python3.14mu"
+      - "python3.14m"
+      - "python3.14u"
+      - "python3.14"
+      - "python3.14dmu"
+      - "python3.14dm"
+      - "python3.14du"
+      - "python3.14d"
+      - "python3.13mu"
+      - "python3.13m"
+      - "python3.13u"
+      - "python3.13"
+      - "python3.13dmu"
+      - "python3.13dm"
+      - "python3.13du"
+      - "python3.13d"
+      - "python3.12mu"
+      - "python3.12m"
+      - "python3.12u"
+      - "python3.12"
+      - "python3.12dmu"
+      - "python3.12dm"
+      - "python3.12du"
+      - "python3.12d"
+      - "python3.11mu"
+      - "python3.11m"
+      - "python3.11u"
+      - "python3.11"
+      - "python3.11dmu"
+      - "python3.11dm"
+      - "python3.11du"
+      - "python3.11d"
+      - "python3.10mu"
+      - "python3.10m"
+      - "python3.10u"
+      - "python3.10"
+      - "python3.10dmu"
+      - "python3.10dm"
+      - "python3.10du"
+      - "python3.10d"
+      - "python3mu"
+      - "python3m"
+      - "python3u"
+      - "python3"
+      - "python3dmu"
+      - "python3dm"
+      - "python3du"
+      - "python3d"
+      - "pythonmu"
+      - "pythonm"
+      - "pythonu"
+      - "python"
+      - "pythondmu"
+      - "pythondm"
+      - "pythondu"
+      - "pythond"
+    candidate_directories:
+      - "/opt/local/bin/bin/"
+      - "/opt/local/bin/Scripts/"
+      - "/opt/local/bin/"
+      - "/opt/local/sbin/bin/"
+      - "/opt/local/sbin/Scripts/"
+      - "/opt/local/sbin/"
+      - "/opt/local/bin/"
+      - "/opt/local/Scripts/"
+      - "/opt/local/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/bin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/Scripts/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/sbin/bin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/sbin/Scripts/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/sbin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/Scripts/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/"
+      - "/cvmfs/geant4.cern.ch/bin/bin/"
+      - "/cvmfs/geant4.cern.ch/bin/Scripts/"
+      - "/cvmfs/geant4.cern.ch/bin/"
+      - "/cvmfs/geant4.cern.ch/sbin/bin/"
+      - "/cvmfs/geant4.cern.ch/sbin/Scripts/"
+      - "/cvmfs/geant4.cern.ch/sbin/"
+      - "/cvmfs/geant4.cern.ch/bin/"
+      - "/cvmfs/geant4.cern.ch/Scripts/"
+      - "/cvmfs/geant4.cern.ch/"
+    searched_directories:
+      - "/opt/local/bin/bin/python3.15mu"
+      - "/opt/local/bin/bin/python3.15m"
+      - "/opt/local/bin/bin/python3.15u"
+      - "/opt/local/bin/bin/python3.15"
+      - "/opt/local/bin/bin/python3.15dmu"
+      - "/opt/local/bin/bin/python3.15dm"
+      - "/opt/local/bin/bin/python3.15du"
+      - "/opt/local/bin/bin/python3.15d"
+      - "/opt/local/bin/bin/python3.14mu"
+      - "/opt/local/bin/bin/python3.14m"
+      - "/opt/local/bin/bin/python3.14u"
+      - "/opt/local/bin/bin/python3.14"
+      - "/opt/local/bin/bin/python3.14dmu"
+      - "/opt/local/bin/bin/python3.14dm"
+      - "/opt/local/bin/bin/python3.14du"
+      - "/opt/local/bin/bin/python3.14d"
+      - "/opt/local/bin/bin/python3.13mu"
+      - "/opt/local/bin/bin/python3.13m"
+      - "/opt/local/bin/bin/python3.13u"
+      - "/opt/local/bin/bin/python3.13"
+      - "/opt/local/bin/bin/python3.13dmu"
+      - "/opt/local/bin/bin/python3.13dm"
+      - "/opt/local/bin/bin/python3.13du"
+      - "/opt/local/bin/bin/python3.13d"
+      - "/opt/local/bin/bin/python3.12mu"
+      - "/opt/local/bin/bin/python3.12m"
+      - "/opt/local/bin/bin/python3.12u"
+      - "/opt/local/bin/bin/python3.12"
+      - "/opt/local/bin/bin/python3.12dmu"
+      - "/opt/local/bin/bin/python3.12dm"
+      - "/opt/local/bin/bin/python3.12du"
+      - "/opt/local/bin/bin/python3.12d"
+      - "/opt/local/bin/bin/python3.11mu"
+      - "/opt/local/bin/bin/python3.11m"
+      - "/opt/local/bin/bin/python3.11u"
+      - "/opt/local/bin/bin/python3.11"
+      - "/opt/local/bin/bin/python3.11dmu"
+      - "/opt/local/bin/bin/python3.11dm"
+      - "/opt/local/bin/bin/python3.11du"
+      - "/opt/local/bin/bin/python3.11d"
+      - "/opt/local/bin/bin/python3.10mu"
+      - "/opt/local/bin/bin/python3.10m"
+      - "/opt/local/bin/bin/python3.10u"
+      - "/opt/local/bin/bin/python3.10"
+      - "/opt/local/bin/bin/python3.10dmu"
+      - "/opt/local/bin/bin/python3.10dm"
+      - "/opt/local/bin/bin/python3.10du"
+      - "/opt/local/bin/bin/python3.10d"
+      - "/opt/local/bin/bin/python3mu"
+      - "/opt/local/bin/bin/python3m"
+      - "/opt/local/bin/bin/python3u"
+      - "/opt/local/bin/bin/python3"
+      - "/opt/local/bin/bin/python3dmu"
+      - "/opt/local/bin/bin/python3dm"
+      - "/opt/local/bin/bin/python3du"
+      - "/opt/local/bin/bin/python3d"
+      - "/opt/local/bin/bin/pythonmu"
+      - "/opt/local/bin/bin/pythonm"
+      - "/opt/local/bin/bin/pythonu"
+      - "/opt/local/bin/bin/python"
+      - "/opt/local/bin/bin/pythondmu"
+      - "/opt/local/bin/bin/pythondm"
+      - "/opt/local/bin/bin/pythondu"
+      - "/opt/local/bin/bin/pythond"
+      - "/opt/local/bin/Scripts/python3.15mu"
+      - "/opt/local/bin/Scripts/python3.15m"
+      - "/opt/local/bin/Scripts/python3.15u"
+      - "/opt/local/bin/Scripts/python3.15"
+      - "/opt/local/bin/Scripts/python3.15dmu"
+      - "/opt/local/bin/Scripts/python3.15dm"
+      - "/opt/local/bin/Scripts/python3.15du"
+      - "/opt/local/bin/Scripts/python3.15d"
+      - "/opt/local/bin/Scripts/python3.14mu"
+      - "/opt/local/bin/Scripts/python3.14m"
+      - "/opt/local/bin/Scripts/python3.14u"
+      - "/opt/local/bin/Scripts/python3.14"
+      - "/opt/local/bin/Scripts/python3.14dmu"
+      - "/opt/local/bin/Scripts/python3.14dm"
+      - "/opt/local/bin/Scripts/python3.14du"
+      - "/opt/local/bin/Scripts/python3.14d"
+      - "/opt/local/bin/Scripts/python3.13mu"
+      - "/opt/local/bin/Scripts/python3.13m"
+      - "/opt/local/bin/Scripts/python3.13u"
+      - "/opt/local/bin/Scripts/python3.13"
+      - "/opt/local/bin/Scripts/python3.13dmu"
+      - "/opt/local/bin/Scripts/python3.13dm"
+      - "/opt/local/bin/Scripts/python3.13du"
+      - "/opt/local/bin/Scripts/python3.13d"
+      - "/opt/local/bin/Scripts/python3.12mu"
+      - "/opt/local/bin/Scripts/python3.12m"
+      - "/opt/local/bin/Scripts/python3.12u"
+      - "/opt/local/bin/Scripts/python3.12"
+      - "/opt/local/bin/Scripts/python3.12dmu"
+      - "/opt/local/bin/Scripts/python3.12dm"
+      - "/opt/local/bin/Scripts/python3.12du"
+      - "/opt/local/bin/Scripts/python3.12d"
+      - "/opt/local/bin/Scripts/python3.11mu"
+      - "/opt/local/bin/Scripts/python3.11m"
+      - "/opt/local/bin/Scripts/python3.11u"
+      - "/opt/local/bin/Scripts/python3.11"
+      - "/opt/local/bin/Scripts/python3.11dmu"
+      - "/opt/local/bin/Scripts/python3.11dm"
+      - "/opt/local/bin/Scripts/python3.11du"
+      - "/opt/local/bin/Scripts/python3.11d"
+      - "/opt/local/bin/Scripts/python3.10mu"
+      - "/opt/local/bin/Scripts/python3.10m"
+      - "/opt/local/bin/Scripts/python3.10u"
+      - "/opt/local/bin/Scripts/python3.10"
+      - "/opt/local/bin/Scripts/python3.10dmu"
+      - "/opt/local/bin/Scripts/python3.10dm"
+      - "/opt/local/bin/Scripts/python3.10du"
+      - "/opt/local/bin/Scripts/python3.10d"
+      - "/opt/local/bin/Scripts/python3mu"
+      - "/opt/local/bin/Scripts/python3m"
+      - "/opt/local/bin/Scripts/python3u"
+      - "/opt/local/bin/Scripts/python3"
+      - "/opt/local/bin/Scripts/python3dmu"
+      - "/opt/local/bin/Scripts/python3dm"
+      - "/opt/local/bin/Scripts/python3du"
+      - "/opt/local/bin/Scripts/python3d"
+      - "/opt/local/bin/Scripts/pythonmu"
+      - "/opt/local/bin/Scripts/pythonm"
+      - "/opt/local/bin/Scripts/pythonu"
+      - "/opt/local/bin/Scripts/python"
+      - "/opt/local/bin/Scripts/pythondmu"
+      - "/opt/local/bin/Scripts/pythondm"
+      - "/opt/local/bin/Scripts/pythondu"
+      - "/opt/local/bin/Scripts/pythond"
+      - "/opt/local/bin/python3.15mu"
+      - "/opt/local/bin/python3.15m"
+      - "/opt/local/bin/python3.15u"
+      - "/opt/local/bin/python3.15"
+      - "/opt/local/bin/python3.15dmu"
+      - "/opt/local/bin/python3.15dm"
+      - "/opt/local/bin/python3.15du"
+      - "/opt/local/bin/python3.15d"
+      - "/opt/local/bin/python3.14mu"
+      - "/opt/local/bin/python3.14m"
+      - "/opt/local/bin/python3.14u"
+    found: "/opt/local/bin/python3.14"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/share/emscripten/cache/sysroot"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckCXXSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "cmake/modules/SearchInstalledSoftware.cmake:1666 (check_cxx_source_compiles)"
+      - "CMakeLists.txt:134 (include)"
+    checks:
+      - "Performing Test ROOT_HAVE_CXX_ATOMICS_WITHOUT_LIB"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-TRczrU"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-TRczrU"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_FLAGS: " -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "ROOT_HAVE_CXX_ATOMICS_WITHOUT_LIB"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-TRczrU'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_3fb9d/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_3fb9d.dir/build.make CMakeFiles/cmTC_3fb9d.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-TRczrU'
+        Building CXX object CMakeFiles/cmTC_3fb9d.dir/src.cxx.o
+        /usr/share/emscripten/em++ -DROOT_HAVE_CXX_ATOMICS_WITHOUT_LIB  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  -std=c++17 -MD -MT CMakeFiles/cmTC_3fb9d.dir/src.cxx.o -MF CMakeFiles/cmTC_3fb9d.dir/src.cxx.o.d -o CMakeFiles/cmTC_3fb9d.dir/src.cxx.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-TRczrU/src.cxx
+        Linking CXX executable cmTC_3fb9d.js
+        /opt/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3fb9d.dir/link.txt --verbose=1
+        /usr/share/emscripten/em++  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  @CMakeFiles/cmTC_3fb9d.dir/objects1.rsp -o cmTC_3fb9d.js
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-TRczrU'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckCXXSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "cmake/modules/SearchInstalledSoftware.cmake:1699 (check_cxx_source_compiles)"
+      - "CMakeLists.txt:134 (include)"
+    checks:
+      - "Performing Test ROOT_HAVE_NATIVE_CXX_FILESYSTEM"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-Ji4grC"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-Ji4grC"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_FLAGS: " -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "ROOT_HAVE_NATIVE_CXX_FILESYSTEM"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-Ji4grC'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_91b59/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_91b59.dir/build.make CMakeFiles/cmTC_91b59.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-Ji4grC'
+        Building CXX object CMakeFiles/cmTC_91b59.dir/src.cxx.o
+        /usr/share/emscripten/em++ -DROOT_HAVE_NATIVE_CXX_FILESYSTEM  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  -std=c++17 -MD -MT CMakeFiles/cmTC_91b59.dir/src.cxx.o -MF CMakeFiles/cmTC_91b59.dir/src.cxx.o.d -o CMakeFiles/cmTC_91b59.dir/src.cxx.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-Ji4grC/src.cxx
+        Linking CXX executable cmTC_91b59.js
+        /opt/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_91b59.dir/link.txt --verbose=1
+        /usr/share/emscripten/em++  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  @CMakeFiles/cmTC_91b59.dir/objects1.rsp -o cmTC_91b59.js
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-Ji4grC'
+        
+      exitCode: 0
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/FindGit.cmake:111 (find_program)"
+      - "cmake/modules/SearchInstalledSoftware.cmake:136 (_find_package)"
+      - "CMakeLists.txt:383 (find_package)"
+    mode: "program"
+    variable: "GIT_EXECUTABLE"
+    description: "Git command line client"
+    settings:
+      SearchFramework: "LAST"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "git"
+    candidate_directories:
+      - "/opt/local/bin/"
+      - "/opt/local/sbin/"
+      - "/opt/local/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/bin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/sbin/"
+      - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/"
+      - "/cvmfs/geant4.cern.ch/bin/"
+      - "/cvmfs/geant4.cern.ch/sbin/"
+      - "/cvmfs/geant4.cern.ch/"
+      - "/home/wdconinc/.gemini/antigravity-cli/bin/"
+      - "/home/wdconinc/.opencode/bin/"
+      - "/home/wdconinc/.local/bin/"
+      - "/home/wdconinc/.kimi-code/bin/"
+      - "/home/wdconinc/.fly/bin/"
+      - "/opt/local/bin/"
+      - "/opt/local/bin/linux-x86_64/"
+      - "/opt/local/sbin/"
+      - "/home/wdconinc/git/spack/bin/"
+      - "/home/wdconinc/go/bin/"
+      - "/usr/local/go/bin/"
+      - "/home/wdconinc/.cargo/bin/"
+      - "/home/wdconinc/bin/"
+      - "/home/wdconinc/.elan/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/bin/"
+      - "/sbin/"
+    found: "/opt/local/bin/git"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/opt/local"
+        - "/cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current"
+        - "/cvmfs/geant4.cern.ch"
+      ENV{PATH}:
+        - "/home/wdconinc/.gemini/antigravity-cli/bin"
+        - "/home/wdconinc/.opencode/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.kimi-code/bin"
+        - "/home/wdconinc/.fly/bin"
+        - "/opt/local/bin"
+        - "/opt/local/bin/linux-x86_64"
+        - "/opt/local/sbin"
+        - "/home/wdconinc/git/spack/bin"
+        - "/home/wdconinc/go/bin"
+        - "/usr/local/go/bin"
+        - "/home/wdconinc/.cargo/bin"
+        - "/home/wdconinc/bin"
+        - "/home/wdconinc/.local/bin"
+        - "/home/wdconinc/.elan/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/share/emscripten/cache/sysroot"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+        - "/"
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot;/usr/share/emscripten/cache/sysroot"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckCXXSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "cmake/modules/CheckCXXCompilerFlag.cmake:29 (CHECK_CXX_SOURCE_COMPILES)"
+      - "core/CMakeLists.txt:60 (CHECK_CXX_COMPILER_FLAG)"
+    checks:
+      - "Performing Test CXX_HAS_fno_rtti"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2xL6bB"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2xL6bB"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_FLAGS: " -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "CXX_HAS_fno_rtti"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2xL6bB'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_484df/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_484df.dir/build.make CMakeFiles/cmTC_484df.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2xL6bB'
+        Building CXX object CMakeFiles/cmTC_484df.dir/src.cxx.o
+        /usr/share/emscripten/em++ -DCXX_HAS_fno_rtti  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  -std=c++17   -fno-rtti -MD -MT CMakeFiles/cmTC_484df.dir/src.cxx.o -MF CMakeFiles/cmTC_484df.dir/src.cxx.o.d -o CMakeFiles/cmTC_484df.dir/src.cxx.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2xL6bB/src.cxx
+        Linking CXX executable cmTC_484df.js
+        /opt/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_484df.dir/link.txt --verbose=1
+        /usr/share/emscripten/em++  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  @CMakeFiles/cmTC_484df.dir/objects1.rsp -o cmTC_484df.js
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2xL6bB'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckCXXSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "core/base/CMakeLists.txt:296 (CHECK_CXX_SOURCE_COMPILES)"
+    checks:
+      - "Performing Test found_arc4"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-0injsY"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-0injsY"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_FLAGS: " -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "found_arc4"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-0injsY'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_8634d/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_8634d.dir/build.make CMakeFiles/cmTC_8634d.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-0injsY'
+        Building CXX object CMakeFiles/cmTC_8634d.dir/src.cxx.o
+        /usr/share/emscripten/em++ -Dfound_arc4  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  -std=c++17 -MD -MT CMakeFiles/cmTC_8634d.dir/src.cxx.o -MF CMakeFiles/cmTC_8634d.dir/src.cxx.o.d -o CMakeFiles/cmTC_8634d.dir/src.cxx.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-0injsY/src.cxx
+        /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-0injsY/src.cxx:2:30: error: use of undeclared identifier 'arc4random_buf'
+            2 |   int main() { char buf[32]; arc4random_buf(buf, 32); return 0;}
+              |                              ^
+        1 error generated.
+        gmake[1]: *** [CMakeFiles/cmTC_8634d.dir/build.make:82: CMakeFiles/cmTC_8634d.dir/src.cxx.o] Error 1
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-0injsY'
+        gmake: *** [Makefile:134: cmTC_8634d/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckCXXSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "core/base/CMakeLists.txt:309 (CHECK_CXX_SOURCE_COMPILES)"
+    checks:
+      - "Performing Test found_arc4_bsd"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2trJlM"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2trJlM"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_FLAGS: " -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "found_arc4_bsd"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2trJlM'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_a8ca5/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_a8ca5.dir/build.make CMakeFiles/cmTC_a8ca5.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2trJlM'
+        Building CXX object CMakeFiles/cmTC_a8ca5.dir/src.cxx.o
+        /usr/share/emscripten/em++ -Dfound_arc4_bsd  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  -std=c++17 -MD -MT CMakeFiles/cmTC_a8ca5.dir/src.cxx.o -MF CMakeFiles/cmTC_a8ca5.dir/src.cxx.o.d -o CMakeFiles/cmTC_a8ca5.dir/src.cxx.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2trJlM/src.cxx
+        /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2trJlM/src.cxx:1:10: fatal error: 'bsd/stdlib.h' file not found
+            1 | #include <bsd/stdlib.h>
+              |          ^~~~~~~~~~~~~~
+        1 error generated.
+        gmake[1]: *** [CMakeFiles/cmTC_a8ca5.dir/build.make:82: CMakeFiles/cmTC_a8ca5.dir/src.cxx.o] Error 1
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2trJlM'
+        gmake: *** [Makefile:134: cmTC_a8ca5/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckCXXSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "core/base/CMakeLists.txt:321 (CHECK_CXX_SOURCE_COMPILES)"
+    checks:
+      - "Performing Test found_getrandom"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-MyrGq2"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-MyrGq2"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_FLAGS: " -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "found_getrandom"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-MyrGq2'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_23e89/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_23e89.dir/build.make CMakeFiles/cmTC_23e89.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-MyrGq2'
+        Building CXX object CMakeFiles/cmTC_23e89.dir/src.cxx.o
+        /usr/share/emscripten/em++ -Dfound_getrandom  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  -std=c++17 -MD -MT CMakeFiles/cmTC_23e89.dir/src.cxx.o -MF CMakeFiles/cmTC_23e89.dir/src.cxx.o.d -o CMakeFiles/cmTC_23e89.dir/src.cxx.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-MyrGq2/src.cxx
+        In file included from /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-MyrGq2/src.cxx:1:
+        /usr/share/emscripten/cache/sysroot/include/compat/sys/random.h:10:30: error: unknown type name 'size_t'
+           10 | int getentropy(void *buffer, size_t length);
+              |                              ^
+        /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-MyrGq2/src.cxx:2:38: warning: unused variable 'res' [-Wunused-variable]
+            2 |       int main() { char buf[32]; int res = getrandom(buf, 32, GRND_NONBLOCK); return 0;}
+              |                                      ^~~
+        1 warning and 1 error generated.
+        gmake[1]: *** [CMakeFiles/cmTC_23e89.dir/build.make:82: CMakeFiles/cmTC_23e89.dir/src.cxx.o] Error 1
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-MyrGq2'
+        gmake: *** [Makefile:134: cmTC_23e89/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckSourceRuns.cmake:73 (try_run)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckCXXSourceRuns.cmake:97 (cmake_check_source_runs)"
+      - "core/base/CMakeLists.txt:327 (CHECK_CXX_SOURCE_RUNS)"
+    checks:
+      - "Performing Test found_urandom"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-BoQMDI"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-BoQMDI"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_FLAGS: " -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "found_urandom_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-BoQMDI'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_a78d6/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_a78d6.dir/build.make CMakeFiles/cmTC_a78d6.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-BoQMDI'
+        Building CXX object CMakeFiles/cmTC_a78d6.dir/src.cxx.o
+        /usr/share/emscripten/em++ -Dfound_urandom  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  -std=c++17 -MD -MT CMakeFiles/cmTC_a78d6.dir/src.cxx.o -MF CMakeFiles/cmTC_a78d6.dir/src.cxx.o.d -o CMakeFiles/cmTC_a78d6.dir/src.cxx.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-BoQMDI/src.cxx
+        Linking CXX executable cmTC_a78d6.js
+        /opt/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a78d6.dir/link.txt --verbose=1
+        /usr/share/emscripten/em++  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  @CMakeFiles/cmTC_a78d6.dir/objects1.rsp -o cmTC_a78d6.js
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-BoQMDI'
+        
+      exitCode: 0
+    runResult:
+      variable: "found_urandom_EXITCODE"
+      cached: true
+      stdout: |
+      stderr: |
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/modules/RootMacros.cmake:2156 (CHECK_C_COMPILER_FLAG)"
+      - "math/mathcore/CMakeLists.txt:111 (ROOT_ADD_C_FLAG)"
+    checks:
+      - "Performing Test C_HAS_Wno_strict_overflow"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-rmHIDv"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-rmHIDv"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_C_FLAGS: "   -Wall -W"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "C_HAS_Wno_strict_overflow"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-rmHIDv'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_dd949/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_dd949.dir/build.make CMakeFiles/cmTC_dd949.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-rmHIDv'
+        Building C object CMakeFiles/cmTC_dd949.dir/src.c.o
+        /usr/share/emscripten/emcc -DC_HAS_Wno_strict_overflow  -Wall -W    -Werror -Wno-strict-overflow -MD -MT CMakeFiles/cmTC_dd949.dir/src.c.o -MF CMakeFiles/cmTC_dd949.dir/src.c.o.d -o CMakeFiles/cmTC_dd949.dir/src.c.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-rmHIDv/src.c
+        Linking C executable cmTC_dd949.js
+        /opt/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dd949.dir/link.txt --verbose=1
+        /usr/share/emscripten/emcc    -Wall -W  @CMakeFiles/cmTC_dd949.dir/objects1.rsp -o cmTC_dd949.js
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-rmHIDv'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/modules/RootMacros.cmake:2156 (CHECK_C_COMPILER_FLAG)"
+      - "math/mathcore/CMakeLists.txt:112 (ROOT_ADD_C_FLAG)"
+    checks:
+      - "Performing Test C_HAS_Wno_maybe_uninitialized"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-dQvaBk"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-dQvaBk"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_C_FLAGS: "   -Wall -W"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "C_HAS_Wno_maybe_uninitialized"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-dQvaBk'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_933eb/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_933eb.dir/build.make CMakeFiles/cmTC_933eb.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-dQvaBk'
+        Building C object CMakeFiles/cmTC_933eb.dir/src.c.o
+        /usr/share/emscripten/emcc -DC_HAS_Wno_maybe_uninitialized  -Wall -W    -Werror -Wno-maybe-uninitialized -MD -MT CMakeFiles/cmTC_933eb.dir/src.c.o -MF CMakeFiles/cmTC_933eb.dir/src.c.o.d -o CMakeFiles/cmTC_933eb.dir/src.c.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-dQvaBk/src.c
+        error: unknown warning option '-Wno-maybe-uninitialized'; did you mean '-Wno-uninitialized'? [-Werror,-Wunknown-warning-option]
+        gmake[1]: *** [CMakeFiles/cmTC_933eb.dir/build.make:82: CMakeFiles/cmTC_933eb.dir/src.c.o] Error 1
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-dQvaBk'
+        gmake: *** [Makefile:134: cmTC_933eb/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/modules/RootMacros.cmake:2156 (CHECK_C_COMPILER_FLAG)"
+      - "math/mathcore/CMakeLists.txt:113 (ROOT_ADD_C_FLAG)"
+    checks:
+      - "Performing Test C_HAS_Wno_parentheses_equality"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2SHLec"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2SHLec"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_C_FLAGS: "   -Wall -W"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "C_HAS_Wno_parentheses_equality"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2SHLec'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_4f2c0/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_4f2c0.dir/build.make CMakeFiles/cmTC_4f2c0.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2SHLec'
+        Building C object CMakeFiles/cmTC_4f2c0.dir/src.c.o
+        /usr/share/emscripten/emcc -DC_HAS_Wno_parentheses_equality  -Wall -W    -Werror -Wno-parentheses-equality -MD -MT CMakeFiles/cmTC_4f2c0.dir/src.c.o -MF CMakeFiles/cmTC_4f2c0.dir/src.c.o.d -o CMakeFiles/cmTC_4f2c0.dir/src.c.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2SHLec/src.c
+        Linking C executable cmTC_4f2c0.js
+        /opt/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4f2c0.dir/link.txt --verbose=1
+        /usr/share/emscripten/emcc    -Wall -W  @CMakeFiles/cmTC_4f2c0.dir/objects1.rsp -o cmTC_4f2c0.js
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-2SHLec'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/CheckSymbolExists.cmake:171 (try_compile)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckSymbolExists.cmake:99 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "math/vecops/CMakeLists.txt:27 (check_symbol_exists)"
+    checks:
+      - "Looking for m"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-wdIboD"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-wdIboD"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_C_FLAGS: "   -Wall -W"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "HAVE_FINITE_MATH"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-wdIboD'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_51f91/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_51f91.dir/build.make CMakeFiles/cmTC_51f91.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-wdIboD'
+        Building C object CMakeFiles/cmTC_51f91.dir/CheckSymbolExists.c.o
+        /usr/share/emscripten/emcc   -Wall -W  -MD -MT CMakeFiles/cmTC_51f91.dir/CheckSymbolExists.c.o -MF CMakeFiles/cmTC_51f91.dir/CheckSymbolExists.c.o.d -o CMakeFiles/cmTC_51f91.dir/CheckSymbolExists.c.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-wdIboD/CheckSymbolExists.c
+        /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-wdIboD/CheckSymbolExists.c:2:10: fatal error: '__sqrt_finite' file not found
+            2 | #include <__sqrt_finite>
+              |          ^~~~~~~~~~~~~~~
+        1 error generated.
+        gmake[1]: *** [CMakeFiles/cmTC_51f91.dir/build.make:82: CMakeFiles/cmTC_51f91.dir/CheckSymbolExists.c.o] Error 1
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-wdIboD'
+        gmake: *** [Makefile:134: cmTC_51f91/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/local/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/opt/local/share/cmake-4.4/Modules/CheckCXXSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "cmake/modules/CheckCXXCompilerFlag.cmake:29 (CHECK_CXX_SOURCE_COMPILES)"
+      - "graf2d/postscript/CMakeLists.txt:34 (check_cxx_compiler_flag)"
+    checks:
+      - "Performing Test GCC_HAS_BIDI_CHARS_FLAG"
+    directories:
+      source: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-bo0sm1"
+      binary: "/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-bo0sm1"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-19"
+      CMAKE_CXX_FLAGS: " -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/wdconinc/git/root/cmake/modules"
+    buildResult:
+      variable: "GCC_HAS_BIDI_CHARS_FLAG"
+      cached: true
+      stdout: |
+        Change Dir: '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-bo0sm1'
+        
+        Run Build Command(s): /opt/local/bin/cmake -E env VERBOSE=1 /opt/local/bin/gmake -f Makefile cmTC_e9e66/fast
+        /opt/local/bin/gmake  -f CMakeFiles/cmTC_e9e66.dir/build.make CMakeFiles/cmTC_e9e66.dir/build
+        gmake[1]: Entering directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-bo0sm1'
+        Building CXX object CMakeFiles/cmTC_e9e66.dir/src.cxx.o
+        /usr/share/emscripten/em++ -DGCC_HAS_BIDI_CHARS_FLAG  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  -std=c++17   -Wbidi-chars=none -MD -MT CMakeFiles/cmTC_e9e66.dir/src.cxx.o -MF CMakeFiles/cmTC_e9e66.dir/src.cxx.o.d -o CMakeFiles/cmTC_e9e66.dir/src.cxx.o -c /home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-bo0sm1/src.cxx
+        warning: unknown warning option '-Wbidi-chars=none' [-Wunknown-warning-option]
+        1 warning generated.
+        Linking CXX executable cmTC_e9e66.js
+        /opt/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e9e66.dir/link.txt --verbose=1
+        /usr/share/emscripten/em++  -Wc++11-narrowing -Wsign-compare -Wsometimes-uninitialized -Wconditional-uninitialized -Wheader-guard -Warray-bounds -Wcomment -Wtautological-compare -Wstrncat-size -Wloop-analysis -Wbool-conversion -Wall -W -Woverloaded-virtual -fsigned-char  @CMakeFiles/cmTC_e9e66.dir/objects1.rsp -o cmTC_e9e66.js
+        gmake[1]: Leaving directory '/home/wdconinc/git/root/build-wasm/CMakeFiles/CMakeScratch/TryCompile-bo0sm1'
+        
+      exitCode: 0
+...

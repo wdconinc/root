@@ -285,7 +285,7 @@ set(COMPILE_FLAGS
 if(case_sensitive_filesystem)
   # Ensure all sub-configures use the top-level VFS overlay instead of generating their own.
   if(NOT winsdk_vfs_overlay_path)
-    set(winsdk_vfs_overlay_path "${CMAKE_BINARY_DIR}/winsdk_vfs_overlay.yaml")
+    set(winsdk_vfs_overlay_path "${PROJECT_BINARY_DIR}/winsdk_vfs_overlay.yaml")
     generate_winsdk_vfs_overlay("${WINSDK_INCLUDE}" "${winsdk_vfs_overlay_path}")
   endif()
   list(APPEND COMPILE_FLAGS
@@ -311,13 +311,13 @@ set(LINK_FLAGS
 if(case_sensitive_filesystem)
   # Ensure all sub-configures use the top-level symlinks dir instead of generating their own.
   if(NOT winsdk_lib_symlinks_dir)
-    set(winsdk_lib_symlinks_dir "${CMAKE_BINARY_DIR}/winsdk_lib_symlinks")
+    set(winsdk_lib_symlinks_dir "${PROJECT_BINARY_DIR}/winsdk_lib_symlinks")
     generate_winsdk_lib_symlinks("${WINSDK_LIB}/um/${WINSDK_ARCH}" "${winsdk_lib_symlinks_dir}")
   endif()
   list(APPEND LINK_FLAGS
        -libpath:"${winsdk_lib_symlinks_dir}")
   if(NOT msvc_lib_symlinks_dir)
-    set(msvc_lib_symlinks_dir "${CMAKE_BINARY_DIR}/msvc_lib_symlinks")
+    set(msvc_lib_symlinks_dir "${PROJECT_BINARY_DIR}/msvc_lib_symlinks")
     generate_msvc_lib_symlinks("${MSVC_LIB}/${WINSDK_ARCH}" "${msvc_lib_symlinks_dir}")
   endif()
   list(APPEND LINK_FLAGS

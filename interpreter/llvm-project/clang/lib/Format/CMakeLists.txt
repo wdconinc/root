@@ -74,7 +74,7 @@ set(format_help_depend ${CMAKE_CURRENT_BINARY_DIR}/format_help_depend)
 set(dump_help dump_format_help.py)
 set(clang_format_rst ${CLANG_SOURCE_DIR}/docs/ClangFormat.rst)
 add_custom_command(OUTPUT ${format_help_depend}
-  COMMAND ${Python3_EXECUTABLE} ${dump_help} -d ${CMAKE_BINARY_DIR}/bin &&
+  COMMAND ${Python3_EXECUTABLE} ${dump_help} -d ${PROJECT_BINARY_DIR}/bin &&
           touch ${format_help_depend}
   WORKING_DIRECTORY ${docs_tools_dir}
   VERBATIM

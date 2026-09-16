@@ -7,7 +7,7 @@
 include(ExternalProject)
 
 set(XROOTD_VERSION "5.9.2")
-set(XROOTD_PREFIX ${CMAKE_BINARY_DIR}/XROOTD-prefix)
+set(XROOTD_PREFIX ${PROJECT_BINARY_DIR}/XROOTD-prefix)
 
 message(STATUS "Downloading and building XROOTD version ${XROOTD_VERSION}")
 

@@ -10,7 +10,7 @@ function(get_errc_messages outvar)
         return()
     endif()
 
-    set(errc_test_code ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/getErrc.cpp)
+    set(errc_test_code ${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/getErrc.cpp)
 
     file(WRITE ${errc_test_code} "
         #include <cerrno>
@@ -31,7 +31,7 @@ function(get_errc_messages outvar)
 
     try_run(errc_exit_code
             errc_compiled
-            ${CMAKE_BINARY_DIR}
+            ${PROJECT_BINARY_DIR}
             ${errc_test_code}
             RUN_OUTPUT_VARIABLE errc_result
             COMPILE_OUTPUT_VARIABLE errc_compile_errors)

@@ -259,14 +259,14 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   # however only GNU version of ar and ranlib (2.27) have this option.
   # RHEL DTS7 is also affected by this, which uses GNU binutils 2.28
   execute_process(COMMAND ${CMAKE_AR} rD t.a
-                  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                  WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
                   RESULT_VARIABLE AR_RESULT
                   OUTPUT_QUIET
                   ERROR_QUIET
                   )
   if(${AR_RESULT} EQUAL 0)
     execute_process(COMMAND ${CMAKE_RANLIB} -D t.a
-                    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                    WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
                     RESULT_VARIABLE RANLIB_RESULT
                     OUTPUT_QUIET
                     ERROR_QUIET
@@ -282,7 +282,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       set(CMAKE_CXX_ARCHIVE_APPEND "<CMAKE_AR> Dq  <TARGET> <LINK_FLAGS> <OBJECTS>")
       set(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -D <TARGET>" CACHE STRING "ranlib command")
     endif()
-    file(REMOVE ${CMAKE_BINARY_DIR}/t.a)
+    file(REMOVE ${PROJECT_BINARY_DIR}/t.a)
   endif()
 endif()
 
@@ -1331,7 +1331,7 @@ if (CMAKE_CONFIGURATION_TYPES AND NOT LLVM_ENABLE_IDE)
 endif()
 
 function(get_compile_definitions)
-  get_directory_property(top_dir_definitions DIRECTORY ${CMAKE_SOURCE_DIR} COMPILE_DEFINITIONS)
+  get_directory_property(top_dir_definitions DIRECTORY ${PROJECT_SOURCE_DIR} COMPILE_DEFINITIONS)
   foreach(definition ${top_dir_definitions})
     if(DEFINED result)
       string(APPEND result " -D${definition}")
@@ -1385,8 +1385,8 @@ if(LLVM_USE_RELATIVE_PATHS_IN_DEBUG_INFO)
   else()
     set(source_root "${LLVM_MAIN_SRC_DIR}")
   endif()
-  file(RELATIVE_PATH relative_root "${CMAKE_BINARY_DIR}" "${source_root}")
-  append_if(SUPPORTS_FDEBUG_PREFIX_MAP "-fdebug-prefix-map=${CMAKE_BINARY_DIR}=${relative_root}" CMAKE_C_FLAGS CMAKE_CXX_FLAGS)
+  file(RELATIVE_PATH relative_root "${PROJECT_BINARY_DIR}" "${source_root}")
+  append_if(SUPPORTS_FDEBUG_PREFIX_MAP "-fdebug-prefix-map=${PROJECT_BINARY_DIR}=${relative_root}" CMAKE_C_FLAGS CMAKE_CXX_FLAGS)
   append_if(SUPPORTS_FDEBUG_PREFIX_MAP "-fdebug-prefix-map=${source_root}/=${LLVM_SOURCE_PREFIX}" CMAKE_C_FLAGS CMAKE_CXX_FLAGS)
   if (LLVM_COMPILER_IS_GCC_COMPATIBLE)
     append("-no-canonical-prefixes" CMAKE_C_FLAGS CMAKE_CXX_FLAGS)
@@ -1402,8 +1402,8 @@ if(LLVM_USE_RELATIVE_PATHS_IN_FILES)
   else()
     set(source_root "${LLVM_MAIN_SRC_DIR}")
   endif()
-  file(RELATIVE_PATH relative_root "${CMAKE_BINARY_DIR}" "${source_root}")
-  append_if(SUPPORTS_FFILE_PREFIX_MAP "-ffile-prefix-map=${CMAKE_BINARY_DIR}=${relative_root}" CMAKE_C_FLAGS CMAKE_CXX_FLAGS)
+  file(RELATIVE_PATH relative_root "${PROJECT_BINARY_DIR}" "${source_root}")
+  append_if(SUPPORTS_FFILE_PREFIX_MAP "-ffile-prefix-map=${PROJECT_BINARY_DIR}=${relative_root}" CMAKE_C_FLAGS CMAKE_CXX_FLAGS)
   append_if(SUPPORTS_FFILE_PREFIX_MAP "-ffile-prefix-map=${source_root}/=${LLVM_SOURCE_PREFIX}" CMAKE_C_FLAGS CMAKE_CXX_FLAGS)
   if (LLVM_COMPILER_IS_GCC_COMPATIBLE)
     append("-no-canonical-prefixes" CMAKE_C_FLAGS CMAKE_CXX_FLAGS)

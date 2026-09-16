@@ -5,19 +5,19 @@ set(DOXYFILE ${CMAKE_CURRENT_BINARY_DIR}/doxygen.cfg)
 
 set(docs_srcdir ${CMAKE_CURRENT_SOURCE_DIR})
 set(docs_builddir ${CMAKE_CURRENT_BINARY_DIR})
-set(cppinterop_srcdir ${CMAKE_SOURCE_DIR})
-# file(READ ${CMAKE_SOURCE_DIR}/VERSION PACKAGE_VERSION)
+set(cppinterop_srcdir ${PROJECT_SOURCE_DIR})
+# file(READ ${PROJECT_SOURCE_DIR}/VERSION PACKAGE_VERSION)
 
 configure_file(${DOXYFILE_IN} ${DOXYFILE} @ONLY)
 
 add_custom_target(doxygen-cppinterop
                   COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE}
-                  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                  WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
                   COMMENT "Generate CppInterOp documentation with Doxygen"
                   VERBATIM)
 
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include(CreateSphinxTarget)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/conf.py 

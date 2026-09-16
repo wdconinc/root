@@ -46,5 +46,5 @@ add_clang_library(clangFrontendTool
 
 if(CLANG_ENABLE_CIR)
   target_include_directories(clangFrontendTool PRIVATE ${LLVM_MAIN_SRC_DIR}/../mlir/include)
-  target_include_directories(clangFrontendTool PRIVATE ${CMAKE_BINARY_DIR}/tools/mlir/include)
+  target_include_directories(clangFrontendTool PRIVATE ${PROJECT_BINARY_DIR}/tools/mlir/include)
 endif()

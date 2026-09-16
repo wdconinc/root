@@ -1,0 +1,28 @@
+--- cmake/modules/RootMacros.cmake
++++ cmake/modules/RootMacros.cmake
+@@ -961,7 +961,11 @@
+   CMAKE_PARSE_ARGUMENTS(ARG "DLLEXPORT;CMAKENOEXPORT;TEST;NOINSTALL" "TYPE" "LIBRARIES;DEPENDENCIES;BUILTINS"  ${ARGN})
+   ROOT_GET_SOURCES(lib_srcs src ${ARG_UNPARSED_ARGUMENTS})
+   if(NOT ARG_TYPE)
+-    set(ARG_TYPE SHARED)
++    if(EMSCRIPTEN OR NOT BUILD_SHARED_LIBS)
++      set(ARG_TYPE STATIC)
++    else()
++      set(ARG_TYPE SHARED)
++    endif()
+   endif()
+   if(ARG_TEST) # we are building a test, so add EXCLUDE_FROM_ALL
+     set(_all EXCLUDE_FROM_ALL)
+@@ -1153,7 +1157,11 @@
+ function(ROOT_STANDARD_LIBRARY_PACKAGE libname)
+   ROOT_GET_SOURCES(lib_srcs src ${ARGN})
+   if(NOT lib_srcs)
+-    add_library(${libname} SHARED ${lib_srcs})
++    if(EMSCRIPTEN OR NOT BUILD_SHARED_LIBS)
++      add_library(${libname} STATIC ${lib_srcs})
++    else()
++      add_library(${libname} SHARED ${lib_srcs})
++    endif()
+     return()
+   endif()
+   ROOT_GENERATE_DICTIONARY(G__${libname} ${libname}.h OPTIONS ${ARG_OPTIONS} DEPENDENCIES ${libname})

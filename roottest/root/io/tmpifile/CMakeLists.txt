@@ -12,7 +12,7 @@ ROOTTEST_ADD_TEST(split-fail
                   PASSREGEX "For 2 outputs at least 4 should be allocated instead of 1")
 
 ROOTTEST_ADD_TEST(libjetevent-build
-                  COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} ${build_config} --target JetEvent${fast} -- ${always-make})
+                  COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} ${build_config} --target JetEvent${fast} -- ${always-make})
 if(GeneratorNeedsBuildSerialization)
     if(GeneratorNeedsResourecLock)
         set_property(TEST roottest-root-io-tmpifile-libjetevent-build APPEND PROPERTY RESOURCE_LOCK CMAKE_BUILD)

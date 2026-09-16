@@ -1,0 +1,4 @@
+git checkout cmake/modules/RootMacros.cmake
+sed -i 's/add_library(${library} SHARED ${lib_srcs})/if(EMSCRIPTEN OR NOT BUILD_SHARED_LIBS)\n    add_library(${library} STATIC ${lib_srcs})\n  else()\n    add_library(${library} SHARED ${lib_srcs})\n  endif()/g' cmake/modules/RootMacros.cmake
+sed -i 's/add_library(${targetname_libgen} EXCLUDE_FROM_ALL SHARED ${dictname}.cxx)/if(EMSCRIPTEN OR NOT BUILD_SHARED_LIBS)\n    add_library(${targetname_libgen} EXCLUDE_FROM_ALL STATIC ${dictname}.cxx)\n  else()\n    add_library(${targetname_libgen} EXCLUDE_FROM_ALL SHARED ${dictname}.cxx)\n  endif()/g' cmake/modules/RootMacros.cmake
+sed -i 's/add_library(${targetname_libgen} EXCLUDE_FROM_ALL SHARED ${dictionary}.cxx)/if(EMSCRIPTEN OR NOT BUILD_SHARED_LIBS)\n    add_library(${targetname_libgen} EXCLUDE_FROM_ALL STATIC ${dictionary}.cxx)\n  else()\n    add_library(${targetname_libgen} EXCLUDE_FROM_ALL SHARED ${dictionary}.cxx)\n  endif()/g' cmake/modules/RootMacros.cmake

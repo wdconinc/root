@@ -16,7 +16,7 @@ cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 
 function(SET_VERSION_FROM_FILE)
   # See https://stackoverflow.com/questions/47066115/cmake-get-version-from-multiline-text-file
-  file(READ "${CMAKE_SOURCE_DIR}/core/foundation/inc/ROOT/RVersion.hxx" versionstr)
+  file(READ "${PROJECT_SOURCE_DIR}/core/foundation/inc/ROOT/RVersion.hxx" versionstr)
   string(REGEX MATCH "#define ROOT_VERSION_MAJOR ([0-9]*)" _ ${versionstr})
   set(ROOT_MAJOR_VERSION ${CMAKE_MATCH_1})
   string(REGEX MATCH "#define ROOT_VERSION_MINOR ([0-9]*)" _ ${versionstr})
@@ -38,8 +38,8 @@ function(SET_VERSION_FROM_FILE)
 endfunction()
 
 function(SET_ROOT_VERSION)
-  if(Git_FOUND AND EXISTS ${CMAKE_SOURCE_DIR}/.git)
-    execute_process(COMMAND ${GIT_EXECUTABLE} --git-dir=${CMAKE_SOURCE_DIR}/.git describe --all
+  if(Git_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
+    execute_process(COMMAND ${GIT_EXECUTABLE} --git-dir=${PROJECT_SOURCE_DIR}/.git describe --all
                     OUTPUT_VARIABLE GIT_DESCRIBE_ALL
                     RESULT_VARIABLE GIT_DESCRIBE_ERRCODE
                     ERROR_QUIET
@@ -58,7 +58,7 @@ function(SET_ROOT_VERSION)
   # core/foundation/inc/ROOT/RVersion.hxx, not that of git: it's more stable / reliable.
   if(${ROOT_PATCH_VERSION_ODD} EQUAL 1)
     if(NOT GIT_DESCRIBE_ERRCODE)
-      execute_process(COMMAND ${GIT_EXECUTABLE} --git-dir=${CMAKE_SOURCE_DIR}/.git describe --always
+      execute_process(COMMAND ${GIT_EXECUTABLE} --git-dir=${PROJECT_SOURCE_DIR}/.git describe --always
                       OUTPUT_VARIABLE GIT_DESCRIBE_ALWAYS
                       ERROR_QUIET
                       OUTPUT_STRIP_TRAILING_WHITESPACE)

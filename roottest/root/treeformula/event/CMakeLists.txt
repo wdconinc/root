@@ -19,7 +19,7 @@ foreach(split 0 1 9 -2 -1)
 
   set(_file_name  Event.${_smode}.split${_sname}.root)
   ROOTTEST_ADD_TEST(write-${_smode}-${_sname}
-                    COMMAND ${CMAKE_BINARY_DIR}/roottest/root/io/event/TestIoEvent ${_size} ${_comp} ${split} ${_action} ${_tracks} ${_file_name}
+                    COMMAND ${PROJECT_BINARY_DIR}/roottest/root/io/event/TestIoEvent ${_size} ${_comp} ${split} ${_action} ${_tracks} ${_file_name}
                     FIXTURES_REQUIRED root-io-event-TestIoEvent-fixture
                     FIXTURES_SETUP root-treeformula-event-write-${_sname}-fixture)
 
@@ -27,8 +27,8 @@ foreach(split 0 1 9 -2 -1)
     ROOTTEST_ADD_TEST(reference
                     MACRO dt_MakeRef.C+
                     MACROARG "\"${_file_name}\""
-                    ROOTEXE_OPTS -e "gSystem->AddIncludePath(\"-I${CMAKE_SOURCE_DIR}/roottest/root/io/event\")"
-                                 -e "gSystem->AddDynamicPath(\"${CMAKE_BINARY_DIR}/roottest/root/io/event\")"
+                    ROOTEXE_OPTS -e "gSystem->AddIncludePath(\"-I${PROJECT_SOURCE_DIR}/roottest/root/io/event\")"
+                                 -e "gSystem->AddDynamicPath(\"${PROJECT_BINARY_DIR}/roottest/root/io/event\")"
                                  -e "gSystem->Load(\"libTestIoEvent\")"
                     FIXTURES_REQUIRED root-io-event-libTestIoEvent-fixture
                                       root-treeformula-event-write-${_sname}-fixture
@@ -39,7 +39,7 @@ foreach(split 0 1 9 -2 -1)
     ROOTTEST_ADD_TEST(draw-${_smode}-${_sname}-${mode}
                     MACRO dt_RunDrawTest.C+
                     MACROARG "\"${_file_name}\",${mode}"
-                    ROOTEXE_OPTS -e "gSystem->AddDynamicPath(\"${CMAKE_BINARY_DIR}/roottest/root/io/event\")"
+                    ROOTEXE_OPTS -e "gSystem->AddDynamicPath(\"${PROJECT_BINARY_DIR}/roottest/root/io/event\")"
                     FIXTURES_REQUIRED root-io-event-libTestIoEvent-fixture
                                       root-treeformula-event-RunDrawTest-fixture
                                       root-treeformula-event-reference-fixture

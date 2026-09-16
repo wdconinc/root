@@ -32,7 +32,7 @@ foreach(split ${testsplit})
   set(_file_name_clone Event.${_smode}.${_sname}.clone.root)
 
   ROOTTEST_ADD_TEST(write-${_sname}
-                    COMMAND ${CMAKE_BINARY_DIR}/roottest/root/io/event/TestIoEvent ${_size} 0 ${split} 1 ${_tracks} ${_file_name}
+                    COMMAND ${PROJECT_BINARY_DIR}/roottest/root/io/event/TestIoEvent ${_size} 0 ${split} 1 ${_tracks} ${_file_name}
                     FIXTURES_REQUIRED root-io-event-TestIoEvent-fixture
                     FIXTURES_SETUP root-tree-fastcloningeventtree-write-${_sname}-fixture)
 
@@ -40,7 +40,7 @@ foreach(split ${testsplit})
                     MACRO ctrans.C
                     ${_willfail}
                     MACROARG "\"${_file_name}\",\"${_file_name_clone}\""
-                    ROOTEXE_OPTS -e "gSystem->AddDynamicPath(\"${CMAKE_BINARY_DIR}/roottest/root/io/event\")"
+                    ROOTEXE_OPTS -e "gSystem->AddDynamicPath(\"${PROJECT_BINARY_DIR}/roottest/root/io/event\")"
                                  -e "gSystem->Load(\"libTestIoEvent\")"
                     FIXTURES_REQUIRED root-tree-fastcloningeventtree-write-${_sname}-fixture
                     FIXTURES_SETUP root-tree-fastcloningeventtree-clone-${_sname}-fixture)
@@ -49,8 +49,8 @@ foreach(split ${testsplit})
     ROOTTEST_ADD_TEST(reference
                     MACRO dt_MakeRef.C+
                     MACROARG "\"${_file_name_clone}\""
-                    ROOTEXE_OPTS -e "gSystem->AddIncludePath(\"-I${CMAKE_SOURCE_DIR}/roottest/root/io/event\")"
-                                 -e "gSystem->AddDynamicPath(\"${CMAKE_BINARY_DIR}/roottest/root/io/event\")"
+                    ROOTEXE_OPTS -e "gSystem->AddIncludePath(\"-I${PROJECT_SOURCE_DIR}/roottest/root/io/event\")"
+                                 -e "gSystem->AddDynamicPath(\"${PROJECT_BINARY_DIR}/roottest/root/io/event\")"
                                  -e "gSystem->Load(\"libTestIoEvent\")"
                     FIXTURES_REQUIRED root-io-event-libTestIoEvent-fixture
                                       root-tree-fastcloningeventtree-clone-${_sname}-fixture
@@ -63,7 +63,7 @@ foreach(split ${testsplit})
                        MACRO dt_RunDrawTest.C+
                        ${_drawwillfail}
                        MACROARG "\"${_file_name_clone}\",${mode}"
-                       ROOTEXE_OPTS -e "gSystem->AddDynamicPath(\"${CMAKE_BINARY_DIR}/roottest/root/io/event\")"
+                       ROOTEXE_OPTS -e "gSystem->AddDynamicPath(\"${PROJECT_BINARY_DIR}/roottest/root/io/event\")"
                        FIXTURES_REQUIRED root-io-event-libTestIoEvent-fixture
                                          root-tree-fastcloningeventtree-RunDrawTest-fixture
                                          root-tree-fastcloningeventtree-reference-fixture

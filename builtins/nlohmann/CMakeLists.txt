@@ -8,7 +8,7 @@
 # 11 Nov 2025, https://github.com/nlohmann/json/releases/tag/v3.12.0
 set(ROOT_NLOHMANN_VERSION 3.12.0)
 set(ROOT_NLOHMANN_HASH "4b92eb0c06d10683f7447ce9406cb97cd4b453be18d7279320f7b2f025c10187")
-set(ROOT_NLOHMANN_PREFIX ${CMAKE_BINARY_DIR}/builtins/NLOHMANN-prefix)
+set(ROOT_NLOHMANN_PREFIX ${PROJECT_BINARY_DIR}/builtins/NLOHMANN-prefix)
 
 unset(nlohmann_json_DIR)
 unset(nlohmann_json_DIR CACHE)

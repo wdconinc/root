@@ -26,7 +26,7 @@ ROOT_INSTALL_HEADERS()
 # for direct use from JavaScript / JSROOT.  This target links all the ROOT
 # static libraries that have been built and adds the Embind glue layer.
 #
-# The bundle is placed in ${CMAKE_BINARY_DIR}/js/root.js (and root.wasm) so
+# The bundle is placed in ${PROJECT_BINARY_DIR}/js/root.js (and root.wasm) so
 # that the GitHub Pages docs/ can reference it.
 
 option(ROOT_WASM_BINDINGS "Build Emscripten/Embind JS bindings bundle (root.js)" ON)
@@ -62,12 +62,12 @@ if(ROOT_WASM_BINDINGS)
   set_target_properties(root_wasm_bindings PROPERTIES
     OUTPUT_NAME  "root"
     SUFFIX       ".js"
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/js"
+    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/js"
   )
 
   target_include_directories(root_wasm_bindings PRIVATE
-    ${CMAKE_SOURCE_DIR}/core/wasm/inc
-    ${CMAKE_SOURCE_DIR}/math/physics/inc    # TVector3, TLorentzVector
+    ${PROJECT_SOURCE_DIR}/core/wasm/inc
+    ${PROJECT_SOURCE_DIR}/math/physics/inc    # TVector3, TLorentzVector
   )
 
   target_link_libraries(root_wasm_bindings PRIVATE
@@ -90,8 +90,8 @@ if(ROOT_WASM_BINDINGS)
   )
 
   install(FILES
-    "${CMAKE_BINARY_DIR}/js/root.js"
-    "${CMAKE_BINARY_DIR}/js/root.wasm"
+    "${PROJECT_BINARY_DIR}/js/root.js"
+    "${PROJECT_BINARY_DIR}/js/root.wasm"
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     OPTIONAL
   )

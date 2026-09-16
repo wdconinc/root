@@ -5,7 +5,7 @@ ROOT_GENERATE_DICTIONARY(base_cling ${CMAKE_CURRENT_SOURCE_DIR}/base.h MODULE ba
 ROOTTEST_LINKER_LIBRARY(base base_cling.cxx testobject.cpp testobjectderived.cpp TEST LIBRARIES ROOT::Core ROOT::RIO)
 
 add_test(NAME roottest-root-io-transient-base-build
-         COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}
+         COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR}
                                   ${build_config}
                                   --target base${fast}
                                   -- ${always-make})

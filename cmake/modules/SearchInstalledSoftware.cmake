@@ -585,12 +585,12 @@ endif()
 if(builtin_fftw3)
   set(FFTW_VERSION 3.3.10)
   message(STATUS "Downloading and building FFTW version ${FFTW_VERSION}")
-  set(FFTW_LIBRARIES ${CMAKE_BINARY_DIR}/lib/libfftw3.a)
+  set(FFTW_LIBRARIES ${PROJECT_BINARY_DIR}/lib/libfftw3.a)
   ExternalProject_Add(
     FFTW3
     URL ${lcgpackages}/fftw-${FFTW_VERSION}.tar.gz
     URL_HASH SHA256=56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467
-    INSTALL_DIR ${CMAKE_BINARY_DIR}
+    INSTALL_DIR ${PROJECT_BINARY_DIR}
     CONFIGURE_COMMAND ./configure --prefix=<INSTALL_DIR>
     BUILD_COMMAND make CFLAGS=-fPIC
     LOG_DOWNLOAD 1 LOG_CONFIGURE 1 LOG_BUILD 1 LOG_INSTALL 1 LOG_OUTPUT_ON_FAILURE 1
@@ -598,7 +598,7 @@ if(builtin_fftw3)
     BUILD_BYPRODUCTS ${FFTW_LIBRARIES}
     TIMEOUT 600
   )
-  set(FFTW_INCLUDE_DIR ${CMAKE_BINARY_DIR}/include)
+  set(FFTW_INCLUDE_DIR ${PROJECT_BINARY_DIR}/include)
   set(FFTW3_TARGET FFTW3)
   set(fftw3 ON CACHE BOOL "Enabled because builtin_fftw3 requested (${fftw3_description})" FORCE)
 endif()
@@ -774,8 +774,8 @@ if(builtin_ftgl)
     unset(${var})
     unset(${var} CACHE)
   endforeach()
-  set(FTGL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/graf3d/ftgl/inc)
-  set(FTGL_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/graf3d/ftgl/inc)
+  set(FTGL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/graf3d/ftgl/inc)
+  set(FTGL_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/graf3d/ftgl/inc)
   set(FTGL_CFLAGS -DBUILTIN_FTGL)
   set(FTGL_LIBRARIES FTGL)
 endif()
@@ -965,16 +965,16 @@ if(builtin_tbb)
         set(tbbsuffix "_debug")
       endif()
     endif()
-    set(TBB_LIBRARIES ${CMAKE_BINARY_DIR}/lib/tbb12${tbbsuffix}.lib)
+    set(TBB_LIBRARIES ${PROJECT_BINARY_DIR}/lib/tbb12${tbbsuffix}.lib)
     set(TBB_CXXFLAGS "-D__TBB_NO_IMPLICIT_LINKAGE=1")
-    install(DIRECTORY ${CMAKE_BINARY_DIR}/bin/ DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT libraries FILES_MATCHING PATTERN "tbb*.dll")
-    install(DIRECTORY ${CMAKE_BINARY_DIR}/lib/ DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries FILES_MATCHING PATTERN "tbb*.lib")
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/bin/ DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT libraries FILES_MATCHING PATTERN "tbb*.dll")
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/lib/ DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries FILES_MATCHING PATTERN "tbb*.lib")
   else()
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
       set(tbbsuffix "_debug")
     endif()
-    set(TBB_LIBRARIES ${CMAKE_BINARY_DIR}/lib/libtbb${tbbsuffix}${CMAKE_SHARED_LIBRARY_SUFFIX})
-    install(DIRECTORY ${CMAKE_BINARY_DIR}/lib/ DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries FILES_MATCHING PATTERN "libtbb*")
+    set(TBB_LIBRARIES ${PROJECT_BINARY_DIR}/lib/libtbb${tbbsuffix}${CMAKE_SHARED_LIBRARY_SUFFIX})
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/lib/ DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries FILES_MATCHING PATTERN "libtbb*")
   endif()
   if(tbb_build)
     set(TBB_EXTRA_BUILD_ARGS --config ${tbb_build})
@@ -984,7 +984,7 @@ if(builtin_tbb)
     TBB
     URL ${tbb_url}
     URL_HASH SHA256=${tbb_sha256}
-    INSTALL_DIR ${CMAKE_BINARY_DIR}
+    INSTALL_DIR ${PROJECT_BINARY_DIR}
     CMAKE_ARGS -G ${CMAKE_GENERATOR}
                -DCMAKE_POLICY_VERSION_MINIMUM=3.5
                -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -992,8 +992,8 @@ if(builtin_tbb)
                -DCMAKE_CXX_FLAGS=${ROOT_EXTERNAL_CXX_FLAGS}
                -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
                -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-               -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_BINARY_DIR}/include
-               -DCMAKE_INSTALL_LIBDIR=${CMAKE_BINARY_DIR}/lib
+               -DCMAKE_INSTALL_INCLUDEDIR=${PROJECT_BINARY_DIR}/include
+               -DCMAKE_INSTALL_LIBDIR=${PROJECT_BINARY_DIR}/lib
                -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}
                -DTBBMALLOC_BUILD=OFF
                -DTBBMALLOC_PROXY_BUILD=OFF
@@ -1009,11 +1009,11 @@ if(builtin_tbb)
 
   ExternalProject_Add_Step(
      TBB tbb2externals
-     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_BINARY_DIR}/include/tbb ${CMAKE_BINARY_DIR}/ginclude/tbb
-     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_BINARY_DIR}/include/oneapi ${CMAKE_BINARY_DIR}/ginclude/oneapi
+     COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_BINARY_DIR}/include/tbb ${PROJECT_BINARY_DIR}/ginclude/tbb
+     COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_BINARY_DIR}/include/oneapi ${PROJECT_BINARY_DIR}/ginclude/oneapi
      DEPENDEES install
   )
-  set(TBB_INCLUDE_DIRS ${CMAKE_BINARY_DIR}/ginclude)
+  set(TBB_INCLUDE_DIRS ${PROJECT_BINARY_DIR}/ginclude)
   set(TBB_CXXFLAGS "-DTBB_SUPPRESS_DEPRECATED_MESSAGES=1")
   # The following line is needed to generate the proper dependency with: BUILTINS TBB (in Imt)
   # and generated with this syntax: add_dependencies(${library} ${${arg1}_TARGET})
@@ -1047,12 +1047,12 @@ if(vdt OR builtin_vdt)
   if(builtin_vdt)
     set(vdt_version 0.4.6)
     set(VDT_FOUND True)
-    set(VDT_LIBRARIES ${CMAKE_BINARY_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}vdt${CMAKE_SHARED_LIBRARY_SUFFIX})
+    set(VDT_LIBRARIES ${PROJECT_BINARY_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}vdt${CMAKE_SHARED_LIBRARY_SUFFIX})
     ExternalProject_Add(
       BUILTIN_VDT
       URL ${lcgpackages}/vdt-${vdt_version}.tar.gz
       URL_HASH SHA256=1820feae446780763ec8bbb60a0dbcf3ae1ee548bdd01415b1fb905fd4f90c54
-      INSTALL_DIR ${CMAKE_BINARY_DIR}
+      INSTALL_DIR ${PROJECT_BINARY_DIR}
       CMAKE_ARGS
         -DCMAKE_POLICY_VERSION_MINIMUM=3.5
         -DSSE=OFF # breaks on ARM without this
@@ -1068,11 +1068,11 @@ if(vdt OR builtin_vdt)
     )
     ExternalProject_Add_Step(
        BUILTIN_VDT copy2externals
-       COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_BINARY_DIR}/include/vdt ${CMAKE_BINARY_DIR}/ginclude/vdt
+       COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_BINARY_DIR}/include/vdt ${PROJECT_BINARY_DIR}/ginclude/vdt
        DEPENDEES install
     )
-    set(VDT_INCLUDE_DIR ${CMAKE_BINARY_DIR}/ginclude)
-    set(VDT_INCLUDE_DIRS ${CMAKE_BINARY_DIR}/ginclude)
+    set(VDT_INCLUDE_DIR ${PROJECT_BINARY_DIR}/ginclude)
+    set(VDT_INCLUDE_DIRS ${PROJECT_BINARY_DIR}/ginclude)
 
     add_library(VDT::VDT SHARED IMPORTED GLOBAL)
     add_dependencies(VDT::VDT BUILTIN_VDT)
@@ -1081,7 +1081,7 @@ if(vdt OR builtin_vdt)
 
     install(FILES ${VDT_LIBRARIES}
             DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries)
-    install(DIRECTORY ${CMAKE_BINARY_DIR}/include/vdt
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/include/vdt
             DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT extra-headers)
     set_property(GLOBAL APPEND PROPERTY ROOT_BUILTIN_TARGETS VDT::VDT)
   else()
@@ -1247,9 +1247,9 @@ if(mathmore OR builtin_gsl OR (tmva-cpu AND use_gsl_cblas))
     set(gsl_version 2.8)
     message(STATUS "Downloading and building GSL version ${gsl_version}")
     foreach(l gsl gslcblas)
-      list(APPEND GSL_LIBRARIES ${CMAKE_BINARY_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${l}${CMAKE_STATIC_LIBRARY_SUFFIX})
+      list(APPEND GSL_LIBRARIES ${PROJECT_BINARY_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${l}${CMAKE_STATIC_LIBRARY_SUFFIX})
     endforeach()
-    set(GSL_CBLAS_LIBRARY ${CMAKE_BINARY_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}gslcblas${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(GSL_CBLAS_LIBRARY ${PROJECT_BINARY_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}gslcblas${CMAKE_STATIC_LIBRARY_SUFFIX})
     if(CMAKE_OSX_SYSROOT)
       set(_gsl_cppflags "-isysroot ${CMAKE_OSX_SYSROOT}")
       set(_gsl_ldflags  "-isysroot ${CMAKE_OSX_SYSROOT}")
@@ -1260,7 +1260,7 @@ if(mathmore OR builtin_gsl OR (tmva-cpu AND use_gsl_cblas))
       URL ${lcgpackages}/gsl-${gsl_version}.tar.gz
       URL_HASH SHA256=6a99eeed15632c6354895b1dd542ed5a855c0f15d9ad1326c6fe2b2c9e423190
       SOURCE_DIR GSL-src # prevent "<gsl/...>" vs GSL/ macOS warning
-      INSTALL_DIR ${CMAKE_BINARY_DIR}
+      INSTALL_DIR ${PROJECT_BINARY_DIR}
       CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix <INSTALL_DIR>
                         --libdir=<INSTALL_DIR>/lib
                         --enable-shared=no --with-pic
@@ -1274,7 +1274,7 @@ if(mathmore OR builtin_gsl OR (tmva-cpu AND use_gsl_cblas))
     )
     set(GSL_TARGET GSL)
     # FIXME: one need to find better way to extract path with GSL include files
-    set(GSL_INCLUDE_DIR ${CMAKE_BINARY_DIR}/GSL-prefix/src/GSL-build)
+    set(GSL_INCLUDE_DIR ${PROJECT_BINARY_DIR}/GSL-prefix/src/GSL-build)
     set(GSL_FOUND ON)
     set(mathmore ON CACHE BOOL "Enabled because builtin_gsl requested (${mathmore_description})" FORCE)
   endif()
@@ -1605,19 +1605,19 @@ if(webgui)
      # should be used only for debug purposes to be able try different openui5 version
      # cannot be used for installation purposes
      message(STATUS "openui5 - use from $ENV{OPENUI5DIR}, only for debug purposes")
-     file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/ui5)
+     file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/ui5)
      execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
-        $ENV{OPENUI5DIR} ${CMAKE_BINARY_DIR}/ui5/distribution)
+        $ENV{OPENUI5DIR} ${PROJECT_BINARY_DIR}/ui5/distribution)
   else()
     if(builtin_openui5)
       ExternalProject_Add(
         OPENUI5
-        URL ${CMAKE_SOURCE_DIR}/builtins/openui5/openui5.tar.gz
+        URL ${PROJECT_SOURCE_DIR}/builtins/openui5/openui5.tar.gz
         URL_HASH SHA256=b9e6495d8640302d9cf2fe3c99331311335aaab0f48794565ebd69ecc7449e58
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
         INSTALL_COMMAND ""
-        SOURCE_DIR ${CMAKE_BINARY_DIR}/ui5/distribution
+        SOURCE_DIR ${PROJECT_BINARY_DIR}/ui5/distribution
         TIMEOUT 600
       )
     else()
@@ -1628,33 +1628,33 @@ if(webgui)
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
         INSTALL_COMMAND ""
-        SOURCE_DIR ${CMAKE_BINARY_DIR}/ui5/distribution
+        SOURCE_DIR ${PROJECT_BINARY_DIR}/ui5/distribution
         TIMEOUT 600
       )
     endif()
-    install(DIRECTORY ${CMAKE_BINARY_DIR}/ui5/distribution/ DESTINATION ${CMAKE_INSTALL_OPENUI5DIR}/distribution/ COMPONENT libraries FILES_MATCHING PATTERN "*")
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/ui5/distribution/ DESTINATION ${CMAKE_INSTALL_OPENUI5DIR}/distribution/ COMPONENT libraries FILES_MATCHING PATTERN "*")
   endif()
   ExternalProject_Add(
     RENDERCORE
-    URL ${CMAKE_SOURCE_DIR}/builtins/rendercore/RenderCore-1.9.tar.gz
+    URL ${PROJECT_SOURCE_DIR}/builtins/rendercore/RenderCore-1.9.tar.gz
     URL_HASH SHA256=7728f00ee5e907c36b25aad56fbc73881c7c9faf47a36bee5efd2054bc4ecc6c
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
-    SOURCE_DIR ${CMAKE_BINARY_DIR}/ui5/eve7/rcore
+    SOURCE_DIR ${PROJECT_BINARY_DIR}/ui5/eve7/rcore
     TIMEOUT 600
   )
   ExternalProject_Add(
      MATHJAX
-     URL ${CMAKE_SOURCE_DIR}/documentation/doxygen/mathjax.tar.gz
+     URL ${PROJECT_SOURCE_DIR}/documentation/doxygen/mathjax.tar.gz
      URL_HASH SHA256=c5e22e60430a65963a87ab4dcc8856b9be5bd434d3b3871f27ee65b584c3c3ea
      CONFIGURE_COMMAND ""
      BUILD_COMMAND ""
      INSTALL_COMMAND ""
-     SOURCE_DIR ${CMAKE_BINARY_DIR}/js/mathjax/
+     SOURCE_DIR ${PROJECT_BINARY_DIR}/js/mathjax/
      TIMEOUT 600
   )
-  install(DIRECTORY ${CMAKE_BINARY_DIR}/ui5/eve7/rcore/ DESTINATION ${CMAKE_INSTALL_OPENUI5DIR}/eve7/rcore/ COMPONENT libraries FILES_MATCHING PATTERN "*")
+  install(DIRECTORY ${PROJECT_BINARY_DIR}/ui5/eve7/rcore/ DESTINATION ${CMAKE_INSTALL_OPENUI5DIR}/eve7/rcore/ COMPONENT libraries FILES_MATCHING PATTERN "*")
 endif()
 
 #------------------------------------------------------------------------------------

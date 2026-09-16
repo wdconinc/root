@@ -16,15 +16,15 @@ ROOTTEST_ADD_TEST(ScanFail
                   OUTREF execScanFail.ref)
 
 ROOTTEST_ADD_TEST(writefile
-                  COMMAND ${CMAKE_BINARY_DIR}/roottest/root/io/event/TestIoEvent 10 1 0 1 600
+                  COMMAND ${PROJECT_BINARY_DIR}/roottest/root/io/event/TestIoEvent 10 1 0 1 600
                   FIXTURES_REQUIRED root-io-event-TestIoEvent-fixture
                   FIXTURES_SETUP root-treeformula-sync-writefile-fixture)
 
 ROOTTEST_ADD_TEST(readfile-0
                   MACRO sync.C
                   MACROARG 0
-                  ROOTEXE_OPTS -e "gInterpreter->AddIncludePath(\"-I${CMAKE_SOURCE_DIR}/roottest/root/io/event\")"
-                               -e "gSystem->AddDynamicPath(\"${CMAKE_BINARY_DIR}/roottest/root/io/event\")"
+                  ROOTEXE_OPTS -e "gInterpreter->AddIncludePath(\"-I${PROJECT_SOURCE_DIR}/roottest/root/io/event\")"
+                               -e "gSystem->AddDynamicPath(\"${PROJECT_BINARY_DIR}/roottest/root/io/event\")"
                                -e "(void) gSystem->Load(\"libTestIoEvent\")"
                   OUTREF readfile-0.ref
                   WILLFAIL
@@ -33,8 +33,8 @@ ROOTTEST_ADD_TEST(readfile-0
 ROOTTEST_ADD_TEST(readfile-1
                   MACRO sync.C
                   MACROARG 1
-                  ROOTEXE_OPTS -e "gInterpreter->AddIncludePath(\"-I${CMAKE_SOURCE_DIR}/roottest/root/io/event\")"
-                               -e "gSystem->AddDynamicPath(\"${CMAKE_BINARY_DIR}/roottest/root/io/event\")"
+                  ROOTEXE_OPTS -e "gInterpreter->AddIncludePath(\"-I${PROJECT_SOURCE_DIR}/roottest/root/io/event\")"
+                               -e "gSystem->AddDynamicPath(\"${PROJECT_BINARY_DIR}/roottest/root/io/event\")"
                                -e "(void) gSystem->Load(\"libTestIoEvent\")"
                   OUTREF readfile-1.ref
                   FIXTURES_REQUIRED root-treeformula-sync-writefile-fixture)

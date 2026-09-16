@@ -45,7 +45,7 @@ ROOTTEST_ADD_TEST(LastCluster
 
 ROOTTEST_ADD_TEST(perfstattest
                   MACRO execperfstattest.C
-                  ROOTEXE_OPTS -e "gInterpreter->AddIncludePath(\"${CMAKE_SOURCE_DIR}/roottest/root/io/event/\")" -e "gSystem->AddDynamicPath(\"${CMAKE_BINARY_DIR}/roottest/root/io/event/\")" -e "(void)gSystem->Load(\"libTestIoEvent\")"
+                  ROOTEXE_OPTS -e "gInterpreter->AddIncludePath(\"${PROJECT_SOURCE_DIR}/roottest/root/io/event/\")" -e "gSystem->AddDynamicPath(\"${PROJECT_BINARY_DIR}/roottest/root/io/event/\")" -e "(void)gSystem->Load(\"libTestIoEvent\")"
                   OUTREF execperfstattest.oref
                   ERRREF execperfstattest.eref
                   FIXTURES_REQUIRED root-io-event-libTestIoEvent-fixture)

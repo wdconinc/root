@@ -36,7 +36,7 @@ endif()
 if(LLVM_BUILD_EXTERNAL_COMPILER_RT AND EXISTS ${COMPILER_RT_SRC_ROOT}/)
 
   # Add compiler-rt as an external project.
-  set(COMPILER_RT_PREFIX ${CMAKE_BINARY_DIR}/projects/compiler-rt)
+  set(COMPILER_RT_PREFIX ${PROJECT_BINARY_DIR}/projects/compiler-rt)
 
   set(STAMP_DIR ${CMAKE_CURRENT_BINARY_DIR}/compiler-rt-stamps/)
   set(BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/compiler-rt-bins/)

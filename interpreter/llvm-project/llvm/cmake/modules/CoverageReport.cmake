@@ -28,7 +28,7 @@ if(NOT LLVM_CODE_COVERAGE_TARGETS)
 endif()
 
 file(TO_NATIVE_PATH
-     "${CMAKE_BINARY_DIR}/report/"
+     "${PROJECT_BINARY_DIR}/report/"
      REPORT_DIR)
 
 foreach(target ${LLVM_CODE_COVERAGE_TARGETS} ${COV_TARGETS})
@@ -60,5 +60,5 @@ add_custom_target(generate-coverage-report
                           ${LLVM_PROFDATA} ${LLVM_COV} ${LLVM_PROFILE_DATA_DIR}
                           ${REPORT_DIR} ${coverage_binaries}
                           --unified-report ${restrict_flags}
-                  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                  WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
                   DEPENDS check-llvm) # Run tests

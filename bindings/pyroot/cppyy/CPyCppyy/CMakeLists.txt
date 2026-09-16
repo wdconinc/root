@@ -122,7 +122,7 @@ install(TARGETS cppyy EXPORT ${CMAKE_PROJECT_NAME}Exports
                             LIBRARY DESTINATION ${CMAKE_INSTALL_PYTHONDIR}/cppyy COMPONENT libraries
                             ARCHIVE DESTINATION ${CMAKE_INSTALL_PYTHONDIR}/cppyy COMPONENT libraries)
 
-file(COPY ${headers} DESTINATION ${CMAKE_BINARY_DIR}/include/CPyCppyy)
+file(COPY ${headers} DESTINATION ${PROJECT_BINARY_DIR}/include/CPyCppyy)
 
 install(FILES ${headers}
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/CPyCppyy

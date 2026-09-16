@@ -351,8 +351,8 @@ if (LLVM_BUILD_MAIN_SRC_DIR)
   include_directories(SYSTEM ${LLVM_BUILD_BINARY_DIR}/tools/clang/include/)
 endif()
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib/)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/)
 
 ## Code Coverage Configuration
 add_library(coverage_config INTERFACE)

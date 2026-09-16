@@ -11,11 +11,11 @@ include(CTest)
 
 if(BUILD_TESTING)
   add_test(NAME run-hsimple
-    COMMAND ${ROOT_BINDIR}/root.exe -b -q -e ".x ${CMAKE_SOURCE_DIR}/../../tutorials/hsimple.C" -e "return"
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+    COMMAND ${ROOT_BINDIR}/root.exe -b -q -e ".x ${PROJECT_SOURCE_DIR}/../../tutorials/hsimple.C" -e "return"
+    WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
   add_test(NAME read-hsimple
     COMMAND $<TARGET_FILE:readHSimple>
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+    WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
   set_tests_properties(run-hsimple   PROPERTIES FIXTURES_SETUP    HSIMPLE)
   set_tests_properties(read-hsimple  PROPERTIES FIXTURES_REQUIRED HSIMPLE)
   if(ROOT_pyroot_FOUND)

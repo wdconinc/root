@@ -16,7 +16,7 @@ enable_testing()
 include(CTest)
 
 #---A number of operations to allow running the tests from the build directory-----------------------
-set(ROOT_DIR ${CMAKE_BINARY_DIR})
+set(ROOT_DIR ${PROJECT_BINARY_DIR})
 
 #---Test products should not be poluting the standard destinations--------------------------------
 unset(CMAKE_LIBRARY_OUTPUT_DIRECTORY)
@@ -60,7 +60,7 @@ endforeach()
 # - Use a RESOURCE_LOCK on all tests that invoke ninja, so no two tests will invoke ninja in parallel
 if(GeneratorNeedsBuildSerialization)
   add_test(NAME cmake-build-all
-      COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} ${build_config})
+      COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} ${build_config})
   set_tests_properties(cmake-build-all PROPERTIES
       RESOURCE_LOCK CMAKE_BUILD
       FIXTURES_SETUP CMAKE_BUILD_ALL

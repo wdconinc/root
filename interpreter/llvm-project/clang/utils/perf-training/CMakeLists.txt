@@ -19,7 +19,7 @@ if(LLVM_BUILD_INSTRUMENTED)
     )
 
   add_custom_target(clear-profraw
-    COMMAND "${Python3_EXECUTABLE}" ${CMAKE_CURRENT_SOURCE_DIR}/perf-helper.py clean ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_BINARY_DIR}/profiles/ profraw
+    COMMAND "${Python3_EXECUTABLE}" ${CMAKE_CURRENT_SOURCE_DIR}/perf-helper.py clean ${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_BINARY_DIR}/profiles/ profraw
     COMMENT "Clearing old profraw data")
 
   if(NOT LLVM_PROFDATA)
@@ -38,8 +38,8 @@ if(LLVM_BUILD_INSTRUMENTED)
       # `ld.lld: error: Function Import: link error: linking module flags 'ProfileSummary': IDs have conflicting values in`
       # Therefor we call the generate-profraw target manually as part of this custom
       # command, which will only run if clang or ${CLANG_PGO_TRAINING_DEPS} are updated.
-      COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target generate-profraw
-      COMMAND "${Python3_EXECUTABLE}" ${CMAKE_CURRENT_SOURCE_DIR}/perf-helper.py merge ${LLVM_PROFDATA} ${CMAKE_CURRENT_BINARY_DIR}/clang.profdata ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_BINARY_DIR}/profiles/
+      COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target generate-profraw
+      COMMAND "${Python3_EXECUTABLE}" ${CMAKE_CURRENT_SOURCE_DIR}/perf-helper.py merge ${LLVM_PROFDATA} ${CMAKE_CURRENT_BINARY_DIR}/clang.profdata ${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_BINARY_DIR}/profiles/
       COMMENT "Merging profdata"
       DEPENDS clang ${CLANG_PGO_TRAINING_DEPS}
     )

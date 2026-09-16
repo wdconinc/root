@@ -9,7 +9,7 @@
 set(ROOT_LIBPNG_VERSION 1.6.55)
 set(ROOT_LIBPNG_HASH "4b0abab6d219e95690ebe4db7fc9aa95f4006c83baaa022373c0c8442271283d")
 
-set(ROOT_LIBPNG_PREFIX ${CMAKE_BINARY_DIR}/builtins/LIBPNG-prefix)
+set(ROOT_LIBPNG_PREFIX ${PROJECT_BINARY_DIR}/builtins/LIBPNG-prefix)
 
 # Here we need two cases because the library has two different names on Linux/macOS and Windows
 if(MSVC)

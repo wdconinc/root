@@ -23,7 +23,7 @@ ROOTTEST_ADD_TEST(cleanupChain
                   MACRO runcleanupChain.C)
 
 ROOTTEST_ADD_TEST(hsimple-create
-                  MACRO ${CMAKE_SOURCE_DIR}/tutorials/hsimple.C
+                  MACRO ${PROJECT_SOURCE_DIR}/tutorials/hsimple.C
                   PASSRC 255
                   FIXTURES_SETUP root-tree-reader-hsimple-fixture)
 

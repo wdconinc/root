@@ -45,7 +45,7 @@
 
 
 # LLVM_PROJECT_DIR is the path to the llvm-project directory.
-# The right way to compute it would probably be to use "${CMAKE_SOURCE_DIR}/../",
+# The right way to compute it would probably be to use "${PROJECT_SOURCE_DIR}/../",
 # but CMAKE_SOURCE_DIR is set to the wrong value on earlier CMake versions
 # that we still need to support (for instance, 3.10.2).
 get_filename_component(LLVM_PROJECT_DIR
@@ -89,7 +89,7 @@ if (DEFINED TOOLCHAIN_TARGET_SYSROOTFS)
   set(sysroot_flags --sysroot='${TOOLCHAIN_TARGET_SYSROOTFS}')
   # Generate the clang configuration file for the specified target triple
   # and store --sysroot in this file.
-  file(WRITE "${CMAKE_BINARY_DIR}/bin/${TOOLCHAIN_TARGET_TRIPLE}.cfg" ${sysroot_flags})
+  file(WRITE "${PROJECT_BINARY_DIR}/bin/${TOOLCHAIN_TARGET_TRIPLE}.cfg" ${sysroot_flags})
 endif()
 
 # Build the shared libraries for libc++/libc++abi/libunwind.

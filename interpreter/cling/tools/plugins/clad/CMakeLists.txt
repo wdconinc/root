@@ -8,7 +8,7 @@
 
 include(ExternalProject)
 
-set(clad_install_dir ${CMAKE_BINARY_DIR}/etc/cling/)
+set(clad_install_dir ${PROJECT_BINARY_DIR}/etc/cling/)
 # Specify include dirs for clad
 set(CLAD_INCLUDE_DIRS ${clad_install_dir})
 # Clad Libraries
@@ -81,7 +81,7 @@ endif()
 #list(APPEND _clad_patches_list "")
 #set(_clad_patch_command
 #      ${CMAKE_COMMAND} -E copy_directory
-#      ${CMAKE_SOURCE_DIR}/interpreter/cling/tools/plugins/clad/patches <SOURCE_DIR>
+#      ${PROJECT_SOURCE_DIR}/interpreter/cling/tools/plugins/clad/patches <SOURCE_DIR>
 #      && git checkout -q <SOURCE_DIR>
 #      && git apply --ignore-space-change --ignore-whitespace ${_clad_patches_list}
 #      )

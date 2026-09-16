@@ -1,5 +1,5 @@
 set(_gtest_byproduct_binary_dir
-  ${CMAKE_BINARY_DIR}/downloads/googletest-prefix/src/googletest-build)
+  ${PROJECT_BINARY_DIR}/downloads/googletest-prefix/src/googletest-build)
 set(_gtest_byproducts
   ${_gtest_byproduct_binary_dir}/lib/libgtest.a
   ${_gtest_byproduct_binary_dir}/lib/libgtest_main.a
@@ -31,7 +31,7 @@ if (EMSCRIPTEN)
   endif()
 else()
   set(config_cmd ${CMAKE_COMMAND})
-  set(build_cmd ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}/unittests/googletest-prefix/src/googletest-build/ --config $<CONFIG>)
+  set(build_cmd ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR}/unittests/googletest-prefix/src/googletest-build/ --config $<CONFIG>)
 endif()
 
 ExternalProject_Add(
@@ -46,8 +46,8 @@ ExternalProject_Add(
   #            -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE:PATH=ReleaseLibs
   #            -Dgtest_force_shared_crt=ON
   CONFIGURE_COMMAND ${config_cmd} -G ${CMAKE_GENERATOR}
-  		-S ${CMAKE_BINARY_DIR}/unittests/googletest-prefix/src/googletest/
-		-B ${CMAKE_BINARY_DIR}/unittests/googletest-prefix/src/googletest-build/
+  		-S ${PROJECT_BINARY_DIR}/unittests/googletest-prefix/src/googletest/
+		-B ${PROJECT_BINARY_DIR}/unittests/googletest-prefix/src/googletest-build/
                 -DCMAKE_BUILD_TYPE=$<CONFIG>
                 -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
                 -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}

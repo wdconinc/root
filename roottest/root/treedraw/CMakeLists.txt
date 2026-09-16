@@ -1,5 +1,5 @@
 ROOTTEST_ADD_TEST(create
-                  MACRO ${CMAKE_SOURCE_DIR}/tutorials/hsimple.C
+                  MACRO ${PROJECT_SOURCE_DIR}/tutorials/hsimple.C
                   PASSRC 255
                   FIXTURES_SETUP root-treedraw-create-fixture)
 

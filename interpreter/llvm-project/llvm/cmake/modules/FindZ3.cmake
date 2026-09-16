@@ -16,7 +16,7 @@ function(check_z3_version z3_include z3_lib)
   endif()
 
   # The program that will be executed to print Z3's version.
-  file(WRITE ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/testz3.cpp
+  file(WRITE ${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/testz3.cpp
        "#include <assert.h>
         #include <stdio.h> 
         #include <z3.h>
@@ -30,8 +30,8 @@ function(check_z3_version z3_include z3_lib)
   try_run(
     Z3_RETURNCODE
     Z3_COMPILED
-    ${CMAKE_BINARY_DIR}
-    ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/testz3.cpp
+    ${PROJECT_BINARY_DIR}
+    ${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/testz3.cpp
     COMPILE_DEFINITIONS -I"${z3_include}"
     LINK_LIBRARIES ${z3_link_libs}
     COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT
