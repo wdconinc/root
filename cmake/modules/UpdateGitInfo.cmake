@@ -13,9 +13,11 @@
 # In script mode, CMake doesn't get CMAKE_SOURCE_DIR / CMAKE_BINARY_DIR right.
 if(SRCDIR)
   set(CMAKE_SOURCE_DIR ${SRCDIR})
+  set(PROJECT_SOURCE_DIR ${SRCDIR})
 endif()
 if(BINDIR)
   set(CMAKE_BINARY_DIR ${BINDIR})
+  set(PROJECT_BINARY_DIR ${BINDIR})
 endif()
 
 include(${PROJECT_SOURCE_DIR}/cmake/modules/SetROOTVersion.cmake)
