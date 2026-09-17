@@ -52,7 +52,7 @@ add_library(Minuit2Math
 
 # Add alias for direct inclusion
 add_library(Minuit2::Math ALIAS Minuit2Math)
-target_include_directories(Minuit2Math PUBLIC ${PROJECT_BINARY_DIR}/include)
+target_include_directories(Minuit2Math PUBLIC ${ROOT_BINARY_DIR}/include)
 add_dependencies(Minuit2Math move_headers)
 
 # Build and install directories are different, using CMake Generator expression
